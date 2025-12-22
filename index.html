@@ -306,11 +306,10 @@
         flex-grow: 1;
         overflow: hidden; 
         
-        /* ALIGNMENT FIX: Must be flex-start to pin tops of digits */
         align-items: flex-start;
         
-        /* THE BORDER GAP: 24px separation between text and digits */
-        padding-top: 24px; 
+        /* TIGHT GAP: 12px separation */
+        padding-top: 12px; 
         
         padding-left: 8px;
         padding-right: 8px;
@@ -344,19 +343,20 @@
       filter: none;
     }
 
-    /* MOBILE DIGITS: MAXIMIZED STRETCH (5.5) */
+    /* MOBILE DIGITS: MAXIMIZED STRETCH */
     @media (max-width: 600px) {
       .liquid-digit {
-        font-size: 20vw; 
+        /* Slightly smaller to fit width perfectly */
+        font-size: 19vw; 
         -webkit-text-stroke: 0.8px rgba(255, 255, 255, 0.5);
         
-        /* SCALE FROM TOP */
+        /* SCALE FROM TOP + REDUCED SCALE (3.2x instead of 5.5x) */
         transform-origin: top center;
-        transform: scaleY(5.5);
+        transform: scaleY(3.2);
         
-        /* Mask to fade out the very bottom */
-        -webkit-mask-image: linear-gradient(to bottom, black 25%, black 80%, transparent 100%);
-        mask-image: linear-gradient(to bottom, black 25%, black 80%, transparent 100%);
+        /* Mask to fade out gracefully */
+        -webkit-mask-image: linear-gradient(to bottom, black 40%, black 85%, transparent 100%);
+        mask-image: linear-gradient(to bottom, black 40%, black 85%, transparent 100%);
       }
       .liquid-digit:nth-child(even) {
         display: none; 
