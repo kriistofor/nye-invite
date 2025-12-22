@@ -51,8 +51,8 @@
     .light-orb {
       position: absolute;
       border-radius: 50%;
-      filter: blur(80px); /* Slightly sharper blur for visibility */
-      opacity: 0.6;       /* Boosted opacity for mobile visibility */
+      filter: blur(80px);
+      opacity: 0.6;
       animation: drift 25s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -71,17 +71,17 @@
 
     /* MOBILE FIX: Use vmax to force large size on narrow screens */
     @media (max-width: 768px) {
-      .light-orb { opacity: 0.5; } /* Slight tweak for small screens */
+      .light-orb { opacity: 0.5; } 
       
       .orb-1 {
-        width: 90vmax; height: 90vmax; /* Massive size based on screen height */
+        width: 90vmax; height: 90vmax; 
         top: -15%; left: -30%;
-        background: #2a2a45; /* Slightly brighter blue for visibility */
+        background: #2a2a45; 
       }
       .orb-2 {
         width: 90vmax; height: 90vmax;
         bottom: -15%; right: -30%;
-        background: #3d3224; /* Slightly brighter gold/brown */
+        background: #3d3224; 
       }
     }
 
@@ -685,7 +685,7 @@
           <h1>Cocktail Night NYE</h1>
           <p class="hero-text">
             Elegant evening, cocktail dresses & sharp suits. Curated setlists, strong drinks, 
-            and the best fireworks views when the city resets.
+            and quite spectacular fireworks views when the city resets.
           </p>
           
           <div class="chip-container">
@@ -693,6 +693,7 @@
             <span class="chip">Suit & Tie</span>
             <span class="chip">Invite Only</span>
             <span class="chip">Curated Setlist</span>
+            <span class="chip">Eat & Drink</span>
           </div>
         </div>
 
@@ -742,7 +743,7 @@
         <div class="detail-block">
           <h3>Arrival</h3>
           <p class="main">19:30 — 20:30</p>
-          <p class="sub">Graceful entry. Evening continues until the city resets.</p>
+          <p class="sub">Graceful entry. Evening continues until the legs give up.</p>
         </div>
 
         <div class="detail-block">
@@ -797,6 +798,10 @@
           <p class="sub" style="color:#fff;">
             Full bar provided. Bespoke cocktails. Mixers, garnishes, and aperitifs on us.<br><br>
             We are also handling the food and sweets, so you don't have to worry about a thing.
+            <br><br>
+            <span style="color:var(--gold-accent); opacity:0.9;">
+              We have the quality covered, but we definitely need your help with the quantity.
+            </span>
           </p>
         </div>
 
