@@ -276,8 +276,8 @@
       letter-spacing: 0.4em; text-transform: uppercase; opacity: 0.7;
       z-index: 2;
     }
-    /* Move label UP on mobile */
-    @media (max-width: 600px) { .countdown-label { top: 15px; } }
+    /* MOBILE: Utmost top edge (16px from top) */
+    @media (max-width: 600px) { .countdown-label { top: 16px; } }
 
     .liquid-clock {
       display: flex; 
@@ -296,16 +296,13 @@
 
     @media (max-width: 600px) {
       .liquid-clock {
-        /* PADDING ALMOST GONE to bring text close */
-        padding-top: 10px; 
+        /* ZERO GAP below the text */
+        padding-top: 40px; 
         
-        /* Spread digits to fill width */
         justify-content: space-between;
         gap: 0;
-        
-        /* Side gutters */
-        padding-left: 10px;
-        padding-right: 10px;
+        padding-left: 8px;
+        padding-right: 8px;
       }
     }
 
@@ -338,18 +335,13 @@
     /* MOBILE DIGITS: MAXIMIZED STRETCH (5.5) & WIDTH (20vw) */
     @media (max-width: 600px) {
       .liquid-digit {
-        /* WIDER */
         font-size: 20vw; 
-        
-        /* EXTREME STRETCH */
+        -webkit-text-stroke: 0.8px rgba(255, 255, 255, 0.5);
         transform: scaleY(5.5);
-        
-        /* DRAMATIC FADE */
         -webkit-mask-image: linear-gradient(to bottom, black 40%, black 65%, transparent 100%);
         mask-image: linear-gradient(to bottom, black 40%, black 65%, transparent 100%);
       }
       .liquid-digit:nth-child(even) {
-        /* Hide separators on mobile for the wide look */
         display: none; 
       }
     }
