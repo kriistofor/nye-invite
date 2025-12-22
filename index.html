@@ -245,7 +245,6 @@
 
     /* --- LIQUID COUNTDOWN CARD --- */
     .countdown-card {
-      /* Base Flexbox for both mobile and desktop */
       display: flex; 
       flex-direction: column;
       justify-content: flex-end; 
@@ -284,7 +283,6 @@
     @media (max-width: 600px) { 
       .countdown-card { 
         height: 220px;
-        /* Flex column ensures strict stacking order */
         display: flex;
         flex-direction: column;
         justify-content: flex-start; 
@@ -295,23 +293,22 @@
         /* Remove absolute positioning on mobile */
         position: relative; 
         top: auto; left: auto; right: auto;
-        /* Pin to utmost top edge */
-        margin-top: 16px; 
+        
+        /* Utmost top edge */
+        margin-top: 12px; 
         margin-bottom: 0;
-        /* Prevent shrinking */
+        
         flex-shrink: 0; 
+        z-index: 10;
       }
 
       .liquid-clock {
-        /* Take remaining space */
         flex-grow: 1;
-        /* HIDE OVERFLOW: This cuts off the digits exactly where the label ends */
         overflow: hidden; 
         
-        /* Reset padding so digits start right under label */
-        padding-top: 0;
+        /* THE BORDER GAP: 40px separation between text and digits */
+        padding-top: 40px; 
         
-        /* Side gutters */
         padding-left: 8px;
         padding-right: 8px;
         justify-content: space-between;
@@ -325,7 +322,6 @@
       color: transparent; 
       background: none;
 
-      /* GLASS EFFECT STROKE */
       -webkit-text-stroke: 0.8px rgba(255, 255, 255, 0.5); 
       filter: drop-shadow(0 0 1px rgba(255,255,255,0.3));
       
@@ -345,16 +341,19 @@
       filter: none;
     }
 
-    /* MOBILE DIGITS: MAXIMIZED STRETCH (5.5) & WIDTH (20vw) */
+    /* MOBILE DIGITS: MAXIMIZED STRETCH (5.5) */
     @media (max-width: 600px) {
       .liquid-digit {
         font-size: 20vw; 
         -webkit-text-stroke: 0.8px rgba(255, 255, 255, 0.5);
-        /* Extremely tall */
+        
+        /* KEY FIX: Scale from the TOP so the upper part is visible */
+        transform-origin: top center;
         transform: scaleY(5.5);
-        /* Fade out near bottom */
-        -webkit-mask-image: linear-gradient(to bottom, black 40%, black 65%, transparent 100%);
-        mask-image: linear-gradient(to bottom, black 40%, black 65%, transparent 100%);
+        
+        /* Adjust mask to fade out the very bottom */
+        -webkit-mask-image: linear-gradient(to bottom, black 20%, black 70%, transparent 100%);
+        mask-image: linear-gradient(to bottom, black 20%, black 70%, transparent 100%);
       }
       .liquid-digit:nth-child(even) {
         display: none; 
