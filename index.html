@@ -39,7 +39,7 @@
       position: relative;
     }
 
-    /* --- ATMOSPHERE (FIXED) --- */
+    /* --- ATMOSPHERE (STABILIZED) --- */
     .ambient-canvas {
       position: fixed;
       inset: 0;
@@ -47,15 +47,14 @@
       background-color: #030305;
       overflow: hidden;
       pointer-events: none;
-      /* FIX: Removed 'transform: translate3d' from here. 
-         This locks the container to the screen frame, stopping the "skippy" lag. */
+      /* Force the background to be taller than the screen to avoid 'bottom edge' jumps */
+      height: 120vh; 
     }
     
     .light-orb {
       position: absolute;
       border-radius: 50%;
       opacity: 0.6;
-      /* We keep acceleration on the ORBS only, so they animate smoothly */
       will-change: transform;
       transform: translate3d(0,0,0);
       animation: drift 25s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
@@ -74,18 +73,22 @@
       animation-delay: -8s; 
     }
 
-    /* MOBILE (Optimized) */
+    /* MOBILE (STABILIZED FIX) */
     @media (max-width: 768px) {
       .light-orb { opacity: 0.7; }
       
+      /* 
+         FIX: Replaced vmin/vmax with fixed pixels.
+         This prevents the browser address bar resizing from jerking the background around.
+      */
       .orb-1 {
-        width: 100vmax; height: 100vmax; 
-        top: -20%; left: -40%;
+        width: 500px; height: 500px; 
+        top: -100px; left: -150px;
         background: radial-gradient(circle, #2a2a45 0%, rgba(42, 42, 69, 0) 65%);
       }
       .orb-2 {
-        width: 100vmax; height: 100vmax;
-        bottom: -20%; right: -40%;
+        width: 500px; height: 500px;
+        bottom: 10%; right: -150px; /* Positioned from bottom but with buffer */
         background: radial-gradient(circle, #3d3224 0%, rgba(61, 50, 36, 0) 65%);
       }
     }
@@ -145,7 +148,6 @@
       .glass-card { 
         padding: 24px; 
         border-radius: 24px; 
-        /* Lower blur radius for mobile performance */
         backdrop-filter: blur(20px) saturate(160%);
         -webkit-backdrop-filter: blur(20px) saturate(160%);
         background: rgba(20, 20, 25, 0.7); 
