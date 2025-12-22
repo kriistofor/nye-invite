@@ -39,55 +39,62 @@
       position: relative;
     }
 
-    /* --- ATMOSPHERE --- */
+    /* --- ATMOSPHERE (OPTIMIZED) --- */
     .ambient-canvas {
       position: fixed;
       inset: 0;
       z-index: 0;
-      background: radial-gradient(circle at 50% 50%, #0e0e12 0%, #000 100%);
+      /* Static dark background to prevent flashing */
+      background-color: #030305;
       overflow: hidden;
+      /* GPU Layer promotion */
+      transform: translate3d(0,0,0);
     }
     
     .light-orb {
       position: absolute;
       border-radius: 50%;
-      filter: blur(80px);
+      /* OPTIMIZATION: Removed heavy 'filter: blur' in favor of radial-gradient */
       opacity: 0.6;
+      /* GPU Acceleration */
+      will-change: transform;
+      transform: translate3d(0,0,0);
       animation: drift 25s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     /* DESKTOP (Default) */
     .orb-1 { 
-      top: -20%; left: -10%; 
+      top: -10%; left: -10%; 
       width: 70vw; height: 70vw; 
-      background: #1c1c2e; 
+      /* Gradient handles the blur naturally - much faster */
+      background: radial-gradient(circle, #1c1c2e 0%, rgba(28, 28, 46, 0) 70%);
     }
     .orb-2 { 
-      bottom: -20%; right: -20%; 
+      bottom: -10%; right: -10%; 
       width: 80vw; height: 80vw; 
-      background: #261f16; 
+      background: radial-gradient(circle, #261f16 0%, rgba(38, 31, 22, 0) 70%);
       animation-delay: -8s; 
     }
 
-    /* MOBILE FIX: Use vmax to force large size on narrow screens */
+    /* MOBILE (Optimized) */
     @media (max-width: 768px) {
-      .light-orb { opacity: 0.5; } 
+      .light-orb { opacity: 0.7; } /* Higher opacity since we lost the blur filter */
       
       .orb-1 {
-        width: 90vmax; height: 90vmax; 
-        top: -15%; left: -30%;
-        background: #2a2a45; 
+        width: 100vmax; height: 100vmax; 
+        top: -20%; left: -40%;
+        background: radial-gradient(circle, #2a2a45 0%, rgba(42, 42, 69, 0) 65%);
       }
       .orb-2 {
-        width: 90vmax; height: 90vmax;
-        bottom: -15%; right: -30%;
-        background: #3d3224; 
+        width: 100vmax; height: 100vmax;
+        bottom: -20%; right: -40%;
+        background: radial-gradient(circle, #3d3224 0%, rgba(61, 50, 36, 0) 65%);
       }
     }
 
     @keyframes drift {
-      0% { transform: translate(0,0) scale(1); }
-      100% { transform: translate(30px, -30px) scale(1.05); }
+      0% { transform: translate3d(0,0,0) scale(1); }
+      100% { transform: translate3d(30px, -30px, 0) scale(1.05); }
     }
 
     .noise {
@@ -97,6 +104,7 @@
       pointer-events: none;
       z-index: 1;
       mix-blend-mode: screen;
+      opacity: 0.03; /* Reduced slightly for performance */
     }
 
     main {
@@ -116,8 +124,10 @@
     /* --- GLASS CARDS --- */
     .glass-card {
       background: var(--glass-surface);
+      /* Default Desktop High Quality */
       backdrop-filter: blur(50px) saturate(180%);
       -webkit-backdrop-filter: blur(50px) saturate(180%);
+      
       border-radius: 32px;
       border: 1px solid var(--glass-border);
       box-shadow: 
@@ -128,17 +138,29 @@
       margin-bottom: 32px;
       position: relative;
       overflow: hidden;
+      /* Performance fix: Create new stacking context */
+      transform: translate3d(0,0,0); 
       transition: transform 0.4s ease;
     }
 
+    /* MOBILE OPTIMIZATION FOR GLASS */
     @media (max-width: 600px) {
-      .glass-card { padding: 24px; border-radius: 24px; }
+      .glass-card { 
+        padding: 24px; 
+        border-radius: 24px; 
+        /* Reduce blur radius significantly on mobile to save GPU */
+        backdrop-filter: blur(20px) saturate(160%);
+        -webkit-backdrop-filter: blur(20px) saturate(160%);
+        /* Fallback background if blur fails or lags */
+        background: rgba(20, 20, 25, 0.7); 
+      }
     }
 
     .glass-card::before {
       content: "";
       position: absolute;
       inset: 0;
+      /* Mouse spotlight */
       background: radial-gradient(
         600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
         rgba(255, 255, 255, 0.04), 
@@ -864,18 +886,26 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    // --- MOUSE SPOTLIGHT (Desktop Only) ---
-    // Only add listener if not a touch device to save battery/performance on mobile
+    // --- MOUSE SPOTLIGHT (THROTTLED FOR PERFORMANCE) ---
+    // Optimization: Use requestAnimationFrame to prevent lag on high-refresh displays
     if (window.matchMedia("(hover: hover)").matches) {
+      let ticking = false;
+      
       document.addEventListener("mousemove", (e) => {
-        const cards = document.querySelectorAll(".glass-card");
-        cards.forEach(card => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          card.style.setProperty("--mouse-x", `${x}px`);
-          card.style.setProperty("--mouse-y", `${y}px`);
-        });
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            const cards = document.querySelectorAll(".glass-card");
+            cards.forEach(card => {
+              const rect = card.getBoundingClientRect();
+              const x = e.clientX - rect.left;
+              const y = e.clientY - rect.top;
+              card.style.setProperty("--mouse-x", `${x}px`);
+              card.style.setProperty("--mouse-y", `${y}px`);
+            });
+            ticking = false;
+          });
+          ticking = true;
+        }
       });
     }
 
