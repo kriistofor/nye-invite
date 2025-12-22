@@ -100,8 +100,16 @@
         inset 0 1px 0 rgba(255,255,255,0.15),
         inset 0 0 20px rgba(255,255,255,0.02);
       padding: clamp(40px, 5vw, 64px);
-      margin-bottom: 32px; position: relative; overflow: hidden;
-      transform: translate3d(0,0,0); transition: transform 0.4s ease;
+      margin-bottom: 32px; 
+      
+      /* IMPORTANT: Position relative allows absolute children */
+      position: relative; 
+      overflow: hidden;
+      transform: translate3d(0,0,0); 
+      transition: transform 0.4s ease;
+      
+      /* New stacking context to contain the spotlight */
+      z-index: 1;
     }
     @media (max-width: 600px) {
       .glass-card { 
@@ -113,6 +121,37 @@
         box-shadow: 0 20px 60px -10px rgba(0,0,0,0.7);
         border: 1px solid rgba(255, 255, 255, 0.1); 
       }
+    }
+
+    /* SPOTLIGHT LAYER */
+    .glass-card::before {
+      content: ""; 
+      position: absolute; 
+      inset: 0;
+      
+      /* Slightly brighter opacity (0.06) for better visibility */
+      background: radial-gradient(
+        800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+        rgba(255, 255, 255, 0.06), transparent 40%
+      );
+      
+      opacity: 0; 
+      transition: opacity 0.4s; 
+      pointer-events: none; 
+      
+      /* Layering: Above background, below text content */
+      z-index: 0; 
+    }
+    
+    /* Only show spotlight on devices that support hover */
+    @media (hover: hover) { 
+      .glass-card:hover::before { opacity: 1; } 
+    }
+
+    /* CONTENT LAYERING: Ensure text sits above the spotlight */
+    .hero-grid, .details-grid, .hospitality-grid, .eyebrow, .countdown-label, .liquid-clock {
+      position: relative;
+      z-index: 2; /* Sit above the ::before spotlight */
     }
 
     /* TYPOGRAPHY */
@@ -324,6 +363,7 @@
       color: transparent; 
       background: none;
 
+      /* DESKTOP STROKE (Subtle) */
       -webkit-text-stroke: 0.8px rgba(255, 255, 255, 0.5); 
       filter: drop-shadow(0 0 1px rgba(255,255,255,0.3));
       
@@ -348,7 +388,7 @@
       .liquid-digit {
         font-size: 19vw; 
         
-        /* BRIGHTER STROKE ON MOBILE FOR LEGIBILITY */
+        /* MOBILE STROKE (Bright & Crisp) */
         -webkit-text-stroke: 1.0px rgba(255, 255, 255, 0.95);
         
         transform-origin: top center;
@@ -666,25 +706,24 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    if (window.matchMedia("(hover: hover)").matches) {
-      let ticking = false;
-      document.addEventListener("mousemove", (e) => {
-        if (!ticking) {
-          window.requestAnimationFrame(() => {
-            const cards = document.querySelectorAll(".glass-card");
-            cards.forEach(card => {
-              const rect = card.getBoundingClientRect();
-              const x = e.clientX - rect.left;
-              const y = e.clientY - rect.top;
-              card.style.setProperty("--mouse-x", `${x}px`);
-              card.style.setProperty("--mouse-y", `${y}px`);
-            });
-            ticking = false;
+    // SPOTLIGHT JS: Runs on all devices that support mouse interaction
+    let ticking = false;
+    document.addEventListener("mousemove", (e) => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const cards = document.querySelectorAll(".glass-card");
+          cards.forEach(card => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty("--mouse-x", `${x}px`);
+            card.style.setProperty("--mouse-y", `${y}px`);
           });
-          ticking = true;
-        }
-      });
-    }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
 
     const modal = document.getElementById('rsvpModal');
     const openBtn = document.getElementById('openRsvp');
