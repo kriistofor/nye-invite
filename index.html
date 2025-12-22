@@ -245,6 +245,7 @@
 
     /* --- LIQUID COUNTDOWN CARD --- */
     .countdown-card {
+      /* Base Flexbox for both mobile and desktop */
       display: flex; 
       flex-direction: column;
       justify-content: flex-end; 
@@ -285,12 +286,11 @@
         height: 220px;
         display: flex;
         flex-direction: column;
-        justify-content: flex-start; 
+        justify-content: flex-start; /* Stack from Top */
         padding-top: 0;
       } 
 
       .countdown-label {
-        /* Remove absolute positioning on mobile */
         position: relative; 
         top: auto; left: auto; right: auto;
         
@@ -306,8 +306,11 @@
         flex-grow: 1;
         overflow: hidden; 
         
-        /* THE BORDER GAP: 40px separation between text and digits */
-        padding-top: 40px; 
+        /* ALIGNMENT FIX: Must be flex-start to pin tops of digits */
+        align-items: flex-start;
+        
+        /* THE BORDER GAP: 24px separation between text and digits */
+        padding-top: 24px; 
         
         padding-left: 8px;
         padding-right: 8px;
@@ -347,13 +350,13 @@
         font-size: 20vw; 
         -webkit-text-stroke: 0.8px rgba(255, 255, 255, 0.5);
         
-        /* KEY FIX: Scale from the TOP so the upper part is visible */
+        /* SCALE FROM TOP */
         transform-origin: top center;
         transform: scaleY(5.5);
         
-        /* Adjust mask to fade out the very bottom */
-        -webkit-mask-image: linear-gradient(to bottom, black 20%, black 70%, transparent 100%);
-        mask-image: linear-gradient(to bottom, black 20%, black 70%, transparent 100%);
+        /* Mask to fade out the very bottom */
+        -webkit-mask-image: linear-gradient(to bottom, black 25%, black 80%, transparent 100%);
+        mask-image: linear-gradient(to bottom, black 25%, black 80%, transparent 100%);
       }
       .liquid-digit:nth-child(even) {
         display: none; 
