@@ -114,15 +114,6 @@
         border: 1px solid rgba(255, 255, 255, 0.1); 
       }
     }
-    .glass-card::before {
-      content: ""; position: absolute; inset: 0;
-      background: radial-gradient(
-        600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
-        rgba(255, 255, 255, 0.04), transparent 40%
-      );
-      opacity: 0; transition: opacity 0.4s; pointer-events: none; z-index: 1;
-    }
-    @media (hover: hover) { .glass-card:hover::before { opacity: 1; } }
 
     /* TYPOGRAPHY */
     .eyebrow {
@@ -254,6 +245,7 @@
 
     /* --- LIQUID COUNTDOWN CARD --- */
     .countdown-card {
+      /* Base Flexbox for both mobile and desktop */
       display: flex; 
       flex-direction: column;
       justify-content: flex-end; 
@@ -262,22 +254,17 @@
       padding-bottom: 0 !important;
       overflow: hidden; 
     }
-    /* MOBILE CARD HEIGHT */
-    @media (max-width: 600px) { 
-      .countdown-card { height: 220px; } 
-    }
 
     .countdown-label {
+      /* Default absolute (Desktop) */
       position: absolute;
       top: 32px; 
       left: 0; right: 0;
       text-align: center;
       font-size: 12px; color: var(--text-muted);
       letter-spacing: 0.4em; text-transform: uppercase; opacity: 0.7;
-      z-index: 2;
+      z-index: 5;
     }
-    /* MOBILE: Utmost top edge (16px from top) */
-    @media (max-width: 600px) { .countdown-label { top: 16px; } }
 
     .liquid-clock {
       display: flex; 
@@ -287,22 +274,48 @@
       height: 100%;
       font-family: var(--font-clock); 
       font-weight: 800;
-      
       /* Desktop Padding */
       padding-top: 140px; 
       margin-bottom: -5px;
       gap: 1vw; 
     }
 
-    @media (max-width: 600px) {
+    /* --- MOBILE RESTRUCTURE --- */
+    @media (max-width: 600px) { 
+      .countdown-card { 
+        height: 220px;
+        /* Flex column ensures strict stacking order */
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start; 
+        padding-top: 0;
+      } 
+
+      .countdown-label {
+        /* Remove absolute positioning on mobile */
+        position: relative; 
+        top: auto; left: auto; right: auto;
+        /* Pin to utmost top edge */
+        margin-top: 16px; 
+        margin-bottom: 0;
+        /* Prevent shrinking */
+        flex-shrink: 0; 
+      }
+
       .liquid-clock {
-        /* ZERO GAP below the text */
-        padding-top: 40px; 
+        /* Take remaining space */
+        flex-grow: 1;
+        /* HIDE OVERFLOW: This cuts off the digits exactly where the label ends */
+        overflow: hidden; 
         
-        justify-content: space-between;
-        gap: 0;
+        /* Reset padding so digits start right under label */
+        padding-top: 0;
+        
+        /* Side gutters */
         padding-left: 8px;
         padding-right: 8px;
+        justify-content: space-between;
+        gap: 0;
       }
     }
 
@@ -337,7 +350,9 @@
       .liquid-digit {
         font-size: 20vw; 
         -webkit-text-stroke: 0.8px rgba(255, 255, 255, 0.5);
+        /* Extremely tall */
         transform: scaleY(5.5);
+        /* Fade out near bottom */
         -webkit-mask-image: linear-gradient(to bottom, black 40%, black 65%, transparent 100%);
         mask-image: linear-gradient(to bottom, black 40%, black 65%, transparent 100%);
       }
