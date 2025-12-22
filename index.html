@@ -47,7 +47,7 @@
       background-color: #030305;
       overflow: hidden;
       pointer-events: none;
-      /* Force the background to be taller than the screen to avoid 'bottom edge' jumps */
+      /* Force background taller than screen to prevent address-bar resize jumps */
       height: 120vh; 
     }
     
@@ -73,14 +73,11 @@
       animation-delay: -8s; 
     }
 
-    /* MOBILE (STABILIZED FIX) */
+    /* MOBILE (Fixed Pixels & Performance) */
     @media (max-width: 768px) {
       .light-orb { opacity: 0.7; }
       
-      /* 
-         FIX: Replaced vmin/vmax with fixed pixels.
-         This prevents the browser address bar resizing from jerking the background around.
-      */
+      /* Fixed pixel sizes prevent layout thrashing when address bar moves */
       .orb-1 {
         width: 500px; height: 500px; 
         top: -100px; left: -150px;
@@ -88,7 +85,7 @@
       }
       .orb-2 {
         width: 500px; height: 500px;
-        bottom: 10%; right: -150px; /* Positioned from bottom but with buffer */
+        bottom: 10%; right: -150px; 
         background: radial-gradient(circle, #3d3224 0%, rgba(61, 50, 36, 0) 65%);
       }
     }
@@ -106,6 +103,11 @@
       z-index: 1;
       mix-blend-mode: screen;
       opacity: 0.03; 
+    }
+    
+    /* PERFORMANCE: Hide noise on mobile. It's too heavy for scroll performance. */
+    @media (max-width: 768px) {
+      .noise { display: none; }
     }
 
     main {
@@ -125,16 +127,17 @@
     /* --- GLASS CARDS --- */
     .glass-card {
       background: var(--glass-surface);
-      /* Default Desktop High Quality */
-      backdrop-filter: blur(50px) saturate(180%);
-      -webkit-backdrop-filter: blur(50px) saturate(180%);
-      
       border-radius: 32px;
       border: 1px solid var(--glass-border);
+      
+      /* DESKTOP: Full luxury effects */
+      backdrop-filter: blur(50px) saturate(180%);
+      -webkit-backdrop-filter: blur(50px) saturate(180%);
       box-shadow: 
         0 40px 100px -20px rgba(0,0,0,0.6),
         inset 0 1px 0 rgba(255,255,255,0.15),
         inset 0 0 20px rgba(255,255,255,0.02);
+        
       padding: clamp(40px, 5vw, 64px);
       margin-bottom: 32px;
       position: relative;
@@ -143,14 +146,24 @@
       transition: transform 0.4s ease;
     }
 
-    /* MOBILE OPTIMIZATION FOR GLASS */
+    /* MOBILE OPTIMIZATION: REMOVE BLUR */
     @media (max-width: 600px) {
       .glass-card { 
         padding: 24px; 
         border-radius: 24px; 
-        backdrop-filter: blur(20px) saturate(160%);
-        -webkit-backdrop-filter: blur(20px) saturate(160%);
-        background: rgba(20, 20, 25, 0.7); 
+        
+        /* 
+           CRITICAL PERFORMANCE FIX: 
+           Disable backdrop-filter on mobile. 
+           Use a slightly more opaque background instead. 
+           This stops the GPU from recalculating pixels during scroll.
+        */
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: rgba(20, 20, 25, 0.85); /* "Smoked Glass" look */
+        
+        /* Simpler shadow for mobile */
+        box-shadow: 0 20px 60px -10px rgba(0,0,0,0.7);
       }
     }
 
@@ -168,7 +181,10 @@
       pointer-events: none;
       z-index: 1;
     }
-    .glass-card:hover::before { opacity: 1; }
+    /* Only show hover spotlight on devices that support hover (Desktop) */
+    @media (hover: hover) {
+      .glass-card:hover::before { opacity: 1; }
+    }
 
     /* TYPOGRAPHY */
     .eyebrow {
@@ -819,7 +835,7 @@
             We are also handling the food and sweets, so you don't have to worry about a thing.
             <br><br>
             <span style="color:var(--gold-accent); opacity:0.9;">
-              We have the quality covered, but we would absolutely appreciate your help with the quantity.
+              We have the quality covered, but we definitely need your help with the quantity.
             </span>
           </p>
         </div>
@@ -983,4 +999,3 @@
   </script>
 </body>
 </html>
-
