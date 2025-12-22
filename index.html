@@ -346,11 +346,11 @@
     /* MOBILE DIGITS: MAXIMIZED STRETCH */
     @media (max-width: 600px) {
       .liquid-digit {
-        /* Slightly smaller to fit width perfectly */
         font-size: 19vw; 
-        -webkit-text-stroke: 0.8px rgba(255, 255, 255, 0.5);
         
-        /* SCALE FROM TOP + REDUCED SCALE (3.2x instead of 5.5x) */
+        /* BRIGHTER STROKE ON MOBILE FOR LEGIBILITY */
+        -webkit-text-stroke: 1.0px rgba(255, 255, 255, 0.95);
+        
         transform-origin: top center;
         transform: scaleY(3.2);
         
