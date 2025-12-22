@@ -277,7 +277,7 @@
       z-index: 2;
     }
     /* Move label UP on mobile */
-    @media (max-width: 600px) { .countdown-label { top: 20px; } }
+    @media (max-width: 600px) { .countdown-label { top: 15px; } }
 
     .liquid-clock {
       display: flex; 
@@ -296,9 +296,16 @@
 
     @media (max-width: 600px) {
       .liquid-clock {
-        /* EXTREME TIGHTNESS: Padding reduced to 35px */
-        padding-top: 35px; 
-        gap: 0.5vw;
+        /* PADDING ALMOST GONE to bring text close */
+        padding-top: 10px; 
+        
+        /* Spread digits to fill width */
+        justify-content: space-between;
+        gap: 0;
+        
+        /* Side gutters */
+        padding-left: 10px;
+        padding-right: 10px;
       }
     }
 
@@ -308,10 +315,8 @@
       color: transparent; 
       background: none;
 
-      /* GLASS EFFECT STROKE: Thinner, semi-transparent white */
+      /* GLASS EFFECT STROKE */
       -webkit-text-stroke: 0.8px rgba(255, 255, 255, 0.5); 
-      
-      /* Drop shadow on the stroke for depth (simulating glass thickness) */
       filter: drop-shadow(0 0 1px rgba(255,255,255,0.3));
       
       -webkit-mask-image: linear-gradient(to bottom, black 50%, black 75%, transparent 100%);
@@ -330,21 +335,22 @@
       filter: none;
     }
 
-    /* MOBILE DIGITS: MAXIMIZED STRETCH (4.0) */
+    /* MOBILE DIGITS: MAXIMIZED STRETCH (5.5) & WIDTH (20vw) */
     @media (max-width: 600px) {
       .liquid-digit {
-        font-size: 13vw; 
+        /* WIDER */
+        font-size: 20vw; 
         
-        /* Keep stroke thin on mobile too */
-        -webkit-text-stroke: 0.8px rgba(255, 255, 255, 0.5);
+        /* EXTREME STRETCH */
+        transform: scaleY(5.5);
         
-        /* 4.0 Scale = MAXIMUM vertical elongation */
-        transform: scaleY(4.0);
+        /* DRAMATIC FADE */
+        -webkit-mask-image: linear-gradient(to bottom, black 40%, black 65%, transparent 100%);
+        mask-image: linear-gradient(to bottom, black 40%, black 65%, transparent 100%);
       }
       .liquid-digit:nth-child(even) {
-        font-size: 8vw;
-        margin-bottom: 1.5vw;
-        transform: scaleY(4.0); 
+        /* Hide separators on mobile for the wide look */
+        display: none; 
       }
     }
 
