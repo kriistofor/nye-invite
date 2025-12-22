@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <title>Cocktail Night NYE</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
   
-  <!-- FONTS: Antonio for numbers, Playfair for headers, SF Pro for body -->
+  <!-- FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -24,7 +24,6 @@
       --font-clock: "Playfair Display", serif;
     }
 
-    /* SMOOTH SCROLLING ADDED HERE */
     html {
       scroll-behavior: smooth;
     }
@@ -81,9 +80,11 @@
       padding: 120px 24px 140px;
       transition: filter 0.3s ease;
     }
-    body.modal-open main {
-        filter: blur(5px);
+    @media (max-width: 600px) {
+      main { padding: 90px 16px 120px; }
     }
+
+    body.modal-open main { filter: blur(5px); }
 
     /* --- GLASS CARDS --- */
     .glass-card {
@@ -101,6 +102,10 @@
       position: relative;
       overflow: hidden;
       transition: transform 0.4s ease;
+    }
+
+    @media (max-width: 600px) {
+      .glass-card { padding: 24px; border-radius: 24px; }
     }
 
     .glass-card::before {
@@ -131,8 +136,8 @@
 
     h1 {
       font-family: var(--font-display);
-      font-size: clamp(32px, 5.5vw, 80px);
-      line-height: 1;
+      font-size: clamp(32px, 5vw, 64px); 
+      line-height: 1.1;
       white-space: nowrap; 
       margin-bottom: 32px;
       background: linear-gradient(135deg, #ffffff 40%, #888899 100%);
@@ -145,11 +150,11 @@
       display: grid;
       grid-template-columns: 1.2fr 0.8fr;
       gap: 60px;
-      align-items: start;
+      align-items: stretch; 
     }
     @media (max-width: 900px) { 
-        .hero-grid { grid-template-columns: 1fr; } 
-        h1 { white-space: normal; }
+        .hero-grid { grid-template-columns: 1fr; gap: 50px; } 
+        h1 { white-space: normal; } 
     }
 
     .tagline {
@@ -184,37 +189,79 @@
     }
     .chip:hover { border-color: var(--gold-accent); color: #fff; }
 
-    /* --- LUNAR GRAPH --- */
+    /* --- LUNAR GRAPH CONTAINER --- */
     .lunar-container {
       display: flex;
       flex-direction: column;
+      min-height: 350px; 
       height: 100%;
-      min-height: 300px;
+      justify-content: space-between;
     }
+    
     .lunar-graph {
       position: relative;
-      flex-grow: 1;
       width: 100%;
+      flex-grow: 1; 
       display: flex;
       align-items: center;
+      justify-content: center;
     }
+
+    .lunar-graph svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* MOBILE OVERRIDE */
+    @media (max-width: 900px) {
+      .lunar-container {
+        min-height: auto;
+        height: auto;
+      }
+      .lunar-graph {
+        flex-grow: 0;
+        height: 150px; 
+        margin-bottom: 24px;
+      }
+    }
+
+    /* RESTORED DOT STYLING & POSITION */
     .graph-point {
       width: 14px; height: 14px;
       background: #fff;
       border-radius: 50%;
       position: absolute;
-      top: 25%; left: 68%; 
+      
+      /* CORRECTED: Left side (Waxing) */
+      top: 25%; 
+      left: 32%; 
+      
       box-shadow: 0 0 25px rgba(255,255,255,0.9);
       z-index: 2;
     }
+    
     .graph-point::after {
       content: "87%";
       position: absolute;
-      top: -24px; left: 50%;
+      top: -24px; 
+      left: 50%;
       transform: translateX(-50%);
       font-size: 10px;
       color: #fff;
       font-weight: 700;
+      white-space: nowrap;
+    }
+    
+    /* Moon Phase Name */
+    .phase-label {
+      position: absolute;
+      top: 50%; 
+      left: 32%; 
+      transform: translateX(-50%);
+      font-size: 9px; 
+      color: var(--text-muted); 
+      letter-spacing: 0.15em;
+      white-space: nowrap;
     }
 
     /* Weather - Symmetric Grid */
@@ -222,7 +269,7 @@
       display: grid;
       grid-template-columns: 1fr auto 1fr;
       align-items: center;
-      margin-top: auto;
+      margin-top: auto; 
       padding-top: 24px;
       border-top: 1px solid rgba(255,255,255,0.06);
       width: 100%;
@@ -232,9 +279,6 @@
     .weather-col.center { text-align: center; }
     .weather-col.right { text-align: right; }
 
-    .w-label { font-size: 10px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.08em; margin-bottom: 4px; }
-    .w-sub { font-size: 13px; color: #fff; opacity: 0.8; }
-    
     .w-temp { 
       font-family: var(--font-display); 
       font-size: 38px; 
@@ -242,7 +286,20 @@
       line-height: 1; 
       margin: 0 32px; 
     }
-    
+
+    /* WEATHER MOBILE STACK */
+    @media (max-width: 450px) {
+      .weather-row { 
+        grid-template-columns: 1fr; 
+        text-align: center; 
+        gap: 20px; 
+      }
+      .weather-col.left, .weather-col.right { text-align: center; }
+      .w-temp { margin: 10px 0; font-size: 48px; }
+    }
+
+    .w-label { font-size: 10px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.08em; margin-bottom: 4px; }
+    .w-sub { font-size: 13px; color: #fff; opacity: 0.8; }
     .w-desc { font-size: 14px; color: #fff; font-weight: 500; margin-bottom: 4px;}
     .w-note { font-size: 12px; color: var(--text-muted); opacity: 0.7;}
 
@@ -276,11 +333,11 @@
       line-height: 1.6;
     }
 
-    /* --- MAP (Inside Location Block) --- */
+    /* --- MAP --- */
     .map-container {
       margin-top: 24px;
       width: 100%;
-      height: 140px; /* Compact height for inside grid */
+      height: 140px;
       border-radius: 16px;
       overflow: hidden;
       position: relative;
@@ -307,33 +364,6 @@
       font-style: italic;
       margin-top: 10px;
       opacity: 0.7; 
-    }
-
-    /* CAT EASTER EGG (Visual Only) */
-    .cat-eyes {
-      display: inline-block;
-      position: relative;
-      width: 24px;
-      height: 8px;
-      margin-left: 8px;
-      vertical-align: middle;
-      opacity: 0.8;
-      cursor: help;
-    }
-    .cat-eye {
-      position: absolute;
-      width: 8px; height: 8px;
-      background: radial-gradient(circle, #aaddff 20%, #4466aa 100%);
-      border-radius: 50%;
-      box-shadow: 0 0 10px rgba(100, 200, 255, 0.6);
-      animation: blink 4s infinite;
-    }
-    .eye-l { left: 0; }
-    .eye-r { right: 0; }
-    
-    @keyframes blink {
-      0%, 96%, 100% { transform: scaleY(1); }
-      98% { transform: scaleY(0.1); }
     }
 
     /* --- HOSPITALITY --- */
@@ -380,22 +410,65 @@
       font-weight: 600; 
       line-height: 0.85; 
       position: relative;
-      isolation: isolate; 
+      isolation: isolate;
+      flex-wrap: nowrap; 
     }
-    
+
     .liquid-digit {
       font-size: clamp(64px, 14vw, 200px);
-      
-      /* PURE TRANSPARENT TEXT - CHUNKY GLASS EDGE */
       color: transparent; 
-      
-      /* Thicker Stroke + Semi-Transparent White */
       -webkit-text-stroke: 2.5px rgba(255, 255, 255, 0.5); 
-      
-      /* Soft Outer Glow */
       filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
-      
       transform: scaleY(1.1);
+    }
+
+    /* MOBILE CLOCK FIX: Break into two rows */
+    @media (max-width: 600px) {
+      .liquid-clock {
+        flex-wrap: wrap;
+        gap: 10px;
+        width: 100%;
+        max-width: 320px; 
+      }
+      .liquid-digit {
+        font-size: 72px; 
+        -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.6); 
+      }
+      .liquid-digit:nth-child(4) { 
+        display: none; 
+      }
+      /* Break after hours */
+      .liquid-digit:nth-child(3)::after {
+        content: "";
+        display: block;
+        width: 100%;
+      }
+    }
+
+    /* CAT EASTER EGG */
+    .cat-eyes {
+      display: inline-block;
+      position: relative;
+      width: 24px;
+      height: 8px;
+      margin-left: 8px;
+      vertical-align: middle;
+      opacity: 0.8;
+      cursor: help;
+    }
+    .cat-eye {
+      position: absolute;
+      width: 8px; height: 8px;
+      background: radial-gradient(circle, #aaddff 20%, #4466aa 100%);
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(100, 200, 255, 0.6);
+      animation: blink 4s infinite;
+    }
+    .eye-l { left: 0; }
+    .eye-r { right: 0; }
+    @keyframes blink {
+      0%, 96%, 100% { transform: scaleY(1); }
+      98% { transform: scaleY(0.1); }
     }
 
     /* --- TOP RIGHT BUTTON --- */
@@ -405,6 +478,10 @@
       right: 32px;
       z-index: 100;
     }
+    @media (max-width: 600px) {
+      .rsvp-fixed { top: 20px; right: 20px; }
+    }
+
     .btn-glass {
       display: inline-flex;
       align-items: center;
@@ -434,7 +511,7 @@
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.2); 
+      background: rgba(0,0,0,0.4); 
       display: flex;
       justify-content: center;
       align-items: center;
@@ -442,7 +519,7 @@
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.4s ease;
-      backdrop-filter: blur(4px);
+      backdrop-filter: blur(8px);
     }
     .modal-overlay.active {
       opacity: 1;
@@ -452,12 +529,12 @@
     .glass-popup {
       width: 90%;
       max-width: 400px;
-      background: rgba(255, 255, 255, 0.05); 
+      background: rgba(30, 30, 35, 0.6); 
       backdrop-filter: blur(40px) saturate(200%);
       -webkit-backdrop-filter: blur(40px) saturate(200%);
       border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 24px;
-      padding: 40px;
+      padding: 32px;
       box-shadow: 0 40px 80px rgba(0,0,0,0.5);
       transform: scale(0.9);
       transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -486,7 +563,7 @@
     }
     .form-input, .form-textarea {
       width: 100%;
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.3);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 8px;
       padding: 12px;
@@ -498,7 +575,7 @@
     }
     .form-input:focus, .form-textarea:focus {
       border-color: var(--gold-accent);
-      background: rgba(0,0,0,0.3);
+      background: rgba(0,0,0,0.4);
     }
     .form-textarea { resize: vertical; min-height: 80px; }
 
@@ -525,7 +602,8 @@
       border: none;
       color: rgba(255,255,255,0.5);
       cursor: pointer;
-      font-size: 20px;
+      font-size: 24px; 
+      padding: 5px;
     }
     .close-modal:hover { color: #fff; }
 
@@ -598,7 +676,8 @@
         <div class="lunar-container">
           <div class="eyebrow" style="margin-bottom:0; text-align:right;">Lunar Forecast</div>
           <div class="lunar-graph">
-            <svg viewBox="0 0 300 120" preserveAspectRatio="none" style="width:100%; height:100px; overflow:visible;">
+            <!-- Ensure width/height allows gradients to show -->
+            <svg viewBox="0 0 300 120" preserveAspectRatio="none" style="width:100%; height:100%; overflow:visible;">
               <defs>
                 <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                   <stop offset="0%" style="stop-color:rgba(255,255,255,0.0)" />
@@ -609,8 +688,11 @@
               <path d="M0,90 C75,90 75,20 150,20 C225,20 225,90 300,90" fill="none" stroke="url(#lineGrad)" stroke-width="1.5"></path>
               <line x1="0" y1="55" x2="300" y2="55" stroke="rgba(255,255,255,0.08)" stroke-dasharray="4" />
             </svg>
-            <div class="graph-point" style="top: 20px; left: 150px;"></div>
-            <div style="position:absolute; top: 48px; left: 150px; transform:translateX(-50%); font-size:9px; color:var(--text-muted); letter-spacing:0.15em;">WAXING GIBBOUS</div>
+            
+            <!-- Floating Dot (HTML) -->
+            <div class="graph-point"></div>
+            <!-- Floating Label (HTML) -->
+            <div class="phase-label">WAXING GIBBOUS</div>
           </div>
 
           <div class="weather-row">
@@ -655,9 +737,8 @@
           <p class="main">Zagreb Residence</p>
           <p class="sub">Central. Skyline views. Exact location upon confirmation.</p>
           
-          <!-- MAP SECTION: Now inside the grid cell -->
+          <!-- MAP SECTION -->
           <div class="map-container">
-            <!-- Google Map Embedded: Park Stara Trešnjevka (Zoomed z=16) -->
             <iframe class="map-frame" 
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2781.397669894767!2d15.94553257626294!3d45.7981549710816!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4765d6bd8b824207%3A0x6b772c548482458a!2sPark%20Stara%20Tre%C5%A1njevka!5e0!3m2!1sen!2shr!4v1703000000000!5m2!1sen!2shr" 
               allowfullscreen="" loading="lazy"></iframe>
@@ -673,7 +754,7 @@
           <p class="sub">
             Tight guestlist. Curated playlists. Strong drinks. <br>
             <span style="color:#fff; border-bottom:1px solid var(--gold-accent);">ONE SPECIAL GUEST.</span>
-            <!-- EASTER EGG VISUAL (Cat Eyes) -->
+            <!-- EASTER EGG VISUAL -->
             <span class="cat-eyes" title="Meow">
               <span class="cat-eye eye-l"></span>
               <span class="cat-eye eye-r"></span>
@@ -757,17 +838,20 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    // --- MOUSE SPOTLIGHT ---
-    document.addEventListener("mousemove", (e) => {
-      const cards = document.querySelectorAll(".glass-card");
-      cards.forEach(card => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        card.style.setProperty("--mouse-x", `${x}px`);
-        card.style.setProperty("--mouse-y", `${y}px`);
+    // --- MOUSE SPOTLIGHT (Desktop Only) ---
+    // Only add listener if not a touch device to save battery/performance on mobile
+    if (window.matchMedia("(hover: hover)").matches) {
+      document.addEventListener("mousemove", (e) => {
+        const cards = document.querySelectorAll(".glass-card");
+        cards.forEach(card => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          card.style.setProperty("--mouse-x", `${x}px`);
+          card.style.setProperty("--mouse-y", `${y}px`);
+        });
       });
-    });
+    }
 
     // --- MODAL LOGIC ---
     const modal = document.getElementById('rsvpModal');
@@ -790,19 +874,17 @@
       if (e.target === modal) closeModal();
     });
 
-    // --- AUTOMATED EMAIL LOGIC (Fetch API) ---
+    // --- AUTOMATED EMAIL LOGIC ---
     sendBtn.addEventListener('click', () => {
       const name = document.getElementById('guestName').value;
       const email = document.getElementById('guestEmail').value;
       const notes = document.getElementById('guestNotes').value;
 
-      // Basic Validation
       if(!name || !email) { 
         alert("Please fill in your Name and Email."); 
         return; 
       }
 
-      // UX: Disable button and change text
       sendBtn.innerText = "Sending...";
       sendBtn.disabled = true;
 
@@ -822,13 +904,11 @@
       .then(response => response.json())
       .then(data => {
         sendBtn.innerText = "Confirmed!";
-        sendBtn.style.background = "#e0cfb1"; // Gold success color
+        sendBtn.style.background = "#e0cfb1";
         sendBtn.style.color = "#000";
         
-        // Wait 2 seconds then close modal
         setTimeout(() => {
           closeModal();
-          // Reset button for next time (optional)
           setTimeout(() => {
             sendBtn.innerText = "See you";
             sendBtn.disabled = false;
