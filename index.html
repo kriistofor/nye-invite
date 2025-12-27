@@ -101,14 +101,8 @@
         inset 0 0 20px rgba(255,255,255,0.02);
       padding: clamp(40px, 5vw, 64px);
       margin-bottom: 32px; 
-      
-      /* IMPORTANT: Position relative allows absolute children */
-      position: relative; 
-      overflow: hidden;
-      transform: translate3d(0,0,0); 
-      transition: transform 0.4s ease;
-      
-      /* New stacking context to contain the spotlight */
+      position: relative; overflow: hidden;
+      transform: translate3d(0,0,0); transition: transform 0.4s ease;
       z-index: 1;
     }
     @media (max-width: 600px) {
@@ -123,36 +117,85 @@
       }
     }
 
-    /* SPOTLIGHT LAYER */
     .glass-card::before {
-      content: ""; 
-      position: absolute; 
-      inset: 0;
-      
-      /* Slightly brighter opacity (0.06) for better visibility */
+      content: ""; position: absolute; inset: 0;
       background: radial-gradient(
         800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
         rgba(255, 255, 255, 0.06), transparent 40%
       );
-      
-      opacity: 0; 
-      transition: opacity 0.4s; 
-      pointer-events: none; 
-      
-      /* Layering: Above background, below text content */
-      z-index: 0; 
+      opacity: 0; transition: opacity 0.4s; pointer-events: none; z-index: 0; 
     }
-    
-    /* Only show spotlight on devices that support hover */
-    @media (hover: hover) { 
-      .glass-card:hover::before { opacity: 1; } 
+    @media (hover: hover) { .glass-card:hover::before { opacity: 1; } }
+
+    .hero-grid, .details-grid, .hospitality-grid, .eyebrow, .countdown-label, .liquid-clock {
+      position: relative; z-index: 2;
     }
 
-    /* CONTENT LAYERING: Ensure text sits above the spotlight */
-    .hero-grid, .details-grid, .hospitality-grid, .eyebrow, .countdown-label, .liquid-clock {
-      position: relative;
-      z-index: 2; /* Sit above the ::before spotlight */
+    /* --- MENU GRID --- */
+    .menu-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px;
     }
+    @media (max-width: 600px) { .menu-grid { gap: 16px; } }
+
+    .menu-btn-card {
+      background: var(--glass-surface); border-radius: 24px;
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(50px) saturate(180%);
+      -webkit-backdrop-filter: blur(50px) saturate(180%);
+      padding: 32px 24px; text-align: left; cursor: pointer;
+      position: relative; overflow: hidden; transition: all 0.3s ease;
+      display: flex; flex-direction: column; justify-content: center;
+      min-height: 120px;
+    }
+    .menu-btn-card:hover {
+      border-color: var(--gold-accent); background: rgba(255,255,255,0.05);
+      transform: translateY(-2px);
+    }
+    .menu-btn-card.inactive {
+      opacity: 0.6; cursor: default; border-style: dashed;
+    }
+    .menu-btn-card.inactive:hover {
+      border-color: var(--glass-border); transform: none; background: var(--glass-surface);
+    }
+    
+    .menu-icon { font-size: 24px; margin-bottom: 12px; color: var(--gold-accent); }
+    .menu-label { 
+      font-family: var(--font-display); font-size: 20px; color: #fff; 
+      display: flex; justify-content: space-between; align-items: center; 
+    }
+    .menu-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.1em; }
+    .badge {
+      font-family: var(--font-body); font-size: 10px; padding: 4px 8px;
+      background: rgba(255,255,255,0.1); border-radius: 100px;
+      text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted);
+    }
+
+    /* --- COCKTAIL LIST & ACCORDION --- */
+    .cocktail-category {
+      font-size: 11px; letter-spacing: 0.25em; color: var(--gold-accent);
+      text-transform: uppercase; margin-top: 24px; margin-bottom: 12px;
+      padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .cocktail-item {
+      padding: 12px 0; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .cocktail-header {
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--font-display); font-size: 16px; color: #fff;
+    }
+    .cocktail-header span.toggle {
+      font-size: 18px; color: var(--gold-accent); transition: transform 0.3s ease;
+    }
+    .cocktail-item.active .toggle { transform: rotate(45deg); }
+    
+    .cocktail-ingredients {
+      max-height: 0; overflow: hidden; transition: max-height 0.3s ease, opacity 0.3s ease;
+      opacity: 0; font-size: 13px; color: var(--text-muted); line-height: 1.5;
+    }
+    .cocktail-item.active .cocktail-ingredients {
+      max-height: 100px; opacity: 1; margin-top: 8px;
+    }
+
 
     /* TYPOGRAPHY */
     .eyebrow {
@@ -332,28 +375,16 @@
       .countdown-label {
         position: relative; 
         top: auto; left: auto; right: auto;
-        
-        /* Utmost top edge */
-        margin-top: 12px; 
-        margin-bottom: 0;
-        
-        flex-shrink: 0; 
-        z-index: 10;
+        margin-top: 12px; margin-bottom: 0;
+        flex-shrink: 0; z-index: 10;
       }
 
       .liquid-clock {
-        flex-grow: 1;
-        overflow: hidden; 
-        
+        flex-grow: 1; overflow: hidden; 
         align-items: flex-start;
-        
-        /* TIGHT GAP: 12px separation */
         padding-top: 12px; 
-        
-        padding-left: 8px;
-        padding-right: 8px;
-        justify-content: space-between;
-        gap: 0;
+        padding-left: 8px; padding-right: 8px;
+        justify-content: space-between; gap: 0;
       }
     }
 
@@ -387,20 +418,14 @@
     @media (max-width: 600px) {
       .liquid-digit {
         font-size: 19vw; 
-        
         /* MOBILE STROKE (Bright & Crisp) */
         -webkit-text-stroke: 1.0px rgba(255, 255, 255, 0.95);
-        
         transform-origin: top center;
         transform: scaleY(3.2);
-        
-        /* Mask to fade out gracefully */
         -webkit-mask-image: linear-gradient(to bottom, black 40%, black 85%, transparent 100%);
         mask-image: linear-gradient(to bottom, black 40%, black 85%, transparent 100%);
       }
-      .liquid-digit:nth-child(even) {
-        display: none; 
-      }
+      .liquid-digit:nth-child(even) { display: none; }
     }
 
     /* EASTER EGG */
@@ -447,15 +472,15 @@
     }
     .modal-overlay.active { opacity: 1; pointer-events: auto; }
     .glass-popup {
-      width: 90%; max-width: 400px;
-      background: rgba(30, 30, 35, 0.6); 
+      width: 90%; max-width: 500px; max-height: 85vh;
+      background: rgba(30, 30, 35, 0.85); 
       backdrop-filter: blur(40px) saturate(200%);
       -webkit-backdrop-filter: blur(40px) saturate(200%);
       border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 24px; padding: 32px;
       box-shadow: 0 40px 80px rgba(0,0,0,0.5);
       transform: scale(0.9); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      position: relative;
+      position: relative; overflow-y: auto;
     }
     .modal-overlay.active .glass-popup { transform: scale(1); }
     .popup-title {
@@ -486,7 +511,7 @@
     .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .close-modal {
       position: absolute; top: 16px; right: 16px; background: none; border: none;
-      color: rgba(255,255,255,0.5); cursor: pointer; font-size: 24px; padding: 5px;
+      color: rgba(255,255,255,0.5); cursor: pointer; font-size: 24px; padding: 5px; z-index: 10;
     }
     .close-modal:hover { color: #fff; }
   </style>
@@ -528,6 +553,169 @@
       </div>
 
       <button class="submit-btn" id="sendRsvp">See you</button>
+    </div>
+  </div>
+
+  <!-- COCKTAIL MODAL -->
+  <div class="modal-overlay" id="cocktailModal">
+    <div class="glass-popup">
+      <button class="close-modal" id="closeCocktail">&times;</button>
+      <div class="popup-title">The Spirits</div>
+      
+      <!-- VODKA -->
+      <div class="cocktail-category">Vodka Based</div>
+      
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Skinny Bitch <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Vodka, Fresh Lime Juice, Soda Water</div>
+      </div>
+      
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Moscow Mule <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Vodka, Spicy Ginger Beer, Lime Juice</div>
+      </div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Vodka Collins <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Vodka, Lemon Juice, Simple Syrup, Soda</div>
+      </div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Cosmopolitan <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Vodka, Triple Sec, Cranberry Juice, Lime</div>
+      </div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Sex on the Beach <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Vodka, Peach Schnapps, Orange Juice, Cranberry Juice</div>
+      </div>
+
+      <!-- WHISKEY -->
+      <div class="cocktail-category">Whiskey</div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Whiskey Sour <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Bourbon, Lemon Juice, Sugar Syrup, Egg White (optional)</div>
+      </div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Old Fashioned <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Bourbon or Rye, Bitters, Sugar Cube, Splash of Water</div>
+      </div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Boulevardier <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Whiskey, Campari, Sweet Vermouth</div>
+      </div>
+      
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Spiced Pear Bourbon <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Bourbon, Spiced Pear Liqueur, Lemon Juice, Syrup</div>
+      </div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Cannella Gold Toddy <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Cannella Cinnamon Spirit, Hot Water, Honey, Lemon</div>
+      </div>
+
+      <!-- GIN -->
+      <div class="cocktail-category">Gin</div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Gin Tonic <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Gin, Premium Tonic Water, Botanicals</div>
+      </div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Tom Collins OG <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Old Tom Gin, Lemon Juice, Sugar, Soda</div>
+      </div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Gimlet <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Gin, Lime Cordial (or fresh Lime & Sugar)</div>
+      </div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Angel Face <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Gin, Apricot Brandy, Pear Infused Plum Schnapps</div>
+      </div>
+      
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Strawberry Bramble <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Gin, Lemon Juice, Sugar Syrup, Strawberry Liqueur</div>
+      </div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Aviation <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Gin, Maraska Cherry, Crème de Violette, Lemon</div>
+      </div>
+
+      <!-- TEQUILA -->
+      <div class="cocktail-category">Tequila</div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Tequila Old Fashioned <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Reposado Tequila, Honey, Orange Bitters</div>
+      </div>
+      
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Tequila Sunrise <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Tequila, Orange Juice, Grenadine</div>
+      </div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Paloma <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Tequila, Grapefruit Soda, Lime Juice</div>
+      </div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">La Batanga <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Tequila, Lime Juice, Cola, Salted Rim</div>
+      </div>
+
+      <!-- SPRITZEVI -->
+      <div class="cocktail-category">Spritzevi</div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Teranino Spritz <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Aura Teranino, Prosecco, Soda Water</div>
+      </div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Pelin Spritz <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Antique Pelinkovac, Tonic Water/Soda, Orange</div>
+      </div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Lavanda Spritz <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Lavender Syrup, Prosecco, Soda, Lemon</div>
+      </div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Limoncello Spritz <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Limoncello, Prosecco, Soda</div>
+      </div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Tea Spritzes <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Infused Black/Green/Jasmine Tea, Prosecco</div>
+      </div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">French 75 <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Gin, Champagne, Lemon Juice, Sugar</div>
+      </div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Campari Spritz <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Campari, Prosecco, Soda Water</div>
+      </div>
+      
+      <div style="margin-top:40px; text-align:center; font-size:12px; color:#666;">
+        Drinks are strong. Please pace yourself.
+      </div>
+      
     </div>
   </div>
 
@@ -672,6 +860,20 @@
       </div>
     </section>
 
+    <!-- MENU BUTTONS -->
+    <section class="menu-grid">
+      <div class="menu-btn-card" id="openCocktail">
+        <div class="menu-icon">🍸</div>
+        <div class="menu-label">Cocktail Menu <span>→</span></div>
+        <div class="menu-sub">The Spirits</div>
+      </div>
+      <div class="menu-btn-card inactive">
+        <div class="menu-icon">🍴</div>
+        <div class="menu-label">Food Menu <span class="badge">Soon</span></div>
+        <div class="menu-sub">The Bites</div>
+      </div>
+    </section>
+
     <!-- LIQUID COUNTDOWN CARD (MAXIMIZED) -->
     <section class="glass-card countdown-card">
       <div class="countdown-label">Time Remaining</div>
@@ -706,12 +908,12 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    // SPOTLIGHT JS: Runs on all devices that support mouse interaction
+    // SPOTLIGHT JS
     let ticking = false;
     document.addEventListener("mousemove", (e) => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          const cards = document.querySelectorAll(".glass-card");
+          const cards = document.querySelectorAll(".glass-card, .menu-btn-card");
           cards.forEach(card => {
             const rect = card.getBoundingClientRect();
             const x = e.clientX - rect.left;
@@ -725,27 +927,55 @@
       }
     });
 
-    const modal = document.getElementById('rsvpModal');
-    const openBtn = document.getElementById('openRsvp');
-    const closeBtn = document.getElementById('closeRsvp');
-    const sendBtn = document.getElementById('sendRsvp');
+    // RSVP MODAL LOGIC
+    const rsvpModal = document.getElementById('rsvpModal');
+    const openRsvpBtn = document.getElementById('openRsvp');
+    const closeRsvpBtn = document.getElementById('closeRsvp');
+    const sendRsvpBtn = document.getElementById('sendRsvp');
 
-    openBtn.addEventListener('click', () => {
-      modal.classList.add('active');
+    openRsvpBtn.addEventListener('click', () => {
+      rsvpModal.classList.add('active');
       document.body.classList.add('modal-open');
     });
 
-    function closeModal() {
-      modal.classList.remove('active');
+    closeRsvpBtn.addEventListener('click', () => {
+      rsvpModal.classList.remove('active');
       document.body.classList.remove('modal-open');
-    }
-
-    closeBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal();
     });
 
-    sendBtn.addEventListener('click', () => {
+    // COCKTAIL MODAL LOGIC
+    const cocktailModal = document.getElementById('cocktailModal');
+    const openCocktailBtn = document.getElementById('openCocktail');
+    const closeCocktailBtn = document.getElementById('closeCocktail');
+
+    openCocktailBtn.addEventListener('click', () => {
+      cocktailModal.classList.add('active');
+      document.body.classList.add('modal-open');
+    });
+
+    closeCocktailBtn.addEventListener('click', () => {
+      cocktailModal.classList.remove('active');
+      document.body.classList.remove('modal-open');
+    });
+
+    // GENERIC MODAL CLOSE ON BACKGROUND CLICK
+    window.addEventListener('click', (e) => {
+      if (e.target === rsvpModal) {
+        rsvpModal.classList.remove('active');
+        document.body.classList.remove('modal-open');
+      }
+      if (e.target === cocktailModal) {
+        cocktailModal.classList.remove('active');
+        document.body.classList.remove('modal-open');
+      }
+    });
+
+    // COCKTAIL RECIPE TOGGLE
+    function toggleRecipe(item) {
+      item.classList.toggle('active');
+    }
+
+    sendRsvpBtn.addEventListener('click', () => {
       const name = document.getElementById('guestName').value;
       const email = document.getElementById('guestEmail').value;
       const notes = document.getElementById('guestNotes').value;
@@ -755,8 +985,8 @@
         return; 
       }
 
-      sendBtn.innerText = "Sending...";
-      sendBtn.disabled = true;
+      sendRsvpBtn.innerText = "Sending...";
+      sendRsvpBtn.disabled = true;
 
       fetch("https://formsubmit.co/ajax/kriistofor@gmail.com", {
         method: "POST",
@@ -773,17 +1003,18 @@
       })
       .then(response => response.json())
       .then(data => {
-        sendBtn.innerText = "Confirmed!";
-        sendBtn.style.background = "#e0cfb1";
-        sendBtn.style.color = "#000";
+        sendRsvpBtn.innerText = "Confirmed!";
+        sendRsvpBtn.style.background = "#e0cfb1";
+        sendRsvpBtn.style.color = "#000";
         
         setTimeout(() => {
-          closeModal();
+          rsvpModal.classList.remove('active');
+          document.body.classList.remove('modal-open');
           setTimeout(() => {
-            sendBtn.innerText = "See you";
-            sendBtn.disabled = false;
-            sendBtn.style.background = ""; 
-            sendBtn.style.color = "";
+            sendRsvpBtn.innerText = "See you";
+            sendRsvpBtn.disabled = false;
+            sendRsvpBtn.style.background = ""; 
+            sendRsvpBtn.style.color = "";
             document.getElementById('guestName').value = "";
             document.getElementById('guestEmail').value = "";
             document.getElementById('guestNotes').value = "";
@@ -793,8 +1024,8 @@
       .catch(error => {
         console.log(error);
         alert("Something went wrong. Please try again.");
-        sendBtn.innerText = "See you";
-        sendBtn.disabled = false;
+        sendRsvpBtn.innerText = "See you";
+        sendRsvpBtn.disabled = false;
       });
     });
   </script>
