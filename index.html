@@ -719,6 +719,64 @@
     </div>
   </div>
 
+  <!-- FOOD MODAL -->
+  <div class="modal-overlay" id="foodModal">
+    <div class="glass-popup">
+      <button class="close-modal" id="closeFood">&times;</button>
+      <div class="popup-title">The Bites</div>
+      
+      <div class="cocktail-category">Savory Boards</div>
+      
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">The Cured & Spicy <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Coppa Spianata, Smoked Ham, Spicy Sausage, Gouda, Trapist Cheese, Walnuts</div>
+      </div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Italian Selection <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Mortadella, Prosciutto, Burrata, Mozzarella, Nuts</div>
+      </div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Fresh & Crisp <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">French Olivier Salad, Shopska Salad, Carrot Sticks, Cucumber, Paprika, Cherry Tomatoes</div>
+      </div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">The Cheese Board <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Livanjski, Gouda, Trapist, Olives, Crackers, Dried Fruit, Fig Chutney, Whipped Butter</div>
+      </div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Warm Bites <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Salmon Canapés (Philadelphia, Cucumber, Salmon), Mini Pizzas</div>
+      </div>
+
+      <div class="cocktail-category">Sweets</div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Tiramisu <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Classic Coffee-Soaked Ladyfingers, Mascarpone Cream, Cocoa</div>
+      </div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Fruit Tarts <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Crisp Pastry, Pastry Cream, Fresh Seasonal Fruit</div>
+      </div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Pavlova Cake <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Meringue, Whipped Cream, Strawberries</div>
+      </div>
+
+      <div class="cocktail-item" onclick="toggleRecipe(this)">
+        <div class="cocktail-header">Cookie Selection <span class="toggle">+</span></div>
+        <div class="cocktail-ingredients">Assorted Dry Tea Cookies and Biscuits</div>
+      </div>
+
+    </div>
+  </div>
+
   <main>
     
     <!-- HERO SECTION -->
@@ -867,9 +925,9 @@
         <div class="menu-label">Cocktail Menu <span>→</span></div>
         <div class="menu-sub">The Spirits</div>
       </div>
-      <div class="menu-btn-card inactive">
+      <div class="menu-btn-card" id="openFood">
         <div class="menu-icon">🍴</div>
-        <div class="menu-label">Food Menu <span class="badge">Soon</span></div>
+        <div class="menu-label">Food Menu <span>→</span></div>
         <div class="menu-sub">The Bites</div>
       </div>
     </section>
@@ -958,6 +1016,21 @@
       document.body.classList.remove('modal-open');
     });
 
+    // FOOD MODAL LOGIC
+    const foodModal = document.getElementById('foodModal');
+    const openFoodBtn = document.getElementById('openFood');
+    const closeFoodBtn = document.getElementById('closeFood');
+
+    openFoodBtn.addEventListener('click', () => {
+      foodModal.classList.add('active');
+      document.body.classList.add('modal-open');
+    });
+
+    closeFoodBtn.addEventListener('click', () => {
+      foodModal.classList.remove('active');
+      document.body.classList.remove('modal-open');
+    });
+
     // GENERIC MODAL CLOSE ON BACKGROUND CLICK
     window.addEventListener('click', (e) => {
       if (e.target === rsvpModal) {
@@ -968,9 +1041,13 @@
         cocktailModal.classList.remove('active');
         document.body.classList.remove('modal-open');
       }
+      if (e.target === foodModal) {
+        foodModal.classList.remove('active');
+        document.body.classList.remove('modal-open');
+      }
     });
 
-    // COCKTAIL RECIPE TOGGLE
+    // RECIPE TOGGLE
     function toggleRecipe(item) {
       item.classList.toggle('active');
     }
