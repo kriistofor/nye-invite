@@ -5,7 +5,7 @@
   <title>Cocktail Night NYE</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
   
-  <!-- FONTS -->
+  <!-- fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -28,7 +28,13 @@
       scroll-behavior: smooth;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+      /* hate that blue box on mobile */
+      -webkit-tap-highlight-color: transparent;
+    }
 
     body {
       font-family: var(--font-body);
@@ -39,7 +45,7 @@
       position: relative;
     }
 
-    /* --- ATMOSPHERE --- */
+    /* bg vibes */
     .ambient-canvas {
       position: fixed; inset: 0; z-index: 0; background-color: #030305;
       overflow: hidden; pointer-events: none; height: 120vh; 
@@ -89,7 +95,7 @@
     @media (max-width: 600px) { main { padding: 90px 16px 120px; } }
     body.modal-open main { filter: blur(5px); }
 
-    /* --- GLASS CARDS --- */
+    /* glass cards */
     .glass-card {
       background: var(--glass-surface); border-radius: 32px;
       border: 1px solid var(--glass-border);
@@ -131,7 +137,7 @@
       position: relative; z-index: 2;
     }
 
-    /* --- MENU GRID --- */
+    /* menu grid stuff */
     .menu-grid {
       display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px;
     }
@@ -170,7 +176,7 @@
       text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted);
     }
 
-    /* --- COCKTAIL LIST & ACCORDION --- */
+    /* accordions */
     .cocktail-category {
       font-size: 11px; letter-spacing: 0.25em; color: var(--gold-accent);
       text-transform: uppercase; margin-top: 24px; margin-bottom: 12px;
@@ -197,7 +203,7 @@
     }
 
 
-    /* TYPOGRAPHY */
+    /* typog */
     .eyebrow {
       font-size: 12px; letter-spacing: 0.25em; text-transform: uppercase;
       color: var(--text-muted); margin-bottom: 24px; font-weight: 500;
@@ -233,7 +239,7 @@
     }
     .chip:hover { border-color: var(--gold-accent); color: #fff; }
 
-    /* --- LUNAR & WEATHER --- */
+    /* moon & weather section */
     .lunar-container {
       display: flex; flex-direction: column; min-height: 350px; height: 100%; justify-content: space-between;
     }
@@ -281,7 +287,7 @@
     .w-desc { font-size: 14px; color: #fff; font-weight: 500; margin-bottom: 4px;}
     .w-note { font-size: 12px; color: var(--text-muted); opacity: 0.7;}
 
-    /* --- DETAILS & MAP --- */
+    /* details grid */
     .details-grid {
       display: grid; grid-template-columns: repeat(2, 1fr); gap: 60px; margin-top: 40px;
     }
@@ -314,7 +320,7 @@
       font-style: italic; margin-top: 10px; opacity: 0.7; 
     }
 
-    /* --- HOSPITALITY --- */
+    /* hospitality */
     .hospitality-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
     @media (max-width: 700px) { .hospitality-grid { grid-template-columns: 1fr; } }
     .role-block {
@@ -325,9 +331,9 @@
       font-size: 12px; text-transform: uppercase; letter-spacing: 0.15em; color: #fff; margin-bottom: 12px; opacity: 0.8;
     }
 
-    /* --- LIQUID COUNTDOWN CARD --- */
+    /* liquid clock */
     .countdown-card {
-      /* Base Flexbox for both mobile and desktop */
+      /* flexbox base */
       display: flex; 
       flex-direction: column;
       justify-content: flex-end; 
@@ -338,7 +344,7 @@
     }
 
     .countdown-label {
-      /* Default absolute (Desktop) */
+      /* default desktop pos */
       position: absolute;
       top: 32px; 
       left: 0; right: 0;
@@ -356,19 +362,19 @@
       height: 100%;
       font-family: var(--font-clock); 
       font-weight: 800;
-      /* Desktop Padding */
+      /* padding tweaks for desktop */
       padding-top: 140px; 
       margin-bottom: -5px;
       gap: 1vw; 
     }
 
-    /* --- MOBILE RESTRUCTURE --- */
+    /* mobile restructure */
     @media (max-width: 600px) { 
       .countdown-card { 
         height: 220px;
         display: flex;
         flex-direction: column;
-        justify-content: flex-start; /* Stack from Top */
+        justify-content: flex-start; /* stack from top */
         padding-top: 0;
       } 
 
@@ -394,7 +400,7 @@
       color: transparent; 
       background: none;
 
-      /* DESKTOP STROKE (Subtle) */
+      /* desktop stroke */
       -webkit-text-stroke: 0.8px rgba(255, 255, 255, 0.5); 
       filter: drop-shadow(0 0 1px rgba(255,255,255,0.3));
       
@@ -414,11 +420,11 @@
       filter: none;
     }
 
-    /* MOBILE DIGITS: MAXIMIZED STRETCH */
+    /* mobile digits: make em tall */
     @media (max-width: 600px) {
       .liquid-digit {
         font-size: 19vw; 
-        /* MOBILE STROKE (Bright & Crisp) */
+        /* crisp mobile stroke */
         -webkit-text-stroke: 1.0px rgba(255, 255, 255, 0.95);
         transform-origin: top center;
         transform: scaleY(3.2);
@@ -428,7 +434,7 @@
       .liquid-digit:nth-child(even) { display: none; }
     }
 
-    /* EASTER EGG */
+    /* easter egg */
     .cat-eyes {
       display: inline-block; position: relative; width: 24px; height: 8px;
       margin-left: 8px; vertical-align: middle; opacity: 0.8; cursor: help;
@@ -444,7 +450,7 @@
       0%, 96%, 100% { transform: scaleY(1); } 98% { transform: scaleY(0.1); }
     }
 
-    /* --- RSVP & MODAL --- */
+    /* rsvp & modals */
     .rsvp-fixed {
       position: fixed; top: 32px; right: 32px; z-index: 100;
     }
@@ -674,8 +680,11 @@
         <div class="cocktail-ingredients">Tequila, Lime Juice, Cola, Salted Rim</div>
       </div>
 
-      <!-- SPRITZEVI -->
-      <div class="cocktail-category">Spritzevi</div>
+      <!-- SPRITZES -->
+      <div class="cocktail-category">Spritzes</div>
+      <div style="font-size:11px; color:#98989d; margin-bottom:12px; font-style:italic;">
+        Served all nite, but these are the official Midnight Toast (champagne is boring).
+      </div>
 
       <div class="cocktail-item" onclick="toggleRecipe(this)">
         <div class="cocktail-header">Teranino Spritz <span class="toggle">+</span></div>
@@ -966,7 +975,7 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    // SPOTLIGHT JS
+    // mouse spotlight effect
     let ticking = false;
     document.addEventListener("mousemove", (e) => {
       if (!ticking) {
@@ -985,73 +994,51 @@
       }
     });
 
-    // RSVP MODAL LOGIC
-    const rsvpModal = document.getElementById('rsvpModal');
-    const openRsvpBtn = document.getElementById('openRsvp');
-    const closeRsvpBtn = document.getElementById('closeRsvp');
-    const sendRsvpBtn = document.getElementById('sendRsvp');
+    // modal stuff
+    function setupModal(modalId, openBtnId, closeBtnId) {
+      const modal = document.getElementById(modalId);
+      const openBtn = document.getElementById(openBtnId);
+      const closeBtn = document.getElementById(closeBtnId);
+      
+      if(!modal || !openBtn || !closeBtn) return;
 
-    openRsvpBtn.addEventListener('click', () => {
-      rsvpModal.classList.add('active');
-      document.body.classList.add('modal-open');
-    });
+      const openFn = () => {
+        modal.classList.add('active');
+        document.body.classList.add('modal-open');
+      };
 
-    closeRsvpBtn.addEventListener('click', () => {
-      rsvpModal.classList.remove('active');
-      document.body.classList.remove('modal-open');
-    });
+      const closeFn = () => {
+        modal.classList.remove('active');
+        document.body.classList.remove('modal-open');
+      };
 
-    // COCKTAIL MODAL LOGIC
-    const cocktailModal = document.getElementById('cocktailModal');
-    const openCocktailBtn = document.getElementById('openCocktail');
-    const closeCocktailBtn = document.getElementById('closeCocktail');
+      openBtn.addEventListener('click', openFn);
+      closeBtn.addEventListener('click', closeFn);
+      
+      // return close fn for form submit usage
+      return closeFn;
+    }
 
-    openCocktailBtn.addEventListener('click', () => {
-      cocktailModal.classList.add('active');
-      document.body.classList.add('modal-open');
-    });
+    // init them all
+    const closeRsvpFn = setupModal('rsvpModal', 'openRsvp', 'closeRsvp');
+    setupModal('cocktailModal', 'openCocktail', 'closeCocktail');
+    setupModal('foodModal', 'openFood', 'closeFood');
 
-    closeCocktailBtn.addEventListener('click', () => {
-      cocktailModal.classList.remove('active');
-      document.body.classList.remove('modal-open');
-    });
-
-    // FOOD MODAL LOGIC
-    const foodModal = document.getElementById('foodModal');
-    const openFoodBtn = document.getElementById('openFood');
-    const closeFoodBtn = document.getElementById('closeFood');
-
-    openFoodBtn.addEventListener('click', () => {
-      foodModal.classList.add('active');
-      document.body.classList.add('modal-open');
-    });
-
-    closeFoodBtn.addEventListener('click', () => {
-      foodModal.classList.remove('active');
-      document.body.classList.remove('modal-open');
-    });
-
-    // GENERIC MODAL CLOSE ON BACKGROUND CLICK
+    // close when clicking outside
     window.addEventListener('click', (e) => {
-      if (e.target === rsvpModal) {
-        rsvpModal.classList.remove('active');
-        document.body.classList.remove('modal-open');
-      }
-      if (e.target === cocktailModal) {
-        cocktailModal.classList.remove('active');
-        document.body.classList.remove('modal-open');
-      }
-      if (e.target === foodModal) {
-        foodModal.classList.remove('active');
+      if (e.target.classList.contains('modal-overlay')) {
+        e.target.classList.remove('active');
         document.body.classList.remove('modal-open');
       }
     });
 
-    // RECIPE TOGGLE
+    // accordion toggle
     function toggleRecipe(item) {
       item.classList.toggle('active');
     }
 
+    // handle form submit
+    const sendRsvpBtn = document.getElementById('sendRsvp');
     sendRsvpBtn.addEventListener('click', () => {
       const name = document.getElementById('guestName').value;
       const email = document.getElementById('guestEmail').value;
@@ -1085,8 +1072,8 @@
         sendRsvpBtn.style.color = "#000";
         
         setTimeout(() => {
-          rsvpModal.classList.remove('active');
-          document.body.classList.remove('modal-open');
+          if(closeRsvpFn) closeRsvpFn();
+          
           setTimeout(() => {
             sendRsvpBtn.innerText = "See you";
             sendRsvpBtn.disabled = false;
