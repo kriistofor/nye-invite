@@ -32,7 +32,6 @@
       box-sizing: border-box; 
       margin: 0; 
       padding: 0; 
-      /* hate that blue box on mobile */
       -webkit-tap-highlight-color: transparent;
     }
 
@@ -131,7 +130,7 @@
       );
       opacity: 0; transition: opacity 0.4s; pointer-events: none; z-index: 0; 
     }
-    @media (hover: hover) { .glass-card:hover::before { opacity: 1; } }
+    .glass-card:hover::before { opacity: 1; }
 
     .hero-grid, .details-grid, .hospitality-grid, .eyebrow, .countdown-label, .liquid-clock {
       position: relative; z-index: 2;
@@ -201,7 +200,6 @@
     .cocktail-item.active .cocktail-ingredients {
       max-height: 100px; opacity: 1; margin-top: 8px;
     }
-
 
     /* typog */
     .eyebrow {
@@ -316,8 +314,13 @@
       background: radial-gradient(circle, transparent 30%, rgba(0,0,0,0.6) 100%);
     }
     .map-caption {
-      text-align: left; font-size: 14px; color: var(--text-muted);
-      font-style: italic; margin-top: 10px; opacity: 0.7; 
+      text-align: left;
+      font-size: 18px;
+      color: var(--gold-accent);
+      font-style: normal;
+      font-weight: 700;
+      margin-top: 12px;
+      opacity: 1;
     }
 
     /* hospitality */
@@ -333,7 +336,6 @@
 
     /* liquid clock */
     .countdown-card {
-      /* flexbox base */
       display: flex; 
       flex-direction: column;
       justify-content: flex-end; 
@@ -344,7 +346,6 @@
     }
 
     .countdown-label {
-      /* default desktop pos */
       position: absolute;
       top: 32px; 
       left: 0; right: 0;
@@ -362,19 +363,17 @@
       height: 100%;
       font-family: var(--font-clock); 
       font-weight: 800;
-      /* padding tweaks for desktop */
       padding-top: 140px; 
       margin-bottom: -5px;
       gap: 1vw; 
     }
 
-    /* mobile restructure */
     @media (max-width: 600px) { 
       .countdown-card { 
         height: 220px;
         display: flex;
         flex-direction: column;
-        justify-content: flex-start; /* stack from top */
+        justify-content: flex-start;
         padding-top: 0;
       } 
 
@@ -399,14 +398,10 @@
       line-height: 0.75;
       color: transparent; 
       background: none;
-
-      /* desktop stroke */
       -webkit-text-stroke: 0.8px rgba(255, 255, 255, 0.5); 
       filter: drop-shadow(0 0 1px rgba(255,255,255,0.3));
-      
       -webkit-mask-image: linear-gradient(to bottom, black 50%, black 75%, transparent 100%);
       mask-image: linear-gradient(to bottom, black 50%, black 75%, transparent 100%);
-
       transform: scaleY(2.0);
       transform-origin: bottom; 
     }
@@ -420,11 +415,9 @@
       filter: none;
     }
 
-    /* mobile digits: make em tall */
     @media (max-width: 600px) {
       .liquid-digit {
         font-size: 19vw; 
-        /* crisp mobile stroke */
         -webkit-text-stroke: 1.0px rgba(255, 255, 255, 0.95);
         transform-origin: top center;
         transform: scaleY(3.2);
@@ -530,7 +523,6 @@
   </div>
   <div class="noise"></div>
 
-  <!-- FIXED TOP RIGHT BUTTON -->
   <div class="rsvp-fixed">
     <button id="openRsvp" class="btn-glass">
       Confirm Attendance
@@ -573,7 +565,13 @@
       
       <div class="cocktail-item" onclick="toggleRecipe(this)">
         <div class="cocktail-header">The Nutcracker <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Raspberry Puree, Baileys, Hazelnut Syrup, Cannella. <br> <span style="font-size:11px; opacity:0.8; font-style:italic;">Christmas creamy raspberry cake in liquid form.</span></div>
+        <div class="cocktail-ingredients">
+          Raspberry Puree, Baileys, Hazelnut Syrup, Cannella.
+          <br>
+          <span style="font-size:11px; opacity:0.8; font-style:italic;">
+            Christmas creamy raspberry cake in liquid form.
+          </span>
+        </div>
       </div>
 
       <div class="cocktail-item" onclick="toggleRecipe(this)">
@@ -583,7 +581,11 @@
 
       <div class="cocktail-item" onclick="toggleRecipe(this)">
         <div class="cocktail-header">Štef Libre <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Rum, Apple Juice, Vanilla Syrup, Lime, Ginger Ale. <br> <span style="font-size:11px; opacity:0.8; font-style:italic;">Freedom for Štef!</span></div>
+        <div class="cocktail-ingredients">
+          Rum, Apple Juice, Vanilla Syrup, Lime, Ginger Ale.
+          <br>
+          <span style="font-size:11px; opacity:0.8; font-style:italic;">Freedom for Štef!</span>
+        </div>
       </div>
       
       <!-- VODKA -->
@@ -884,16 +886,19 @@
 
         <div class="detail-block">
           <h3>Location</h3>
-          <p class="main">Zagreb Residence</p>
-          <p class="sub">Central. Skyline views. Exact location upon confirmation.</p>
+          <p class="main">Trešnjevka</p>
+          <p class="sub">Nehajska 16 · 4th floor · Intercom: Orlić</p>
           
           <div class="map-container">
-            <iframe class="map-frame" 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2781.397669894767!2d15.94553257626294!3d45.7981549710816!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4765d6bd8b824207%3A0x6b772c548482458a!2sPark%20Stara%20Tre%C5%A1njevka!5e0!3m2!1sen!2shr!4v1703000000000!5m2!1sen!2shr" 
-              allowfullscreen="" loading="lazy"></iframe>
+            <iframe
+              class="map-frame"
+              src="https://www.google.com/maps?q=45.7969600,15.9481310&z=18&output=embed"
+              allowfullscreen=""
+              loading="lazy">
+            </iframe>
             <div class="map-overlay"></div>
           </div>
-          <div class="map-caption">You'll be lurking somewhere around here</div>
+          <div class="map-caption">Nehajska 16 · 4th floor · Intercom: Orlić</div>
         </div>
 
         <div class="detail-block">
@@ -957,7 +962,7 @@
       </div>
     </section>
 
-    <!-- LIQUID COUNTDOWN CARD (MAXIMIZED) -->
+    <!-- COUNTDOWN -->
     <section class="glass-card countdown-card">
       <div class="countdown-label">Time Remaining</div>
       <div class="liquid-clock" id="countdown">
@@ -1010,12 +1015,10 @@
       }
     });
 
-    // modal stuff
     function setupModal(modalId, openBtnId, closeBtnId) {
       const modal = document.getElementById(modalId);
       const openBtn = document.getElementById(openBtnId);
       const closeBtn = document.getElementById(closeBtnId);
-      
       if(!modal || !openBtn || !closeBtn) return;
 
       const openFn = () => {
@@ -1030,17 +1033,13 @@
 
       openBtn.addEventListener('click', openFn);
       closeBtn.addEventListener('click', closeFn);
-      
-      // return close fn for form submit usage
       return closeFn;
     }
 
-    // init them all
     const closeRsvpFn = setupModal('rsvpModal', 'openRsvp', 'closeRsvp');
     setupModal('cocktailModal', 'openCocktail', 'closeCocktail');
     setupModal('foodModal', 'openFood', 'closeFood');
 
-    // close when clicking outside
     window.addEventListener('click', (e) => {
       if (e.target.classList.contains('modal-overlay')) {
         e.target.classList.remove('active');
@@ -1048,12 +1047,10 @@
       }
     });
 
-    // accordion toggle
     function toggleRecipe(item) {
       item.classList.toggle('active');
     }
 
-    // handle form submit
     const sendRsvpBtn = document.getElementById('sendRsvp');
     sendRsvpBtn.addEventListener('click', () => {
       const name = document.getElementById('guestName').value;
