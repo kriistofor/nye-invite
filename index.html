@@ -292,8 +292,8 @@
         <div class="lightbox-close" onclick="closeLightbox()">&times;</div>
         
         <!-- Navigation Areas -->
-        <div class="lightbox-nav nav-prev" onclick="prevImage()">&#8249;</div>
-        <div class="lightbox-nav nav-next" onclick="nextImage()">&#8250;</div>
+        <div class="lightbox-nav nav-prev" onclick="prevSlide()">&#8249;</div>
+        <div class="lightbox-nav nav-next" onclick="nextSlide()">&#8250;</div>
     
         <div class="lightbox-content" id="lightboxContent">
             <img src="" class="lightbox-img" id="lightboxImg">
@@ -864,7 +864,7 @@
                 const videoGrid = document.createElement('div');
                 videoGrid.className = 'video-grid';
 
-                galleryVideos.forEach(url => {
+                galleryVideos.forEach((url, index) => {
                     const tile = document.createElement('div');
                     tile.className = 'gallery-video-tile';
                     
@@ -898,7 +898,7 @@
                     
                     tile.addEventListener('mouseenter', () => video.play().catch(()=>{}));
                     tile.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
-                    tile.addEventListener('click', () => openVideoInLightbox(url));
+                    tile.addEventListener('click', () => openVideoInLightbox(index));
                     
                     videoGrid.appendChild(tile);
                 });
@@ -971,9 +971,11 @@
             }
         });
 
-        /* --- TOUCH RESPONSIVE LIGHTBOX ENGINE --- */
+        /* --- UNIFIED LIGHTBOX ENGINE --- */
 
         let currentGalleryIndex = 0;
+        let currentContext = 'photo'; // 'photo' or 'video'
+
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightboxImg');
         const lightboxVideo = document.getElementById('lightboxVideo');
@@ -990,54 +992,65 @@
         let isZoomed = false;
 
         function openImageInLightbox(index) {
+            currentContext = 'photo';
             currentGalleryIndex = index;
-            updateLightboxImage();
+            updateLightboxContent();
             
-            lightboxVideo.pause();
-            lightboxVideo.classList.remove('active');
-            lightboxImg.classList.add('active');
             lightbox.classList.add('active');
-            
             resetZoom();
         }
 
-        function updateLightboxImage() {
-            const url = galleryImages[currentGalleryIndex];
-            // Preload next image
-            if (currentGalleryIndex < galleryImages.length - 1) {
-                const nextImg = new Image();
-                nextImg.src = galleryImages[currentGalleryIndex + 1];
-            }
-            
-            lightboxImg.style.opacity = '0.5';
-            lightboxImg.src = url;
-            setTimeout(() => lightboxImg.style.opacity = '1', 200);
+        function openVideoInLightbox(index) {
+            currentContext = 'video';
+            currentGalleryIndex = index;
+            updateLightboxContent();
+
+            lightbox.classList.add('active');
+            resetZoom();
         }
 
-        function nextImage() {
-            if (currentGalleryIndex < galleryImages.length - 1) {
+        function updateLightboxContent() {
+            // Clear current view
+            lightboxImg.classList.remove('active');
+            lightboxVideo.classList.remove('active');
+            lightboxVideo.pause();
+
+            if (currentContext === 'photo') {
+                const url = galleryImages[currentGalleryIndex];
+                
+                lightboxImg.style.opacity = '0.5';
+                lightboxImg.src = url;
+                lightboxImg.classList.add('active');
+                setTimeout(() => lightboxImg.style.opacity = '1', 200);
+
+                // Preload next image
+                if (currentGalleryIndex < galleryImages.length - 1) {
+                    new Image().src = galleryImages[currentGalleryIndex + 1];
+                }
+            } else {
+                // Video context
+                const url = galleryVideos[currentGalleryIndex];
+                lightboxVideo.src = url;
+                lightboxVideo.classList.add('active');
+                lightboxVideo.play().catch(()=>{});
+            }
+        }
+
+        function nextSlide() {
+            const list = currentContext === 'photo' ? galleryImages : galleryVideos;
+            if (currentGalleryIndex < list.length - 1) {
                 currentGalleryIndex++;
-                updateLightboxImage();
+                updateLightboxContent();
                 resetZoom();
             }
         }
 
-        function prevImage() {
+        function prevSlide() {
             if (currentGalleryIndex > 0) {
                 currentGalleryIndex--;
-                updateLightboxImage();
+                updateLightboxContent();
                 resetZoom();
             }
-        }
-
-        function openVideoInLightbox(url) {
-            lightboxImg.classList.remove('active');
-            lightboxImg.src = '';
-            
-            lightboxVideo.src = url;
-            lightboxVideo.classList.add('active');
-            lightbox.classList.add('active');
-            lightboxVideo.play().catch(()=>{});
         }
 
         function closeLightbox() {
@@ -1097,8 +1110,8 @@
                     const diffX = touchEndX - touchStartX;
                     
                     if (Math.abs(diffX) > 50) { 
-                        if (diffX > 0) prevImage();
-                        else nextImage();
+                        if (diffX > 0) prevSlide();
+                        else nextSlide();
                     }
                 }
             }
@@ -1106,15 +1119,21 @@
 
         let lastTap = 0;
         lightboxContent.addEventListener('click', (e) => {
+            // Prevent double tap on video controls from acting weird
+            if (e.target.tagName === 'VIDEO') return;
+
             const curTime = new Date().getTime();
             const tapLen = curTime - lastTap;
             if (tapLen < 300 && tapLen > 0) {
                 if (isZoomed) resetZoom();
                 else {
-                    currentScale = 2.5;
-                    isZoomed = true;
-                    lastScale = 2.5;
-                    updateTransform();
+                    // Only zoom on photos
+                    if (currentContext === 'photo') {
+                        currentScale = 2.5;
+                        isZoomed = true;
+                        lastScale = 2.5;
+                        updateTransform();
+                    }
                 }
             }
             lastTap = curTime;
@@ -1128,7 +1147,9 @@
         }
 
         function updateTransform() {
-            lightboxImg.style.transform = `translate(${pointX}px, ${pointY}px) scale(${currentScale})`;
+            // Apply transform to whichever element is active
+            const target = currentContext === 'photo' ? lightboxImg : lightboxVideo;
+            target.style.transform = `translate(${pointX}px, ${pointY}px) scale(${currentScale})`;
         }
 
         function resetZoom() {
@@ -1138,6 +1159,7 @@
             pointY = 0;
             isZoomed = false;
             lightboxImg.style.transform = `translate(0px, 0px) scale(1)`;
+            lightboxVideo.style.transform = `translate(0px, 0px) scale(1)`;
         }
 
         // RSVP SEND LOGIC
