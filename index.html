@@ -1,1355 +1,782 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Cocktail Night NYE</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-  
-  <!-- fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
-  
-  <style>
-    :root {
-      --bg: #030305;
-      --glass-surface: rgba(255, 255, 255, 0.03);
-      --glass-border: rgba(255, 255, 255, 0.08);
-      --gold-accent: #e0cfb1;
-      --text-main: #f2f2f7;
-      --text-muted: #98989d;
-      
-      --font-body: "SF Pro Display", -apple-system, sans-serif;
-      --font-display: "Playfair Display", serif;
-      --font-clock: "Antonio", sans-serif;
-    }
+    <meta charset="UTF-8">
+    <title>Cocktail Night NYE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
 
-    html { scroll-behavior: smooth; }
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-    * { 
-      box-sizing: border-box; 
-      margin: 0; 
-      padding: 0; 
-      -webkit-tap-highlight-color: transparent;
-    }
+    <style>
+        :root {
+            --bg: #030305;
+            --glass-surface: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --gold-accent: #e0cfb1;
+            --text-main: #f2f2f7;
+            --text-muted: #98989d;
+            --font-body: 'SF Pro Display', -apple-system, sans-serif;
+            --font-display: 'Playfair Display', serif;
+            --font-clock: 'Antonio', sans-serif;
+        }
 
-    body {
-      font-family: var(--font-body);
-      background-color: var(--bg);
-      color: var(--text-main);
-      min-height: 100vh;
-      overflow-x: hidden;
-      position: relative;
-    }
+        html { scroll-behavior: smooth; box-sizing: border-box; }
+        *, *:before, *:after { box-sizing: inherit; }
+        body { margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; font-family: var(--font-body); background-color: var(--bg); color: var(--text-main); min-height: 100vh; overflow-x: hidden; position: relative; }
 
-    /* bg vibes */
-    .ambient-canvas {
-      position: fixed; inset: 0; z-index: 0; background-color: #030305;
-      overflow: hidden; pointer-events: none; height: 120vh; 
-    }
-    
-    .light-orb {
-      position: absolute; border-radius: 50%; opacity: 0.6;
-      will-change: transform; transform: translate3d(0,0,0);
-      animation: drift 25s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .orb-1 { 
-      top: -10%; left: -10%; width: 70vw; height: 70vw; 
-      background: radial-gradient(circle, #1c1c2e 0%, rgba(28, 28, 46, 0) 70%);
-    }
-    .orb-2 { 
-      bottom: -10%; right: -10%; width: 80vw; height: 80vw; 
-      background: radial-gradient(circle, #261f16 0%, rgba(38, 31, 22, 0) 70%);
-      animation-delay: -8s; 
-    }
-    @media (max-width: 768px) {
-      .light-orb { opacity: 0.7; }
-      .orb-1 {
-        width: 500px; height: 500px; top: -100px; left: -150px;
-        background: radial-gradient(circle, #2a2a45 0%, rgba(42, 42, 69, 0) 65%);
-      }
-      .orb-2 {
-        width: 500px; height: 500px; bottom: 10%; right: -150px; 
-        background: radial-gradient(circle, #3d3224 0%, rgba(61, 50, 36, 0) 65%);
-      }
-    }
-    @keyframes drift {
-      0% { transform: translate3d(0,0,0) scale(1); }
-      100% { transform: translate3d(30px, -30px, 0) scale(1.05); }
-    }
+        /* bg vibes */
+        .ambient-canvas { position: fixed; inset: 0; z-index: 0; background-color: #030305; overflow: hidden; pointer-events: none; height: 120vh; }
+        .light-orb { position: absolute; border-radius: 50%; opacity: 0.6; will-change: transform; transform: translate3d(0,0,0); animation: drift 25s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); }
+        .orb-1 { top: -10%; left: -10%; width: 70vw; height: 70vw; background: radial-gradient(circle, #1c1c2e 0%, rgba(28, 28, 46, 0) 70%); }
+        .orb-2 { bottom: -10%; right: -10%; width: 80vw; height: 80vw; background: radial-gradient(circle, #261f16 0%, rgba(38, 31, 22, 0) 70%); animation-delay: -8s; }
+        @media (max-width: 768px) {
+            .light-orb { opacity: 0.7; }
+            .orb-1 { width: 500px; height: 500px; top: -100px; left: -150px; background: radial-gradient(circle, #2a2a45 0%, rgba(42, 42, 69, 0) 65%); }
+            .orb-2 { width: 500px; height: 500px; bottom: 10%; right: -150px; background: radial-gradient(circle, #3d3224 0%, rgba(61, 50, 36, 0) 65%); }
+        }
+        @keyframes drift { 0% { transform: translate3d(0,0,0) scale(1); } 100% { transform: translate3d(30px, -30px, 0) scale(1.05); } }
 
-    .noise {
-      position: fixed; inset: 0;
-      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none; z-index: 1; mix-blend-mode: screen; opacity: 0.03; 
-    }
-    @media (max-width: 768px) { .noise { display: none; } }
+        .noise { position: fixed; inset: 0; background: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noise)" opacity="0.04"/%3E%3C/svg%3E'); pointer-events: none; z-index: 1; mix-blend-mode: screen; opacity: 0.03; }
+        @media (max-width: 768px) { .noise { display: none; } }
 
-    main {
-      position: relative; z-index: 2; max-width: 1300px;
-      margin: 0 auto; padding: 120px 24px 140px; transition: filter 0.3s ease;
-    }
-    @media (max-width: 600px) { main { padding: 90px 16px 120px; } }
-    body.modal-open main { filter: blur(5px); }
+        main { position: relative; z-index: 2; max-width: 1300px; margin: 0 auto; padding: 120px 24px 140px; transition: filter 0.3s ease; }
+        @media (max-width: 600px) { main { padding: 90px 16px 120px; } }
+        body.modal-open main { filter: blur(5px); }
 
-    /* glass cards */
-    .glass-card {
-      background: var(--glass-surface); border-radius: 32px;
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(50px) saturate(180%);
-      -webkit-backdrop-filter: blur(50px) saturate(180%);
-      box-shadow: 
-        0 40px 100px -20px rgba(0,0,0,0.6),
-        inset 0 1px 0 rgba(255,255,255,0.15),
-        inset 0 0 20px rgba(255,255,255,0.02);
-      padding: clamp(40px, 5vw, 64px);
-      margin-bottom: 32px; 
-      position: relative; overflow: hidden;
-      transform: translate3d(0,0,0); transition: transform 0.4s ease;
-      z-index: 1;
-    }
-    @media (max-width: 600px) {
-      .glass-card { 
-        padding: 24px; border-radius: 24px; 
-        backdrop-filter: none; -webkit-backdrop-filter: none;
-        background: 
-          linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.01) 50%, transparent 100%),
-          rgba(15, 15, 20, 0.75);
-        box-shadow: 0 20px 60px -10px rgba(0,0,0,0.7);
-        border: 1px solid rgba(255, 255, 255, 0.1); 
-      }
-    }
+        /* glass cards */
+        .glass-card { background: var(--glass-surface); border-radius: 32px; border: 1px solid var(--glass-border); backdrop-filter: blur(50px) saturate(180%); -webkit-backdrop-filter: blur(50px) saturate(180%); box-shadow: 0 40px 100px -20px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.15), inset 0 0 20px rgba(255,255,255,0.02); padding: clamp(40px, 5vw, 64px); margin-bottom: 32px; position: relative; overflow: hidden; transform: translate3d(0,0,0); transition: transform 0.4s ease; z-index: 1; }
+        @media (max-width: 600px) {
+            .glass-card { padding: 24px; border-radius: 24px; backdrop-filter: none; -webkit-backdrop-filter: none; background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.01) 50%, transparent 100%), rgba(15, 15, 20, 0.75); box-shadow: 0 20px 60px -10px rgba(0,0,0,0.7); border: 1px solid rgba(255, 255, 255, 0.1); }
+        }
+        .glass-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.06), transparent 40%); opacity: 0; transition: opacity 0.4s; pointer-events: none; z-index: 0; }
+        .glass-card:hover::before { opacity: 1; }
+        .hero-grid, .details-grid, .hospitality-grid, .eyebrow, .countdown-label, .liquid-clock { position: relative; z-index: 2; }
 
-    .glass-card::before {
-      content: ""; position: absolute; inset: 0;
-      background: radial-gradient(
-        800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
-        rgba(255, 255, 255, 0.06), transparent 40%
-      );
-      opacity: 0; transition: opacity 0.4s; pointer-events: none; z-index: 0; 
-    }
-    .glass-card:hover::before { opacity: 1; }
+        /* menu grid */
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+        @media (max-width: 600px) { .menu-grid { gap: 16px; display:flex; flex-direction:column; } }
 
-    .hero-grid, .details-grid, .hospitality-grid, .eyebrow, .countdown-label, .liquid-clock {
-      position: relative; z-index: 2;
-    }
+        .menu-btn-card { background: var(--glass-surface); border-radius: 24px; border: 1px solid var(--glass-border); backdrop-filter: blur(50px) saturate(180%); -webkit-backdrop-filter: blur(50px) saturate(180%); padding: 32px 24px; text-align: left; cursor: pointer; position: relative; overflow: hidden; transition: all 0.3s ease; display: flex; flex-direction: column; justify-content: center; min-height: 120px; }
+        .menu-btn-card:hover { border-color: var(--gold-accent); background: rgba(255,255,255,0.05); transform: translateY(-2px); }
+        .menu-btn-card.inactive { opacity: 0.6; cursor: default; border-style: dashed; }
+        .menu-btn-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.06), transparent 40%); opacity: 0; transition: opacity 0.4s; pointer-events: none; z-index: 0; }
+        .menu-btn-card:hover::before { opacity: 1; }
+        
+        .menu-icon { font-size: 24px; margin-bottom: 12px; color: var(--gold-accent); }
+        .menu-label { font-family: var(--font-display); font-size: 20px; color: #fff; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 2; }
+        .menu-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.1em; position: relative; z-index: 2; }
 
-    /* menu grid */
-    .menu-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px;
-    }
-    @media (max-width: 600px) { .menu-grid { gap: 16px; display:flex; flex-direction:column; } }
-    
-    .menu-btn-card {
-      background: var(--glass-surface); border-radius: 24px;
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(50px) saturate(180%);
-      -webkit-backdrop-filter: blur(50px) saturate(180%);
-      padding: 32px 24px; text-align: left; cursor: pointer;
-      position: relative; overflow: hidden; transition: all 0.3s ease;
-      display: flex; flex-direction: column; justify-content: center;
-      min-height: 120px;
-    }
-    .menu-btn-card:hover {
-      border-color: var(--gold-accent); background: rgba(255,255,255,0.05);
-      transform: translateY(-2px);
-    }
-    .menu-btn-card.inactive {
-      opacity: 0.6; cursor: default; border-style: dashed;
-    }
-    
-    .menu-btn-card::before {
-      content: ""; position: absolute; inset: 0;
-      background: radial-gradient(
-        800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
-        rgba(255, 255, 255, 0.06), transparent 40%
-      );
-      opacity: 0; transition: opacity 0.4s; pointer-events: none; z-index: 0; 
-    }
-    .menu-btn-card:hover::before { opacity: 1; }
-    
-    .menu-icon { font-size: 24px; margin-bottom: 12px; color: var(--gold-accent); }
-    .menu-label { 
-      font-family: var(--font-display); font-size: 20px; color: #fff; 
-      display: flex; justify-content: space-between; align-items: center; 
-      position: relative; z-index: 2;
-    }
-    .menu-sub { 
-      font-size: 12px; color: var(--text-muted); margin-top: 4px; 
-      text-transform: uppercase; letter-spacing: 0.1em; 
-      position: relative; z-index: 2; 
-    }
-    
-    /* Gallery Button */
-    .gallery-btn-card {
-      grid-column: span 2; 
-      min-height: 100px;
-      align-items: center; justify-content: center; text-align: center;
-      margin-bottom: 32px;
-    }
-    .gallery-btn-card .menu-label { justify-content: center; letter-spacing: 0.2em; font-weight: 600; }
-    
-    @media (max-width: 600px) {
-      .gallery-btn-card { grid-column: span 1; width: 100%; display: flex; margin-bottom: 24px; }
-    }
+        .gallery-btn-card { grid-column: span 2; min-height: 100px; align-items: center; justify-content: center; text-align: center; margin-bottom: 32px; }
+        .gallery-btn-card .menu-label { justify-content: center; letter-spacing: 0.2em; font-weight: 600; }
+        @media (max-width: 600px) { .gallery-btn-card { grid-column: span 1; width: 100%; display: flex; margin-bottom: 24px; } }
 
-    /* accordions (menus) */
-    .cocktail-category {
-      font-size: 11px; letter-spacing: 0.25em; color: var(--gold-accent);
-      text-transform: uppercase; margin-top: 24px; margin-bottom: 12px;
-      padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    .cocktail-item {
-      padding: 12px 0; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.03);
-    }
-    .cocktail-header {
-      display: flex; justify-content: space-between; align-items: center;
-      font-family: var(--font-display); font-size: 16px; color: #fff;
-    }
-    .cocktail-header span.toggle {
-      font-size: 18px; color: var(--gold-accent); transition: transform 0.3s ease;
-    }
-    .cocktail-item.active .toggle { transform: rotate(45deg); }
-    
-    .cocktail-ingredients {
-      max-height: 0; overflow: hidden; transition: max-height 0.3s ease, opacity 0.3s ease;
-      opacity: 0; font-size: 13px; color: var(--text-muted); line-height: 1.5;
-    }
-    .cocktail-item.active .cocktail-ingredients {
-      max-height: 100px; opacity: 1; margin-top: 8px;
-    }
+        /* accordions */
+        .cocktail-category { font-size: 11px; letter-spacing: 0.25em; color: var(--gold-accent); text-transform: uppercase; margin-top: 24px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .cocktail-item { padding: 12px 0; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .cocktail-header { display: flex; justify-content: space-between; align-items: center; font-family: var(--font-display); font-size: 16px; color: #fff; }
+        .cocktail-header span.toggle { font-size: 18px; color: var(--gold-accent); transition: transform 0.3s ease; }
+        .cocktail-item.active .toggle { transform: rotate(45deg); }
+        .cocktail-ingredients { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; opacity: 0; font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+        .cocktail-item.active .cocktail-ingredients { max-height: 100px; opacity: 1; margin-top: 8px; }
 
-    /* typography */
-    .eyebrow {
-      font-size: 12px; letter-spacing: 0.25em; text-transform: uppercase;
-      color: var(--text-muted); margin-bottom: 24px; font-weight: 500;
-    }
-    h1 {
-      font-family: var(--font-display); font-size: clamp(32px, 5vw, 64px); 
-      line-height: 1.1; white-space: nowrap; margin-bottom: 32px;
-      background: linear-gradient(135deg, #ffffff 40%, #888899 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      letter-spacing: -0.02em;
-    }
-    .hero-grid {
-      display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 60px; align-items: stretch; 
-    }
-    @media (max-width: 900px) { 
-      .hero-grid { grid-template-columns: 1fr; gap: 50px; } 
-      h1 { white-space: normal; } 
-    }
-    .tagline {
-      font-family: var(--font-body); font-size: 13px; font-weight: 500;
-      text-transform: uppercase; letter-spacing: 0.15em; color: var(--gold-accent);
-      margin-bottom: 20px;
-    }
-    .hero-text {
-      font-size: 17px; line-height: 1.7; color: var(--text-muted);
-      max-width: 480px; margin-bottom: 40px;
-    }
-    .chip-container { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
-    .chip {
-      padding: 8px 16px; border: 1px solid rgba(255,255,255,0.15); 
-      border-radius: 20px; font-size: 11px; letter-spacing: 0.1em; 
-      text-transform: uppercase; color: var(--text-muted); transition: all 0.3s ease;
-    }
-    .chip:hover { border-color: var(--gold-accent); color: #fff; }
+        /* typography */
+        .eyebrow { font-size: 12px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 24px; font-weight: 500; }
+        h1 { font-family: var(--font-display); font-size: clamp(32px, 5vw, 64px); line-height: 1.1; white-space: nowrap; margin-bottom: 32px; background: linear-gradient(135deg, #ffffff 40%, #888899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.02em; }
+        .hero-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 60px; align-items: stretch; }
+        @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; gap: 50px; h1 { white-space: normal; } } }
+        
+        .tagline { font-family: var(--font-body); font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.15em; color: var(--gold-accent); margin-bottom: 20px; }
+        .hero-text { font-size: 17px; line-height: 1.7; color: var(--text-muted); max-width: 480px; margin-bottom: 40px; }
+        
+        .chip-container { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+        .chip { padding: 8px 16px; border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); transition: all 0.3s ease; }
+        .chip:hover { border-color: var(--gold-accent); color: #fff; }
 
-    /* moon & weather */
-    .lunar-container {
-      display: flex; flex-direction: column; min-height: 350px; height: 100%; justify-content: space-between;
-    }
-    .lunar-graph {
-      position: relative; width: 100%; flex-grow: 1; 
-      display: flex; align-items: center; justify-content: center;
-    }
-    .lunar-graph svg { width: 100%; height: 100%; }
-    @media (max-width: 900px) {
-      .lunar-container { min-height: auto; height: auto; }
-      .lunar-graph { flex-grow: 0; height: 150px; margin-bottom: 24px; }
-    }
-    .graph-point {
-      width: 14px; height: 14px; background: #fff; border-radius: 50%;
-      position: absolute; top: 25%; left: 32%; 
-      box-shadow: 0 0 25px rgba(255,255,255,0.9); z-index: 2;
-    }
-    .graph-point::after {
-      content: "87%"; position: absolute; top: -24px; left: 50%;
-      transform: translateX(-50%); font-size: 10px; color: #fff; font-weight: 700; white-space: nowrap;
-    }
-    .phase-label {
-      position: absolute; top: 50%; left: 32%; transform: translateX(-50%);
-      font-size: 9px; color: var(--text-muted); letter-spacing: 0.15em; white-space: nowrap;
-    }
-    .weather-row {
-      display: grid; grid-template-columns: 1fr auto 1fr;
-      align-items: center; margin-top: auto; padding-top: 24px;
-      border-top: 1px solid rgba(255,255,255,0.06); width: 100%;
-    }
-    .weather-col.left { text-align: left; }
-    .weather-col.center { text-align: center; }
-    .weather-col.right { text-align: right; }
-    .w-temp { 
-      font-family: var(--font-display); font-size: 38px; color: var(--gold-accent); 
-      line-height: 1; margin: 0 32px; 
-    }
-    @media (max-width: 450px) {
-      .weather-row { grid-template-columns: 1fr; text-align: center; gap: 20px; }
-      .weather-col.left, .weather-col.right { text-align: center; }
-      .w-temp { margin: 10px 0; font-size: 48px; }
-    }
-    .w-label { font-size: 10px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.08em; margin-bottom: 4px; }
-    .w-sub { font-size: 13px; color: #fff; opacity: 0.8; }
-    .w-desc { font-size: 14px; color: #fff; font-weight: 500; margin-bottom: 4px;}
-    .w-note { font-size: 12px; color: var(--text-muted); opacity: 0.7;}
+        /* moon weather */
+        .lunar-container { display: flex; flex-direction: column; min-height: 350px; height: 100%; justify-content: space-between; }
+        .lunar-graph { position: relative; width: 100%; flex-grow: 1; display: flex; align-items: center; justify-content: center; }
+        .lunar-graph svg { width: 100%; height: 100%; }
+        @media (max-width: 900px) { .lunar-container { min-height: auto; height: auto; } .lunar-graph { flex-grow: 0; height: 150px; margin-bottom: 24px; } }
+        
+        .graph-point { width: 14px; height: 14px; background: #fff; border-radius: 50%; position: absolute; top: 25%; left: 32%; box-shadow: 0 0 25px rgba(255,255,255,0.9); z-index: 2; }
+        .graph-point::after { content: '87%'; position: absolute; top: -24px; left: 50%; transform: translateX(-50%); font-size: 10px; color: #fff; font-weight: 700; white-space: nowrap; }
+        .phase-label { position: absolute; top: 50%; left: 32%; transform: translateX(-50%); font-size: 9px; color: var(--text-muted); letter-spacing: 0.15em; white-space: nowrap; }
 
-    /* details grid */
-    .details-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 60px; margin-top: 40px;
-    }
-    @media (max-width: 768px) { .details-grid { grid-template-columns: 1fr; gap: 40px; } }
-    .detail-block h3 {
-      font-size: 11px; letter-spacing: 0.25em; color: var(--gold-accent);
-      text-transform: uppercase; margin-bottom: 16px;
-    }
-    .detail-block p.main {
-      font-size: 20px; color: #fff; font-weight: 500; margin-bottom: 10px; line-height: 1.3;
-    }
-    .detail-block p.sub { font-size: 16px; color: var(--text-muted); line-height: 1.6; }
+        .weather-row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; margin-top: auto; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.06); width: 100%; }
+        .weather-col.left { text-align: left; } .weather-col.center { text-align: center; } .weather-col.right { text-align: right; }
+        .w-temp { font-family: var(--font-display); font-size: 38px; color: var(--gold-accent); line-height: 1; margin: 0 32px; }
+        @media (max-width: 450px) { .weather-row { grid-template-columns: 1fr; text-align: center; gap: 20px; } .weather-col.left, .weather-col.right { text-align: center; } .w-temp { margin: 10px 0; font-size: 48px; } }
+        .w-label { font-size: 10px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.08em; margin-bottom: 4px; }
+        .w-sub { font-size: 13px; color: #fff; opacity: 0.8; }
+        .w-desc { font-size: 14px; color: #fff; font-weight: 500; margin-bottom: 4px; }
+        .w-note { font-size: 12px; color: var(--text-muted); opacity: 0.7; }
 
-    .map-container {
-      margin-top: 24px; width: 100%; height: 140px;
-      border-radius: 16px; overflow: hidden; position: relative;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    .map-frame {
-      width: 100%; height: 100%;
-      filter: invert(90%) hue-rotate(180deg) brightness(95%) contrast(85%);
-      mix-blend-mode: luminosity; opacity: 0.8; border: none;
-    }
-    .map-overlay {
-      position: absolute; inset: 0; pointer-events: none;
-      background: radial-gradient(circle, transparent 30%, rgba(0,0,0,0.6) 100%);
-    }
-    .map-caption {
-      text-align: left;
-      font-size: 18px;
-      color: var(--gold-accent);
-      font-style: normal;
-      font-weight: 700;
-      margin-top: 12px;
-      opacity: 1;
-      text-transform: uppercase;
-    }
+        /* details grid */
+        .details-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 60px; margin-top: 40px; }
+        @media (max-width: 768px) { .details-grid { grid-template-columns: 1fr; gap: 40px; } }
+        .detail-block h3 { font-size: 11px; letter-spacing: 0.25em; color: var(--gold-accent); text-transform: uppercase; margin-bottom: 16px; }
+        .detail-block p.main { font-size: 20px; color: #fff; font-weight: 500; margin-bottom: 10px; line-height: 1.3; }
+        .detail-block p.sub { font-size: 16px; color: var(--text-muted); line-height: 1.6; }
 
-    /* hospitality */
-    .hospitality-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-    @media (max-width: 700px) { .hospitality-grid { grid-template-columns: 1fr; } }
-    .role-block {
-      background: rgba(255,255,255,0.03); border-radius: 20px; padding: 24px;
-      border: 1px solid rgba(255,255,255,0.05);
-    }
-    .role-title {
-      font-size: 12px; text-transform: uppercase; letter-spacing: 0.15em; color: #fff; margin-bottom: 12px; opacity: 0.8;
-    }
+        .map-container { margin-top: 24px; width: 100%; height: 140px; border-radius: 16px; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.1); }
+        .map-frame { width: 100%; height: 100%; filter: invert(90%) hue-rotate(180deg) brightness(95%) contrast(85%); mix-blend-mode: luminosity; opacity: 0.8; border: none; }
+        .map-overlay { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle, transparent 30%, rgba(0,0,0,0.6) 100%); }
+        .map-caption { text-align: left; font-size: 18px; color: var(--gold-accent); font-style: normal; font-weight: 700; margin-top: 12px; opacity: 1; text-transform: uppercase; }
 
-    /* liquid clock */
-    .countdown-card {
-      display: flex; 
-      flex-direction: column;
-      justify-content: flex-end; 
-      height: 400px; 
-      position: relative;
-      padding-bottom: 0 !important;
-      overflow: hidden; 
-    }
+        /* hospitality */
+        .hospitality-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        @media (max-width: 700px) { .hospitality-grid { grid-template-columns: 1fr; } }
+        .role-block { background: rgba(255,255,255,0.03); border-radius: 20px; padding: 24px; border: 1px solid rgba(255,255,255,0.05); }
+        .role-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.15em; color: #fff; margin-bottom: 12px; opacity: 0.8; }
 
-    .countdown-label {
-      position: absolute;
-      top: 32px; 
-      left: 0; right: 0;
-      text-align: center;
-      font-size: 12px; color: var(--text-muted);
-      letter-spacing: 0.4em; text-transform: uppercase; opacity: 0.7;
-      z-index: 5;
-    }
+        /* liquid clock */
+        .countdown-card { display: flex; flex-direction: column; justify-content: flex-end; height: 400px; position: relative; padding-bottom: 0 !important; overflow: hidden; }
+        .countdown-label { position: absolute; top: 32px; left: 0; right: 0; text-align: center; font-size: 12px; color: var(--text-muted); letter-spacing: 0.4em; text-transform: uppercase; opacity: 0.7; z-index: 5; }
+        .liquid-clock { display: flex; justify-content: center; align-items: flex-end; width: 100%; height: 100%; font-family: var(--font-clock); font-weight: 800; padding-top: 140px; margin-bottom: -5px; gap: 1vw; }
+        
+        .expired-message { display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; width: 100%; height: 100%; position: absolute; top: 0; left: 0; padding: 32px; z-index: 10; background: rgba(0,0,0,0.4); }
+        .expired-text { font-family: var(--font-display); font-size: clamp(24px, 4vw, 40px); color: var(--gold-accent); text-transform: uppercase; letter-spacing: 0.1em; line-height: 1.4; margin-bottom: 12px; }
+        .expired-sub { font-family: var(--font-body); font-size: 14px; color: var(--text-muted); letter-spacing: 0.2em; text-transform: uppercase; }
 
-    .liquid-clock {
-      display: flex; 
-      justify-content: center; 
-      align-items: flex-end;
-      width: 100%; 
-      height: 100%;
-      font-family: var(--font-clock); 
-      font-weight: 800;
-      padding-top: 140px; 
-      margin-bottom: -5px;
-      gap: 1vw; 
-    }
+        @media (max-width: 600px) {
+            .countdown-card { height: 220px; display: flex; flex-direction: column; justify-content: flex-start; padding-top: 0; }
+            .countdown-label { position: relative; top: auto; left: auto; right: auto; margin-top: 12px; margin-bottom: 0; flex-shrink: 0; z-index: 10; font-size: 12px; }
+            .liquid-clock { flex-grow: 1; overflow: hidden; align-items: flex-start; padding-top: 12px; padding-left: 8px; padding-right: 8px; justify-content: space-between; gap: 0; }
+        }
 
-    .expired-message {
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0; left: 0;
-      padding: 32px;
-      z-index: 10;
-      background: rgba(0,0,0,0.4);
-    }
-    .expired-text {
-      font-family: var(--font-display);
-      font-size: clamp(24px, 4vw, 40px);
-      color: var(--gold-accent);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      line-height: 1.4;
-      margin-bottom: 12px;
-    }
-    .expired-sub {
-      font-family: var(--font-body);
-      font-size: 14px;
-      color: var(--text-muted);
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-    }
+        .liquid-digit { font-size: clamp(40px, 18vw, 220px); line-height: 0.75; color: transparent; background: none; -webkit-text-stroke: 0.8px rgba(255, 255, 255, 0.5); filter: drop-shadow(0 0 1px rgba(255,255,255,0.3)); -webkit-mask-image: linear-gradient(to bottom, black 50%, black 75%, transparent 100%); mask-image: linear-gradient(to bottom, black 50%, black 75%, transparent 100%); transform: scaleY(2.0); transform-origin: bottom; }
+        .liquid-digit:nth-child(even) { font-size: clamp(30px, 15vw, 150px); margin-bottom: 2vw; opacity: 0.5; -webkit-text-stroke: 0; color: rgba(255,255,255,0.4); filter: none; }
+        @media (max-width: 600px) {
+            .liquid-digit { font-size: 19vw; -webkit-text-stroke: 1.0px rgba(255, 255, 255, 0.95); transform-origin: top center; transform: scaleY(3.2); -webkit-mask-image: linear-gradient(to bottom, black 40%, black 85%, transparent 100%); mask-image: linear-gradient(to bottom, black 40%, black 85%, transparent 100%); }
+            .liquid-digit:nth-child(even) { display: none; }
+        }
 
-    @media (max-width: 600px) { 
-      .countdown-card { 
-        height: 220px;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        padding-top: 0;
-      } 
+        /* easter egg */
+        .cat-eyes { display: inline-block; position: relative; width: 24px; height: 8px; margin-left: 8px; vertical-align: middle; opacity: 0.8; cursor: help; }
+        .cat-eye { position: absolute; width: 8px; height: 8px; background: radial-gradient(circle, #aaddff 20%, #4466aa 100%); border-radius: 50%; box-shadow: 0 0 10px rgba(100, 200, 255, 0.6); animation: blink 4s infinite; }
+        .eye-l { left: 0; } .eye-r { right: 0; }
+        @keyframes blink { 0%, 96%, 100% { transform: scaleY(1); } 98% { transform: scaleY(0.1); } }
 
-      .countdown-label {
-        position: relative; 
-        top: auto; left: auto; right: auto;
-        margin-top: 12px; margin-bottom: 0;
-        flex-shrink: 0; z-index: 10;
-        font-size: 12px;
-      }
+        /* rsvp modals */
+        .rsvp-fixed { position: fixed; top: 32px; right: 32px; z-index: 100; }
+        @media (max-width: 600px) { .rsvp-fixed { top: 20px; right: 20px; } }
+        .btn-glass { display: inline-flex; align-items: center; padding: 12px 24px; background: rgba(200, 200, 200, 0.1); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 100px; color: #fff; cursor: pointer; text-decoration: none; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: all 0.3s ease; }
+        .btn-glass:hover { background: rgba(255, 255, 255, 0.18); transform: scale(1.02); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
 
-      .liquid-clock {
-        flex-grow: 1; overflow: hidden; 
-        align-items: flex-start;
-        padding-top: 12px; 
-        padding-left: 8px; padding-right: 8px;
-        justify-content: space-between; gap: 0;
-      }
-    }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; backdrop-filter: blur(8px); }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .glass-popup { width: 90%; max-width: 500px; max-height: 85vh; background: rgba(30, 30, 35, 0.85); backdrop-filter: blur(40px) saturate(200%); -webkit-backdrop-filter: blur(40px) saturate(200%); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 24px; padding: 32px; box-shadow: 0 40px 80px rgba(0,0,0,0.5); transform: scale(0.9); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; overflow-y: auto; }
+        .modal-overlay.active .glass-popup { transform: scale(1); }
 
-    .liquid-digit {
-      font-size: clamp(40px, 18vw, 220px);
-      line-height: 0.75;
-      color: transparent; 
-      background: none;
-      -webkit-text-stroke: 0.8px rgba(255, 255, 255, 0.5); 
-      filter: drop-shadow(0 0 1px rgba(255,255,255,0.3));
-      -webkit-mask-image: linear-gradient(to bottom, black 50%, black 75%, transparent 100%);
-      mask-image: linear-gradient(to bottom, black 50%, black 75%, transparent 100%);
-      transform: scaleY(2.0);
-      transform-origin: bottom; 
-    }
-    
-    .liquid-digit:nth-child(even) {
-      font-size: clamp(30px, 15vw, 150px);
-      margin-bottom: 2vw; 
-      opacity: 0.5;
-      -webkit-text-stroke: 0;
-      color: rgba(255,255,255,0.4);
-      filter: none;
-    }
+        /* GALLERY MODAL (Optimized) */
+        .gallery-popup { max-width: 100vw; width: 100vw; height: 100vh; padding: 0; background: #000000; border: none; border-radius: 0; }
+        .gallery-header { padding: 24px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.9); }
+        .gallery-scroll { height: calc(100vh - 80px); overflow-y: auto; padding: 24px 32px 32px; -ms-overflow-style: none; scrollbar-width: none; }
+        .gallery-scroll::-webkit-scrollbar { display: none; }
+        
+        .gallery-section-title { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-muted); margin: 16px 0 12px; }
+        
+        .video-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin-bottom: 32px; }
+        .photo-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+        @media (max-width: 900px) { .photo-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+        @media (max-width: 600px) { .video-grid, .photo-grid { grid-template-columns: 1fr; gap: 14px; } .gallery-scroll { padding: 16px; } }
 
-    @media (max-width: 600px) {
-      .liquid-digit {
-        font-size: 19vw; 
-        -webkit-text-stroke: 1.0px rgba(255, 255, 255, 0.95);
-        transform-origin: top center;
-        transform: scaleY(3.2);
-        -webkit-mask-image: linear-gradient(to bottom, black 40%, black 85%, transparent 100%);
-        mask-image: linear-gradient(to bottom, black 40%, black 85%, transparent 100%);
-      }
-      .liquid-digit:nth-child(even) { display: none; }
-    }
+        /* photo tiles */
+        .gallery-img-container { position: relative; padding-top: 100%; border-radius: 12px; overflow: hidden; background: #111; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .gallery-img-container:hover { transform: translateY(-2px); box-shadow: 0 18px 40px rgba(0,0,0,0.6); }
+        .gallery-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+        .gallery-img-container:hover .gallery-img { transform: scale(1.05); }
 
-    /* easter egg */
-    .cat-eyes {
-      display: inline-block; position: relative; width: 24px; height: 8px;
-      margin-left: 8px; vertical-align: middle; opacity: 0.8; cursor: help;
-    }
-    .cat-eye {
-      position: absolute; width: 8px; height: 8px;
-      background: radial-gradient(circle, #aaddff 20%, #4466aa 100%);
-      border-radius: 50%; box-shadow: 0 0 10px rgba(100, 200, 255, 0.6);
-      animation: blink 4s infinite;
-    }
-    .eye-l { left: 0; } .eye-r { right: 0; }
-    @keyframes blink {
-      0%, 96%, 100% { transform: scaleY(1); } 98% { transform: scaleY(0.1); }
-    }
+        /* video tiles */
+        .gallery-video-tile { position: relative; border-radius: 14px; overflow: hidden; background: radial-gradient(circle at top left, #222 0%, #050505 60%); cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; border: 1px solid rgba(255,255,255,0.12); aspect-ratio: 16 / 9; }
+        .gallery-video-tile:hover { transform: translateY(-3px); box-shadow: 0 24px 55px rgba(0,0,0,0.8); border-color: rgba(255,255,255,0.3); }
+        .gallery-video-preview { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+        
+        .video-overlay-gradient { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0.0)); opacity: 0.6; transition: opacity 0.3s ease; pointer-events: none; }
+        .gallery-video-tile:hover .video-overlay-gradient { opacity: 0.2; }
+        
+        .video-play-icon { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 58px; height: 58px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.7); display: flex; align-items: center; justify-content: center; background: radial-gradient(circle, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.0) 65%); color: #fff; font-size: 26px; box-shadow: 0 12px 30px rgba(0,0,0,0.8); pointer-events: none; transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease; }
+        .gallery-video-tile:hover .video-play-icon { transform: translate(-50%, -50%) scale(1.06); box-shadow: 0 18px 48px rgba(0,0,0,0.95); border-color: var(--gold-accent); }
+        
+        /* LIGHTBOX ENHANCEMENTS */
+        .lightbox { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.96); z-index: 2000; display: none; justify-content: center; align-items: center; touch-action: none; }
+        .lightbox.active { display: flex; }
+        .lightbox-content { position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        .lightbox-img, .lightbox-video { max-width: 100%; max-height: 100vh; object-fit: contain; display: none; user-select: none; will-change: transform; transition: transform 0.1s linear; }
+        .lightbox-img.active, .lightbox-video.active { display: block; }
+        .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); color: white; font-size: 40px; padding: 20px; cursor: pointer; z-index: 2002; background: rgba(0,0,0,0.2); border-radius: 50%; user-select: none; }
+        .nav-prev { left: 10px; } .nav-next { right: 10px; }
+        @media (max-width: 768px) { .lightbox-nav { display: none; } }
+        .lightbox-close { position: absolute; top: 20px; right: 20px; color: #fff; font-size: 30px; cursor: pointer; background: rgba(0,0,0,0.3); border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; z-index: 2003; backdrop-filter: blur(10px); }
 
-    /* rsvp & modals */
-    .rsvp-fixed {
-      position: fixed; top: 32px; right: 32px; z-index: 100;
-    }
-    @media (max-width: 600px) { .rsvp-fixed { top: 20px; right: 20px; } }
-    .btn-glass {
-      display: inline-flex; align-items: center; padding: 12px 24px;
-      background: rgba(200, 200, 200, 0.1); 
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 100px;
-      color: #fff; cursor: pointer; text-decoration: none;
-      font-size: 12px; font-weight: 600; letter-spacing: 0.05em;
-      text-transform: uppercase; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      transition: all 0.3s ease;
-    }
-    .btn-glass:hover {
-      background: rgba(255, 255, 255, 0.18); transform: scale(1.02);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    }
-    .modal-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.4); 
-      display: flex; justify-content: center; align-items: center;
-      z-index: 1000; opacity: 0; pointer-events: none;
-      transition: opacity 0.4s ease; backdrop-filter: blur(8px);
-    }
-    .modal-overlay.active { opacity: 1; pointer-events: auto; }
-    .glass-popup {
-      width: 90%; max-width: 500px; max-height: 85vh;
-      background: rgba(30, 30, 35, 0.85); 
-      backdrop-filter: blur(40px) saturate(200%);
-      -webkit-backdrop-filter: blur(40px) saturate(200%);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 24px; padding: 32px;
-      box-shadow: 0 40px 80px rgba(0,0,0,0.5);
-      transform: scale(0.9); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      position: relative; overflow-y: auto;
-    }
-    .modal-overlay.active .glass-popup { transform: scale(1); }
-    
-    /* GALLERY MODAL (full screen) */
-    .gallery-popup {
-      max-width: 100vw; width: 100vw; height: 100vh;
-      padding: 0; background: #000000; border: none; border-radius: 0;
-    }
-    .gallery-header {
-      padding: 24px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05);
-      background: rgba(0,0,0,0.9);
-    }
-    .gallery-scroll {
-      height: calc(100vh - 80px);
-      overflow-y: auto;
-      padding: 24px 32px 32px;
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    .gallery-scroll::-webkit-scrollbar { display: none; }
-
-    .gallery-section-title {
-      font-size: 11px;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin: 16px 0 12px;
-    }
-
-    .video-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 20px;
-      margin-bottom: 32px;
-    }
-
-    .photo-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 20px;
-    }
-
-    @media (max-width: 900px) {
-      .photo-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
-    }
-    @media (max-width: 600px) {
-      .video-grid, .photo-grid { grid-template-columns: 1fr; gap: 14px; }
-      .gallery-scroll { padding: 16px; }
-    }
-
-    /* photo tiles */
-    .gallery-img-container {
-      position: relative;
-      padding-top: 100%;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #111;
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .gallery-img-container:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 18px 40px rgba(0,0,0,0.6);
-    }
-    .gallery-img {
-      position: absolute; top: 0; left: 0;
-      width: 100%; height: 100%; object-fit: cover;
-      transition: transform 0.4s ease;
-    }
-    .gallery-img-container:hover .gallery-img { transform: scale(1.05); }
-
-    /* video tiles */
-    .gallery-video-tile {
-      position: relative;
-      border-radius: 14px;
-      overflow: hidden;
-      background: radial-gradient(circle at top left, #222 0%, #050505 60%);
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-      border: 1px solid rgba(255,255,255,0.12);
-      aspect-ratio: 16 / 9;
-    }
-    .gallery-video-tile:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 24px 55px rgba(0,0,0,0.8);
-      border-color: rgba(255,255,255,0.3);
-    }
-
-    .gallery-video-preview {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      pointer-events: none;
-    }
-
-    .video-overlay-gradient {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0.0));
-      opacity: 0.6;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
-    }
-    .gallery-video-tile:hover .video-overlay-gradient { opacity: 0.2; }
-
-    .video-play-icon {
-      position: absolute;
-      left: 50%; top: 50%;
-      transform: translate(-50%, -50%);
-      width: 58px; height: 58px;
-      border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.7);
-      display: flex; align-items: center; justify-content: center;
-      background: radial-gradient(circle, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.0) 65%);
-      color: #fff;
-      font-size: 26px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.8);
-      pointer-events: none;
-      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-    }
-    .gallery-video-tile:hover .video-play-icon {
-      transform: translate(-50%, -50%) scale(1.06);
-      box-shadow: 0 18px 48px rgba(0,0,0,0.95);
-      border-color: var(--gold-accent);
-    }
-
-    .video-badge {
-      position: absolute;
-      left: 12px;
-      bottom: 10px;
-      padding: 4px 9px;
-      border-radius: 999px;
-      background: rgba(0,0,0,0.7);
-      border: 1px solid rgba(255,255,255,0.3);
-      font-size: 10px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: #f5f5f5;
-      pointer-events: none;
-    }
-
-    /* LIGHTBOX */
-    .lightbox {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.96); z-index: 2000;
-      display: none; justify-content: center; align-items: center;
-    }
-    .lightbox.active { display: flex; }
-
-    .lightbox-content {
-      width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;
-      pointer-events: none;
-      position: relative; z-index: 2002;
-    }
-    .lightbox-img,
-    .lightbox-video {
-      max-width: 95%; max-height: 95vh;
-      box-shadow: 0 0 50px rgba(0,0,0,0.8);
-      pointer-events: auto;
-      object-fit: contain;
-      display: none;
-      background: #000;
-    }
-    .lightbox-img.active,
-    .lightbox-video.active { display: block; }
-
-    .lightbox-close { 
-      position: absolute; top: 20px; right: 20px; color: #fff; font-size: 40px; cursor: pointer;
-      background: none; border: none; padding: 10px; z-index: 2005;
-    }
-
-    /* Lightbox Navigation Zones */
-    .lb-nav-zone {
-      position: absolute; top: 0; bottom: 0; width: 15%; z-index: 2004; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: background 0.2s;
-    }
-    .lb-nav-zone:hover { background: rgba(255,255,255,0.05); }
-    .lb-prev { left: 0; }
-    .lb-next { right: 0; }
-    .lb-arrow {
-      width: 24px; height: 24px; border-top: 3px solid #fff; border-right: 3px solid #fff; opacity: 0.5;
-    }
-    .lb-prev .lb-arrow { transform: rotate(-135deg); }
-    .lb-next .lb-arrow { transform: rotate(45deg); }
-    .lb-nav-zone:hover .lb-arrow { opacity: 1; }
-
-
-    .popup-title {
-      font-family: var(--font-display); font-size: 24px; color: #fff;
-      margin-bottom: 24px; text-align: center;
-    }
-    .form-group { margin-bottom: 20px; }
-    .form-label {
-      display: block; font-size: 11px; text-transform: uppercase;
-      letter-spacing: 0.1em; color: var(--gold-accent); margin-bottom: 8px;
-    }
-    .form-input, .form-textarea {
-      width: 100%; background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px;
-      padding: 12px; color: #fff; font-family: var(--font-body);
-      font-size: 14px; outline: none; transition: border-color 0.3s;
-    }
-    .form-input:focus, .form-textarea:focus {
-      border-color: var(--gold-accent); background: rgba(0,0,0,0.4);
-    }
-    .form-textarea { resize: vertical; min-height: 80px; }
-    .submit-btn {
-      width: 100%; padding: 14px; background: #fff; color: #000;
-      border: none; border-radius: 12px; font-weight: 600; cursor: pointer;
-      font-size: 14px; transition: all 0.3s;
-    }
-    .submit-btn:hover { opacity: 0.9; }
-    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .close-modal {
-      position: absolute; top: 16px; right: 16px; background: none; border: none;
-      color: rgba(255,255,255,0.5); cursor: pointer; font-size: 24px; padding: 5px; z-index: 10;
-    }
-    .close-modal:hover { color: #fff; }
-    
-    .password-error {
-      color: #ff6b6b; font-size: 12px; margin-top: 8px; text-align: center; opacity: 0; transition: opacity 0.3s;
-    }
-  </style>
+        .popup-title { font-family: var(--font-display); font-size: 24px; color: #fff; margin-bottom: 24px; text-align: center; }
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold-accent); margin-bottom: 8px; }
+        .form-input, .form-textarea { width: 100%; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 12px; color: #fff; font-family: var(--font-body); font-size: 14px; outline: none; transition: border-color 0.3s; }
+        .form-input:focus, .form-textarea:focus { border-color: var(--gold-accent); background: rgba(0,0,0,0.4); }
+        .form-textarea { resize: vertical; min-height: 80px; }
+        .submit-btn { width: 100%; padding: 14px; background: #fff; color: #000; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; font-size: 14px; transition: all 0.3s; }
+        .submit-btn:hover { opacity: 0.9; }
+        .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        .close-modal { position: absolute; top: 16px; right: 16px; background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; font-size: 24px; padding: 5px; z-index: 10; }
+        .close-modal:hover { color: #fff; }
+        .password-error { color: #ff6b6b; font-size: 12px; margin-top: 8px; text-align: center; opacity: 0; transition: opacity 0.3s; }
+    </style>
 </head>
 <body>
 
-  <div class="ambient-canvas">
-    <div class="light-orb orb-1"></div>
-    <div class="light-orb orb-2"></div>
-  </div>
-  <div class="noise"></div>
-
-  <div class="rsvp-fixed">
-    <button id="openRsvp" class="btn-glass">
-      Confirm Attendance
-    </button>
-  </div>
-
-  <!-- RSVP MODAL -->
-  <div class="modal-overlay" id="rsvpModal">
-    <div class="glass-popup">
-      <button class="close-modal" id="closeRsvp">&times;</button>
-      <div class="popup-title">Join the Night</div>
-      
-      <div class="form-group">
-        <label class="form-label">Name</label>
-        <input type="text" id="guestName" class="form-input" placeholder="Your full name" required>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">E-mail</label>
-        <input type="email" id="guestEmail" class="form-input" placeholder="For location details" required>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Notes</label>
-        <textarea id="guestNotes" class="form-textarea" placeholder="Vegan? Gluten free? Alcohol free?"></textarea>
-      </div>
-
-      <button class="submit-btn" id="sendRsvp">See you</button>
+    <div class="ambient-canvas">
+        <div class="light-orb orb-1"></div>
+        <div class="light-orb orb-2"></div>
     </div>
-  </div>
+    <div class="noise"></div>
 
-  <!-- GALLERY AUTH MODAL -->
-  <div class="modal-overlay" id="galleryAuthModal">
-    <div class="glass-popup" style="max-width: 400px;">
-      <button class="close-modal" id="closeGalleryAuth">&times;</button>
-      <div class="popup-title">Gallery Access</div>
-      
-      <div class="form-group">
-        <label class="form-label">Password</label>
-        <input type="password" id="galleryPass" class="form-input" placeholder="Enter event password" required>
-        <div class="password-error" id="passError">Incorrect password. Try again.</div>
-      </div>
-
-      <button class="submit-btn" id="submitGallery">Unlock Photos</button>
+    <div class="rsvp-fixed">
+        <button id="openRsvp" class="btn-glass">✓ Confirm Attendance</button>
     </div>
-  </div>
 
-  <!-- GALLERY MODAL (FULL SCREEN) -->
-  <div class="modal-overlay" id="galleryViewModal" style="z-index: 1100;">
-    <div class="glass-popup gallery-popup">
-      <button class="close-modal" id="closeGalleryView">&times;</button>
-      <div class="gallery-header">
-        <div class="popup-title" style="margin-bottom:0; font-size: 20px;">Memories</div>
-      </div>
-      <div class="gallery-scroll" id="galleryGrid">
-        <!-- content injected by JS -->
-      </div>
-    </div>
-  </div>
-
-  <!-- LIGHTBOX (Updated with Nav) -->
-  <div class="lightbox" id="lightbox">
-    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
-    <div class="lb-nav-zone lb-prev" onclick="navigateLightbox(-1)"><div class="lb-arrow"></div></div>
-    <div class="lb-nav-zone lb-next" onclick="navigateLightbox(1)"><div class="lb-arrow"></div></div>
-
-    <div class="lightbox-content">
-      <img src="" class="lightbox-img" id="lightboxImg">
-      <video class="lightbox-video" id="lightboxVideo" controls></video>
-    </div>
-  </div>
-
-  <!-- COCKTAIL MODAL -->
-  <div class="modal-overlay" id="cocktailModal">
-    <div class="glass-popup">
-      <button class="close-modal" id="closeCocktail">&times;</button>
-      <div class="popup-title">The Spirits</div>
-
-      <!-- SIGNATURES -->
-      <div class="cocktail-category">Signature Serves</div>
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">The Nutcracker <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">
-          Raspberry Puree, Baileys, Hazelnut Syrup, Cannella.
-          <br>
-          <span style="font-size:11px; opacity:0.8; font-style:italic;">
-            Christmas creamy raspberry cake in liquid form.
-          </span>
-        </div>
-      </div>
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Snow White Mojito <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Coconut Puree, Infused Mint Tea, Rum, Dash of Lime.</div>
-      </div>
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Štef Libre <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">
-          Rum, Apple Juice, Vanilla Syrup, Lime, Ginger Ale.
-          <br>
-          <span style="font-size:11px; opacity:0.8; font-style:italic;">Freedom for Štef!</span>
-        </div>
-      </div>
-      
-      <!-- VODKA -->
-      <div class="cocktail-category">Vodka Based</div>
-      
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Skinny Bitch <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Vodka, Fresh Lime Juice, Soda Water</div>
-      </div>
-      
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Moscow Mule <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Vodka, Spicy Ginger Beer, Lime Juice</div>
-      </div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Vodka Collins <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Vodka, Lemon Juice, Simple Syrup, Soda</div>
-      </div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Sex on the Beach <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Vodka, Peach Schnapps, Orange Juice, Cranberry Juice</div>
-      </div>
-
-      <!-- WHISKEY -->
-      <div class="cocktail-category">Whiskey</div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Whiskey Sour <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Bourbon, Lemon Juice, Sugar Syrup, Egg White (optional)</div>
-      </div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Old Fashioned <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Bourbon or Rye, Bitters, Sugar Cube, Splash of Water</div>
-      </div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Boulevardier <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Whiskey, Campari, Sweet Vermouth</div>
-      </div>
-      
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Spiced Pear Bourbon <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Bourbon, Spiced Pear Liqueur, Lemon Juice, Syrup</div>
-      </div>
-
-      <!-- GIN -->
-      <div class="cocktail-category">Gin</div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Gin Tonic <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Gin, Premium Tonic Water, Botanicals</div>
-      </div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Tom Collins OG <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Old Tom Gin, Lemon Juice, Sugar, Soda</div>
-      </div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Gimlet <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Gin, Lime Cordial (or fresh Lime & Sugar)</div>
-      </div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Angel Face <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Gin, Peach Brandy, Cannella Cinnamon Spirit</div>
-      </div>
-      
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Strawberry Bramble <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Gin, Lemon Juice, Sugar Syrup, Strawberry Liqueur</div>
-      </div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Lavender Mist <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Gin, Maraska Cherry, Liqueur de Violette, Lemon</div>
-      </div>
-
-      <!-- TEQUILA -->
-      <div class="cocktail-category">Tequila</div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Tequila Old Fashioned <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Reposado Tequila, Honey, Orange Bitters</div>
-      </div>
-      
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Tequila Sunrise <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Tequila, Orange Juice, Grenadine</div>
-      </div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">La Batanga <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Tequila, Lime Juice, Cola, Salted Rim</div>
-      </div>
-
-      <!-- RUM -->
-      <div class="cocktail-category">Rum</div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Kingston <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Rum, Lime, Grenadine</div>
-      </div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Daiquiri <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Rum, Lime, Sugar</div>
-      </div>
-
-      <!-- SPRITZES -->
-      <div class="cocktail-category">Spritzes</div>
-      <div style="font-size:11px; color:#98989d; margin-bottom:12px; font-style:italic;">
-        Served all nite, but these are the official Midnight Toast (champagne is boring).
-      </div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Teranino Spritz <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Aura Teranino, Prosecco, Soda Water</div>
-      </div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Pelin Spritz <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Antique Pelinkovac, Tonic Water/Soda, Orange</div>
-      </div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Lavanda Spritz <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Lavender Syrup, Prosecco, Soda, Lemon</div>
-      </div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Limoncello Spritz <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Limoncello, Prosecco, Soda</div>
-      </div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Tea Spritzes <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Infused Black/Green/Jasmine Tea, Prosecco</div>
-      </div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">French 75 <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Gin, Champagne, Lemon Juice, Sugar</div>
-      </div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Campari Spritz <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Campari, Prosecco, Soda Water</div>
-      </div>
-      
-      <div style="margin-top:40px; text-align:center; font-size:12px; color:#666;">
-        Drinks are strong. Please pace yourself.
-      </div>
-
-    </div>
-  </div>
-
-  <!-- FOOD MODAL -->
-  <div class="modal-overlay" id="foodModal">
-    <div class="glass-popup">
-      <button class="close-modal" id="closeFood">&times;</button>
-      <div class="popup-title">The Bites</div>
-      
-      <div class="cocktail-category">Savory Boards</div>
-      
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">The Cured & Spicy <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Coppa Spianata, Smoked Ham, Spicy Sausage, Gouda, Trapist Cheese, Walnuts</div>
-      </div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Italian Selection <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Mortadella, Prosciutto, Burrata, Mozzarella, Nuts</div>
-      </div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Fresh & Crisp <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">French Olivier Salad, Shopska Salad, Carrot Sticks, Cucumber, Paprika, Cherry Tomatoes</div>
-      </div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">The Cheese Board <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Livanjski, Gouda, Trapist, Olives, Crackers, Dried Fruit, Fig Chutney, Whipped Butter</div>
-      </div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Warm Bites <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Salmon Canapés (Philadelphia, Cucumber, Salmon), Mini Pizzas</div>
-      </div>
-
-      <div class="cocktail-category">Sweets</div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Tiramisu <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Classic Coffee-Soaked Ladyfingers, Mascarpone Cream, Cocoa</div>
-      </div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Fruit Tarts <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Crisp Pastry, Pastry Cream, Fresh Seasonal Fruit</div>
-      </div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Pavlova Cake <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Meringue, Whipped Cream, Strawberries</div>
-      </div>
-
-      <div class="cocktail-item" onclick="toggleRecipe(this)">
-        <div class="cocktail-header">Cookie Selection <span class="toggle">+</span></div>
-        <div class="cocktail-ingredients">Assorted Dry Tea Cookies and Biscuits</div>
-      </div>
-    </div>
-  </div>
-
-  <main>
-    <!-- HERO -->
-    <section class="glass-card">
-      <div class="eyebrow">Dec 31 · 2025 → 2026</div>
-      <div class="hero-grid">
-        <div>
-          <div class="tagline">Zagreb · Private Flat with City View</div>
-          <h1>Cocktail Night NYE</h1>
-          <p class="hero-text">
-            Elegant evening, cocktail dresses & sharp suits. Curated setlists, strong drinks, 
-            and quite spectacular fireworks views when the city resets.
-          </p>
-          <div class="chip-container">
-            <span class="chip">Cocktail Dress</span>
-            <span class="chip">Suit & Tie</span>
-            <span class="chip">Invite Only</span>
-            <span class="chip">Curated Setlist</span>
-            <span class="chip">Eat & Drink</span>
-          </div>
-        </div>
-
-        <div class="lunar-container">
-          <div class="eyebrow" style="margin-bottom:0; text-align:right;">Lunar Forecast</div>
-          <div class="lunar-graph">
-            <svg viewBox="0 0 300 120" preserveAspectRatio="none" style="width:100%; height:100%; overflow:visible;">
-              <defs>
-                <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" style="stop-color:rgba(255,255,255,0.0)" />
-                  <stop offset="50%" style="stop-color:rgba(255,255,255,0.6)" />
-                  <stop offset="100%" style="stop-color:rgba(255,255,255,0.0)" />
-                </linearGradient>
-              </defs>
-              <path d="M0,90 C75,90 75,20 150,20 C225,20 225,90 300,90" fill="none" stroke="url(#lineGrad)" stroke-width="1.5"></path>
-              <line x1="0" y1="55" x2="300" y2="55" stroke="rgba(255,255,255,0.08)" stroke-dasharray="4" />
-            </svg>
-            <div class="graph-point"></div>
-            <div class="phase-label">WAXING GIBBOUS</div>
-          </div>
-
-          <div class="weather-row">
-            <div class="weather-col left">
-              <div class="w-label">Predicted Weather</div>
-              <div class="w-sub">December 31st, night</div>
+    <!-- RSVP MODAL -->
+    <div class="modal-overlay" id="rsvpModal">
+        <div class="glass-popup">
+            <button class="close-modal" id="closeRsvp">&times;</button>
+            <div class="popup-title">Join the Night</div>
+            <div class="form-group">
+                <label class="form-label">Name</label>
+                <input type="text" id="guestName" class="form-input" placeholder="Your full name" required>
             </div>
-            <div class="weather-col center">
-              <div class="w-temp">-2°C</div>
+            <div class="form-group">
+                <label class="form-label">E-mail</label>
+                <input type="email" id="guestEmail" class="form-input" placeholder="For location details" required>
             </div>
-            <div class="weather-col right">
-              <div class="w-desc">Crisp and cloudy</div>
-              <div class="w-note">Dry cold. Chance of frost.</div>
+            <div class="form-group">
+                <label class="form-label">Notes</label>
+                <textarea id="guestNotes" class="form-textarea" placeholder="Vegan? Gluten free? Alcohol free?"></textarea>
             </div>
-          </div>
+            <button class="submit-btn" id="sendRsvp">See you</button>
         </div>
-      </div>
-    </section>
+    </div>
 
-    <!-- DETAILS -->
-    <section class="glass-card">
-      <div class="eyebrow">The Details</div>
-      <div class="details-grid">
-        <div class="detail-block">
-          <h3>Arrival</h3>
-          <p class="main">19:30 — 20:30</p>
-          <p class="sub">Graceful entry. Evening continues until the legs give up.</p>
+    <!-- GALLERY AUTH MODAL -->
+    <div class="modal-overlay" id="galleryAuthModal">
+        <div class="glass-popup" style="max-width: 400px;">
+            <button class="close-modal" id="closeGalleryAuth">&times;</button>
+            <div class="popup-title">Gallery Access</div>
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" id="galleryPass" class="form-input" placeholder="Enter event password" required>
+                <div class="password-error" id="passError">Incorrect password. Try again.</div>
+            </div>
+            <button class="submit-btn" id="submitGallery">Unlock Photos</button>
         </div>
-        <div class="detail-block">
-          <h3>Dress Code</h3>
-          <p class="main">Cocktail Attire</p>
-          <p class="sub">
-            Cocktail dresses, sharp suits, statement heels. Think black-tie terrace, December luxury.
-          </p>
-        </div>
-        <div class="detail-block">
-          <h3>Location</h3>
-          <p class="main">Trešnjevka</p>
-          <div class="map-container">
-            <iframe
-              class="map-frame"
-              src="https://www.google.com/maps?q=45.798154,15.945532&z=16&output=embed"
-              allowfullscreen=""
-              loading="lazy">
-            </iframe>
-            <div class="map-overlay"></div>
-          </div>
-          <div class="map-caption">EVENT ENDED. HOPE ALL WAS WELL.</div>
-        </div>
-        <div class="detail-block">
-          <h3>Vibe</h3>
-          <p class="main">Small · Intentional</p>
-          <p class="sub">
-            Tight guestlist. Curated playlists. Strong drinks. <br>
-            <span style="color:#fff; border-bottom:1px solid var(--gold-accent);">ONE SPECIAL GUEST.</span>
-            <span class="cat-eyes" title="Meow">
-              <span class="cat-eye eye-l"></span>
-              <span class="cat-eye eye-r"></span>
-            </span>
-            <br>
-            <span style="font-size:14px; opacity:0.7;">(Balcony open for smoking guests)</span>
-          </p>
-        </div>
-      </div>
-    </section>
+    </div>
 
-    <!-- HOSPITALITY -->
-    <section class="glass-card">
-      <div class="eyebrow">Hospitality</div>
-      <div class="hospitality-grid">
-        <div class="role-block">
-          <div class="role-title">Provided by Us</div>
-          <p class="sub" style="color:#fff;">
-            Full bar provided. Bespoke cocktails. Mixers, garnishes, and aperitifs on us.<br><br>
-            We are also handling the food and sweets, so you don't have to worry about a thing.
-            <br><br>
-            <span style="color:var(--gold-accent); opacity:0.9;">
-              We have the quality covered, but we definitely need your help with the quantity.
-            </span>
-          </p>
+    <!-- GALLERY MODAL FULL SCREEN -->
+    <div class="modal-overlay" id="galleryViewModal" style="z-index: 1100;">
+        <div class="glass-popup gallery-popup">
+            <button class="close-modal" id="closeGalleryView">&times;</button>
+            <div class="gallery-header">
+                <div class="popup-title" style="margin-bottom:0; font-size: 20px;">Memories</div>
+            </div>
+            <div class="gallery-scroll" id="galleryGrid">
+                <!-- content injected by JS -->
+            </div>
         </div>
-        <div class="role-block">
-          <div class="role-title">Your Contribution</div>
-          <p class="sub" style="margin-bottom:16px;">
-            <strong style="color:var(--gold-accent);">Guys:</strong> Your mission: Spirits. Teranino, Antique, Gin, Vodka, Whiskey. Talk, arrange, make it happen.
-          </p>
-          <p class="sub" style="margin-bottom:16px;">
-            <strong style="color:var(--gold-accent);">Ladies:</strong> Your mission: The outfits. (Wine is welcome too, but looking fabulous is priority #1).
-          </p>
-          <p class="sub" style="font-size:13px; opacity:0.6; font-style:italic;">
-            *If you're the type of friend who stress-bakes or has Christmas leftovers—we won't stop you. (We have food covered, but cookies are never turned away).
-          </p>
+    </div>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-close" onclick="closeLightbox()">&times;</div>
+        
+        <!-- Navigation Areas -->
+        <div class="lightbox-nav nav-prev" onclick="prevImage()">&#8249;</div>
+        <div class="lightbox-nav nav-next" onclick="nextImage()">&#8250;</div>
+    
+        <div class="lightbox-content" id="lightboxContent">
+            <img src="" class="lightbox-img" id="lightboxImg">
+            <video class="lightbox-video" id="lightboxVideo" controls playsinline></video>
         </div>
-      </div>
-    </section>
+    </div>
 
-    <!-- MENUS & GALLERY -->
-    <section class="menu-grid">
-      <div class="menu-btn-card" id="openCocktail">
-        <div class="menu-icon">🍸</div>
-        <div class="menu-label">Cocktail Menu <span>→</span></div>
-        <div class="menu-sub">The Spirits</div>
-      </div>
-      <div class="menu-btn-card" id="openFood">
-        <div class="menu-icon">🍴</div>
-        <div class="menu-label">Food Menu <span>→</span></div>
-        <div class="menu-sub">The Bites</div>
-      </div>
-      <div class="menu-btn-card gallery-btn-card" id="openGallery">
-        <div class="menu-label">GALLERY</div>
-      </div>
-    </section>
+    <!-- COCKTAIL MODAL -->
+    <div class="modal-overlay" id="cocktailModal">
+        <div class="glass-popup">
+            <button class="close-modal" id="closeCocktail">&times;</button>
+            <div class="popup-title">The Spirits</div>
 
-    <!-- COUNTDOWN -->
-    <section class="glass-card countdown-card">
-      <div class="countdown-label">TIME REMAINING</div>
-      <div class="liquid-clock" id="countdown">
-        <div class="liquid-digit" id="d">00</div>
-        <div class="liquid-digit">:</div>
-        <div class="liquid-digit" id="h">00</div>
-        <div class="liquid-digit">:</div>
-        <div class="liquid-digit" id="m">00</div>
-        <div class="liquid-digit">:</div>
-        <div class="liquid-digit" id="s">00</div>
-      </div>
-      <div class="expired-message" id="expiredMsg">
-        <div class="expired-text">NO TIME LEFT</div>
-        <div class="expired-sub">GOOD LUCK IN NEW YEAR</div>
-      </div>
-    </section>
-  </main>
+            <!-- SIGNATURES -->
+            <div class="cocktail-category">Signature Serves</div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">The Nutcracker <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">
+                    Raspberry Puree, Baileys, Hazelnut Syrup, Cannella. <br>
+                    <span style="font-size:11px; opacity:0.8; font-style:italic;">"Christmas creamy raspberry cake in liquid form."</span>
+                </div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Snow White Mojito <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Coconut Puree, Infused Mint Tea, Rum, Dash of Lime.</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Štef Libre <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">
+                    Rum, Apple Juice, Vanilla Syrup, Lime, Ginger Ale. <br>
+                    <span style="font-size:11px; opacity:0.8; font-style:italic;">Freedom for Štef!</span>
+                </div>
+            </div>
+            
+            <!-- VODKA -->
+            <div class="cocktail-category">Vodka Based</div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Skinny Bitch <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Vodka, Fresh Lime Juice, Soda Water</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Moscow Mule <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Vodka, Spicy Ginger Beer, Lime Juice</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Vodka Collins <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Vodka, Lemon Juice, Simple Syrup, Soda</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Sex on the Beach <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Vodka, Peach Schnapps, Orange Juice, Cranberry Juice</div>
+            </div>
 
-  <script>
-    /* COUNTDOWN */
-    const target = new Date("December 31, 2025 19:30:00").getTime();
-    function updateClock() {
-      const now = new Date().getTime();
-      const diff = target - now;
-      if (diff < 0) {
-        document.getElementById("expiredMsg").style.display = "flex";
-        document.getElementById("countdown").style.opacity = "0.1";
-        return;
-      }
-      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const s = Math.floor((diff % (1000 * 60)) / 1000);
-      document.getElementById("d").innerText = d.toString().padStart(2, "0");
-      document.getElementById("h").innerText = h.toString().padStart(2, "0");
-      document.getElementById("m").innerText = m.toString().padStart(2, "0");
-      document.getElementById("s").innerText = s.toString().padStart(2, "0");
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
+            <!-- WHISKEY -->
+            <div class="cocktail-category">Whiskey</div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Whiskey Sour <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Bourbon, Lemon Juice, Sugar Syrup, Egg White (optional)</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Old Fashioned <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Bourbon or Rye, Bitters, Sugar Cube, Splash of Water</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Boulevardier <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Whiskey, Campari, Sweet Vermouth</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Spiced Pear Bourbon <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Bourbon, Spiced Pear Liqueur, Lemon Juice, Syrup</div>
+            </div>
 
-    /* mouse spotlight */
-    let ticking = false;
-    document.addEventListener("mousemove", (e) => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const cards = document.querySelectorAll(".glass-card, .menu-btn-card, .gallery-img-container, .gallery-video-tile");
-          cards.forEach(card => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            card.style.setProperty("--mouse-x", `${x}px`);
-            card.style.setProperty("--mouse-y", `${y}px`);
-          });
-          ticking = false;
+            <!-- GIN -->
+            <div class="cocktail-category">Gin</div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Gin & Tonic <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Gin, Premium Tonic Water, Botanicals</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Tom Collins OG <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Old Tom Gin, Lemon Juice, Sugar, Soda</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Gimlet <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Gin, Lime Cordial (or fresh Lime & Sugar)</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Angel Face <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Gin, Peach Brandy, Cannella Cinnamon Spirit</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Strawberry Bramble <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Gin, Lemon Juice, Sugar Syrup, Strawberry Liqueur</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Lavender Mist <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Gin, Maraska Cherry, Liqueur de Violette, Lemon</div>
+            </div>
+
+            <!-- TEQUILA -->
+            <div class="cocktail-category">Tequila</div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Tequila Old Fashioned <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Reposado Tequila, Honey, Orange Bitters</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Tequila Sunrise <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Tequila, Orange Juice, Grenadine</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">La Batanga <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Tequila, Lime Juice, Cola, Salted Rim</div>
+            </div>
+
+            <!-- RUM -->
+            <div class="cocktail-category">Rum</div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Kingston <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Rum, Lime, Grenadine</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Daiquiri <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Rum, Lime, Sugar</div>
+            </div>
+
+            <!-- SPRITZES -->
+            <div class="cocktail-category">Spritzes</div>
+            <div style="font-size:11px; color:#98989d; margin-bottom:12px; font-style:italic;">
+                Served all nite, but these are the official Midnight Toast (champagne is boring).
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Teranino Spritz <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Aura Teranino, Prosecco, Soda Water</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Pelin Spritz <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Antique Pelinkovac, Tonic Water/Soda, Orange</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Lavanda Spritz <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Lavender Syrup, Prosecco, Soda, Lemon</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Limoncello Spritz <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Limoncello, Prosecco, Soda</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Tea Spritzes <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Infused Black/Green/Jasmine Tea, Prosecco</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">French 75 <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Gin, Champagne, Lemon Juice, Sugar</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Campari Spritz <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Campari, Prosecco, Soda Water</div>
+            </div>
+
+            <div style="margin-top:40px; text-align:center; font-size:12px; color:#666;">Drinks are strong. Please pace yourself.</div>
+        </div>
+    </div>
+
+    <!-- FOOD MODAL -->
+    <div class="modal-overlay" id="foodModal">
+        <div class="glass-popup">
+            <button class="close-modal" id="closeFood">&times;</button>
+            <div class="popup-title">The Bites</div>
+
+            <div class="cocktail-category">Savory Boards</div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">The Cured & Spicy <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Coppa Spianata, Smoked Ham, Spicy Sausage, Gouda, Trapist Cheese, Walnuts</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Italian Selection <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Mortadella, Prosciutto, Burrata, Mozzarella, Nuts</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Fresh & Crisp <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">French (Olivier) Salad, Shopska Salad, Carrot Sticks, Cucumber, Paprika, Cherry Tomatoes</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">The Cheese Board <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Livanjski, Gouda, Trapist, Olives, Crackers, Dried Fruit, Fig Chutney, Whipped Butter</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Warm Bites <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Salmon Canapés (Philadelphia, Cucumber, Salmon), Mini Pizzas</div>
+            </div>
+
+            <div class="cocktail-category">Sweets</div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Tiramisu <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Classic Coffee-Soaked Ladyfingers, Mascarpone Cream, Cocoa</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Fruit Tarts <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Crisp Pastry, Pastry Cream, Fresh Seasonal Fruit</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Pavlova Cake <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Meringue, Whipped Cream, Strawberries</div>
+            </div>
+            <div class="cocktail-item" onclick="toggleRecipe(this)">
+                <div class="cocktail-header">Cookie Selection <span class="toggle">+</span></div>
+                <div class="cocktail-ingredients">Assorted Dry Tea Cookies and Biscuits</div>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <!-- HERO -->
+        <section class="glass-card">
+            <div class="eyebrow">Dec 31 2025 → 2026</div>
+            <div class="hero-grid">
+                <div>
+                    <div class="tagline">Zagreb Private Flat with City View</div>
+                    <h1>Cocktail Night NYE</h1>
+                    <p class="hero-text">
+                        Elegant evening, cocktail dresses & sharp suits. Curated setlists, strong drinks, and quite spectacular fireworks views when the city resets.
+                    </p>
+                    
+                    <div class="chip-container">
+                        <span class="chip">Cocktail Dress</span>
+                        <span class="chip">Suit & Tie</span>
+                        <span class="chip">Invite Only</span>
+                        <span class="chip">Curated Setlist</span>
+                        <span class="chip">Eat & Drink</span>
+                    </div>
+                </div>
+
+                <div class="lunar-container">
+                    <div class="eyebrow" style="margin-bottom:0; text-align:right;">Lunar Forecast</div>
+                    <div class="lunar-graph">
+                        <svg viewBox="0 0 300 120" preserveAspectRatio="none" style="width:100%; height:100%; overflow:visible;">
+                            <defs>
+                                <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" style="stop-color:rgba(255,255,255,0.0)" />
+                                    <stop offset="50%" style="stop-color:rgba(255,255,255,0.6)" />
+                                    <stop offset="100%" style="stop-color:rgba(255,255,255,0.0)" />
+                                </linearGradient>
+                            </defs>
+                            <path d="M0,90 C75,90 75,20 150,20 C225,20 225,90 300,90" fill="none" stroke="url(#lineGrad)" stroke-width="1.5"></path>
+                            <line x1="0" y1="55" x2="300" y2="55" stroke="rgba(255,255,255,0.08)" stroke-dasharray="4" />
+                        </svg>
+                        <div class="graph-point"></div>
+                        <div class="phase-label">WAXING GIBBOUS</div>
+                    </div>
+                    
+                    <div class="weather-row">
+                        <div class="weather-col left">
+                            <div class="w-label">Predicted Weather</div>
+                            <div class="w-sub">December 31st, night</div>
+                        </div>
+                        <div class="weather-col center">
+                            <div class="w-temp">-2°C</div>
+                        </div>
+                        <div class="weather-col right">
+                            <div class="w-desc">Crisp and cloudy</div>
+                            <div class="w-note">Dry cold. Chance of frost.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DETAILS -->
+        <section class="glass-card">
+            <div class="eyebrow">The Details</div>
+            <div class="details-grid">
+                <div class="detail-block">
+                    <h3>Arrival</h3>
+                    <p class="main">19:30 — 20:30</p>
+                    <p class="sub">Graceful entry. Evening continues until the legs give up.</p>
+                </div>
+                <div class="detail-block">
+                    <h3>Dress Code</h3>
+                    <p class="main">Cocktail Attire</p>
+                    <p class="sub">
+                        Cocktail dresses, sharp suits, statement heels. Think black-tie terrace, December luxury.
+                    </p>
+                </div>
+                <div class="detail-block">
+                    <h3>Location</h3>
+                    <p class="main">Trešnjevka</p>
+                    <div class="map-container">
+                        <iframe class="map-frame" src="https://www.google.com/maps?q=45.798154,15.945532&z=16&output=embed" allowfullscreen loading="lazy"></iframe>
+                        <div class="map-overlay"></div>
+                    </div>
+                    <div class="map-caption">EVENT ENDED. HOPE ALL WAS WELL.</div>
+                </div>
+                <div class="detail-block">
+                    <h3>Vibe</h3>
+                    <p class="main">Small & Intentional</p>
+                    <p class="sub">
+                        Tight guestlist. Curated playlists. Strong drinks. <br>
+                        <span style="color:#fff; border-bottom:1px solid var(--gold-accent);">ONE SPECIAL GUEST.</span>
+                        <span class="cat-eyes" title="Meow">
+                            <span class="cat-eye eye-l"></span>
+                            <span class="cat-eye eye-r"></span>
+                        </span>
+                        <br>
+                        <span style="font-size:14px; opacity:0.7;">Balcony open for smoking guests</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOSPITALITY -->
+        <section class="glass-card">
+            <div class="eyebrow">Hospitality</div>
+            <div class="hospitality-grid">
+                <div class="role-block">
+                    <div class="role-title">Provided by Us</div>
+                    <p class="sub" style="color:#fff;">
+                        Full bar provided. Bespoke cocktails. Mixers, garnishes, and aperitifs on us.<br><br>
+                        We are also handling the food and sweets, so you don't have to worry about a thing. <br><br>
+                        <span style="color:var(--gold-accent); opacity:0.9;">We have the quality covered, but we definitely need your help with the quantity.</span>
+                    </p>
+                </div>
+                <div class="role-block">
+                    <div class="role-title">Your Contribution</div>
+                    <p class="sub" style="margin-bottom:16px;">
+                        <strong style="color:var(--gold-accent);">Guys:</strong> Your mission: Spirits. Teranino, Antique, Gin, Vodka, Whiskey. Talk, arrange, make it happen.
+                    </p>
+                    <p class="sub" style="margin-bottom:16px;">
+                        <strong style="color:var(--gold-accent);">Ladies:</strong> Your mission: The outfits. Wine is welcome too, but looking fabulous is priority #1.
+                    </p>
+                    <p class="sub" style="font-size:13px; opacity:0.6; font-style:italic;">
+                        If you're the type of friend who stress-bakes or has Christmas leftovers—we won't stop you. We have food covered, but cookies are never turned away.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- MENU & GALLERY BUTTONS -->
+        <section class="menu-grid">
+            <div class="menu-btn-card" id="openCocktail">
+                <div class="menu-icon">🍸</div>
+                <div class="menu-label">Cocktail Menu <span>→</span></div>
+                <div class="menu-sub">The Spirits</div>
+            </div>
+            <div class="menu-btn-card" id="openFood">
+                <div class="menu-icon">🍴</div>
+                <div class="menu-label">Food Menu <span>→</span></div>
+                <div class="menu-sub">The Bites</div>
+            </div>
+            <div class="menu-btn-card gallery-btn-card" id="openGallery">
+                <div class="menu-label">GALLERY</div>
+            </div>
+        </section>
+
+        <!-- COUNTDOWN -->
+        <section class="glass-card countdown-card">
+            <div class="countdown-label">TIME REMAINING</div>
+            <div class="liquid-clock" id="countdown">
+                <div class="liquid-digit" id="d00"></div>
+                <div class="liquid-digit">:</div>
+                <div class="liquid-digit" id="h00"></div>
+                <div class="liquid-digit">:</div>
+                <div class="liquid-digit" id="m00"></div>
+                <div class="liquid-digit">:</div>
+                <div class="liquid-digit" id="s00"></div>
+            </div>
+
+            <div class="expired-message" id="expiredMsg">
+                <div class="expired-text">NO TIME LEFT</div>
+                <div class="expired-sub">GOOD LUCK IN NEW YEAR</div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // COUNTDOWN
+        const target = new Date("December 31, 2025 19:30:00").getTime();
+        function updateClock() {
+            const now = new Date().getTime();
+            const diff = target - now;
+
+            if (diff <= 0) {
+                // Ensure text behind is 00:00:00
+                document.getElementById('d00').innerText = '00';
+                document.getElementById('h00').innerText = '00';
+                document.getElementById('m00').innerText = '00';
+                document.getElementById('s00').innerText = '00';
+                
+                document.getElementById('expiredMsg').style.display = 'flex';
+                document.getElementById('countdown').style.opacity = '0.1';
+                return;
+            }
+
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('d00').innerText = d.toString().padStart(2, '0');
+            document.getElementById('h00').innerText = h.toString().padStart(2, '0');
+            document.getElementById('m00').innerText = m.toString().padStart(2, '0');
+            document.getElementById('s00').innerText = s.toString().padStart(2, '0');
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // mouse spotlight
+        let ticking = false;
+        document.addEventListener('mousemove', (e) => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const cards = document.querySelectorAll('.glass-card, .menu-btn-card, .gallery-img-container, .gallery-video-tile');
+                    cards.forEach(card => {
+                        const rect = card.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        card.style.setProperty('--mouse-x', `${x}px`);
+                        card.style.setProperty('--mouse-y', `${y}px`);
+                    });
+                    ticking = false;
+                });
+                ticking = true;
+            }
         });
-        ticking = true;
-      }
-    });
 
-    /* generic modal wiring */
-    function setupModal(modalId, openBtnId, closeBtnId) {
-      const modal = document.getElementById(modalId);
-      const openBtn = document.getElementById(openBtnId);
-      const closeBtn = document.getElementById(closeBtnId);
-      if (!modal || !openBtn || !closeBtn) return;
+        // generic modal wiring
+        function setupModal(modalId, openBtnId, closeBtnId) {
+            const modal = document.getElementById(modalId);
+            const openBtn = document.getElementById(openBtnId);
+            const closeBtn = document.getElementById(closeBtnId);
+            
+            if(!modal || !openBtn || !closeBtn) return;
 
-      const openFn = () => {
-        modal.classList.add("active");
-        document.body.classList.add("modal-open");
-      };
-      const closeFn = () => {
-        modal.classList.remove("active");
-        if (!document.querySelector(".modal-overlay.active")) {
-          document.body.classList.remove("modal-open");
+            const openFn = () => {
+                modal.classList.add('active');
+                document.body.classList.add('modal-open');
+            };
+            const closeFn = () => {
+                modal.classList.remove('active');
+                if(!document.querySelector('.modal-overlay.active')) {
+                    document.body.classList.remove('modal-open');
+                }
+            };
+
+            openBtn.addEventListener('click', openFn);
+            closeBtn.addEventListener('click', closeFn);
+            return closeFn;
         }
-      };
 
-      openBtn.addEventListener("click", openFn);
-      closeBtn.addEventListener("click", closeFn);
-      return closeFn;
-    }
+        const closeRsvpFn = setupModal('rsvpModal', 'openRsvp', 'closeRsvp');
+        setupModal('cocktailModal', 'openCocktail', 'closeCocktail');
+        setupModal('foodModal', 'openFood', 'closeFood');
+        const closeGalleryAuthFn = setupModal('galleryAuthModal', 'openGallery', 'closeGalleryAuth');
 
-    const closeRsvpFn = setupModal("rsvpModal", "openRsvp", "closeRsvp");
-    setupModal("cocktailModal", "openCocktail", "closeCocktail");
-    setupModal("foodModal", "openFood", "closeFood");
-    const closeGalleryAuthFn = setupModal("galleryAuthModal", "openGallery", "closeGalleryAuth");
+        const galleryViewModal = document.getElementById('galleryViewModal');
+        const closeGalleryViewBtn = document.getElementById('closeGalleryView');
+        closeGalleryViewBtn.addEventListener('click', () => {
+            galleryViewModal.classList.remove('active');
+            document.body.classList.remove('modal-open');
+            document.querySelectorAll('video').forEach(v => v.pause());
+        });
 
-    const galleryViewModal = document.getElementById("galleryViewModal");
-    const closeGalleryViewBtn = document.getElementById("closeGalleryView");
-    closeGalleryViewBtn.addEventListener("click", () => {
-      galleryViewModal.classList.remove("active");
-      document.body.classList.remove("modal-open");
-      document.querySelectorAll("video").forEach(v => v.pause());
-    });
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal-overlay')) {
+                e.target.classList.remove('active');
+                if(!document.querySelector('.modal-overlay.active')) {
+                    document.body.classList.remove('modal-open');
+                }
+                document.querySelectorAll('video').forEach(v => v.pause());
 
-    window.addEventListener("click", (e) => {
-      if (e.target.classList.contains("modal-overlay")) {
-        e.target.classList.remove("active");
-        if (!document.querySelector(".modal-overlay.active")) {
-          document.body.classList.remove("modal-open");
+                if(e.target.id === 'galleryAuthModal') {
+                    document.getElementById('galleryPass').value = '';
+                    document.getElementById('passError').style.opacity = '0';
+                }
+            }
+        });
+
+        function toggleRecipe(item) {
+            item.classList.toggle('active');
         }
-        document.querySelectorAll("video").forEach(v => v.pause());
-        if (e.target.id === "galleryAuthModal") {
-          document.getElementById("galleryPass").value = "";
-          document.getElementById("passError").style.opacity = 0;
-        }
-      }
-    });
 
-    function toggleRecipe(item) {
-      item.classList.toggle("active");
-    }
-
-
-    /* GALLERY DATA */
-    const galleryImages = [
+        /* --- GALLERY DATA (Truncated for brevity, paste your lists here) --- */
+         const galleryImages = [
   "https://lh3.googleusercontent.com/pw/AP1GczOBBNj9NoDprMo_EeCJ7jO48FmjJ7gVDeG9IuiAQo95NK05U_WIbH278mEyRRnMfe5iMwwpNoaQLffwmaJJbutsGzVjF5cVEQxynmkpcig3dSLSRxhiYt2UPjEvkM_voajRUN6rvek3axMO6ENQAV7FD49vBO2DW2ShrzJ3chHT-AlU3oMT6YY2gu0fyb1A41RQ-YbxDnkfIwIEmUL2DqJ3vj-Heo7RdONBI-ee3ckwAuFCgeS8a3YYd9Vt16H0XkG2AIXZmTEkS5fFcJ4DOogLZ_62Ry8kgq1T-5hXXWWt7XJcAIbuYjTXG4VAOFcUlNQ-EYCtdoMz40_nkKXdjCJ03QvosFcWXB1swFX8tJjTa3DcBhBr48hT22Hg33omnkg6qXmPM6oQUcVq2uwtoMjYZlSGxvnOEbNLnC9uOIcqAnlWtgPWt8rGsJcycEB7rLHIEgPI0zBYSqfdKBvSbeVwrdCvHJr8tBvLUhssWtxKAIZR5h0TsIYZklU1wR3jhgg_59ZtWIdgo3xyMyGayOM6AwfHydgLc6AWOrj4kG5XvI_A9mdO1tadQeRfDaUaN-mrtXSLpA_4ghS9c50QwiBTWd2IFHdeRb9fi0kd9nqBNUCDQMLprPtUC2iBUfsGuJSImNcDFQA93sMJNvDgEUfTaPzA5R5g8v4AAgqnVkRbpDYoc-5eh8BmopYV4L-dLqRfTH32q_9zlvMCUYWKP0Z0N9zN1plvmBSzs9b773reRPpMHImPoFeTA09-5kxg_J9MzsRttXUInarBXT1Fj0Q1LubWyG7Tp1dR769lAn9oedg2kFrjU-iLz51NCieVYRcNJNYQFlY71cXAueP1Z2xeKKz2KGDu0mUQl9i8jQmMiT0VhsfQobZ4qCGcyOpFshnKwj6xTPfDo_DqiLNZ5WTPnYVTDv_D8QRwf5NgGJpM_TtmMRbjsW5ZcFFnDIXRVj4iIl17aHvM5Dv7gREJkLyyY1BnMZ2NSegIAbRtL6OIAcBrlD03SjB6ZeKoV3xNQoFCNGasHZ-ZwScH_dpRDFZfFHCkNlcUJnXfMAMLYAPgu0hfW9oPPKwM_oe7JfPMW3G1eUbtQkU74cOdUBWyMxFZzgs=w1600-h1600-no",
   "https://lh3.googleusercontent.com/pw/AP1GczO1Vd5rKXrlVI03jth8ubt6ABdQp_8q6s_DBFY51nexRt9XP00RfGpT8BkT9BUB7s9oEivAH9Rrc7Qd4MWf9s6-h1mpdYVWeu_l9lilkgc7xRyB5Q4RBukMWA_8IUXGRiR-6mdXTPFt7no85Uu9mWeHe1OQI0OI-oSovXSJef0Cse_R1l_BGrVhBtDl0MjfZrGfQupn1kZpjiOD9p5QS14JYWDSZLmCP0v2CRtILv2xL05edIQgrYD6QyL4CjDs3hynkj6S62VDQHRbiyTWjPjfzECHU0eyO9kB0ylrGhRvvmRNEAT-Pnw6UFWr2MUcL4jNDmDCjd7mWKMA8xAK9ARyr34u0bD-rnDPX3cj60BAioHb0ZBSCHj2ZGchk3U86L84gCfj6ku9ROlsyBxyoAHCM0Su42VvzmNyxbvwDrtiUQOP1ZiS_HimMNK39DSI8FLYsm7ZFgfamv51UYWSB7mpsnYdItwaSRll9y10yAQ3k4TvvovLAvIn5nkgCqXD6b9sEB6sozGdPG_DNeSowYvJdOpz0-1DrHGdcFvoG_gikX70g1806FtWwHYuAYHZAvHY0-898pGleC_byg6FJQkU7HLMqODRISDpQpLIXkV1lNKc3Av5TrIAxLmZbZ9oGixY4-se9FsQ2yS2bhYCPximjrHM4Ijmwmc30-5AGtiFUsKb7EpuUNPy5KNwVHpNKYnhsCL_HiMSd5LlffnhArziltLulvbbkk33SinbPZI4GTW1ZPTt_n6HVAvQbiDZ54M62i0g7DJi1I4YbswLkZ1JYK3arlRWap1owbl_PkpBMfaRlsITBF9LOKcD4z5lAk0RNqV4CfIyjS_vMO2RZBVxW3_AFfQovP9sYvZNqV-iM4aqbMqqgczI32_58nU9fp-FgdZRB0LJ24fga8BKzBWSeW1wC6rZ9YNraD9MPYU14qzEKP6R8KgYvwQIiME_ftdB5XXmNuRzhwISr7wcvn836HcMvyB3H5vxz343Ol6jW3ekRdoEg76Ts723gbl3fu_WjJkiP9JCWSjdTEjdQIUQUxFJgTdHY5XCR25Hn_eFqbQxUKOjCOrra_SNeAYrfb4N8wVnJlV5iEayFYYOh4sSzOk=w1600-h1600-no",
   "https://lh3.googleusercontent.com/pw/AP1GczM9JONJlkek9k3cKNgEeRvccbqmqn0_2VHd4vvNxdV0aDnQpKKvCuyy_A5cITWwDxDuEzFSTYDMRGLzO8OUBiBW_n5ZAIJNc1KqrSSFLlsOyahfyIQaxhkCsDZpGZUzNQTzklJ3oz9n5OYpFnqnn7MuzImidqnMjSDI_8ZNEGb6xAiCZdw4eYMgf6y7hMWXl1lGK9ObiaE8my6HOtOcyBO62f-UhM6BzzyrfnV8N0VW78wYo80Xqxq7_9_V5bJECNVaMgckU6_wHEIS9jZUEroStl0vDOMd4pkXC0oZLbwrdFBhvCi3SwEjCvBDXjYoBp9BVemn2OkYnPpFn8gcrZqpC6KDiaqEPTibAVDcJMkIdc1dTl-5p37TZ3UCMtBkplXvGe24ijve57aN4l02c6dYfcUYqZgllRtEd3lijuZjnoXTpVKY8YFPdQl541Usi7CeGwyghfYqTHfldsvhNhCjlAShdKQDw_hHF8lR5txSSed8tDsY9O4xzr7qaxQGvvTLKjJfGd_Ee1s9ufDO3ko120OI7hxmFoLJG_drBwyMbclI38wbvjxhCgJiur9f-XP8YhbV2clPDKjzc1jvahsxCf37R4vodkJ6oirtWRZqK0hNkJUgzBNJJ4v4B-LJ1Ad-2pqeRRZrCS5O2mjJjX6KCwosCn6bYu6MohZsM7bINE1RkVXvA-xoSs6SSeLaDZ2dVxMRpPlVNXp3Ww7g9FHYHraD9q1ntOYQIB5vsYDZcGYxnW9mFQtb0l_CfkfOMYOKi-We2jgNgL8Luo2-6JcAnASoOPtlMowPVzN6NZowz-dGCyE6wW8JkfjbQYkRTXwwgSHTsaH4v12NMnhk4_a51j1rqQ4AYAe-7bpV8eUELzGXpCoBE3Xf6hs9VoKJHth9DqMidlFD8wYFL9VMO3GHSzggWcmWbARAeb2u5d71bImysehmSmnPHNu_qaLPGV5Kn0pvMRMIZeQnWsAihaEOXqVlgpGeRPF-wyr5kt0-ooFx6jNWEBHznW748p-Nkly0nl-mDYNCVf7PkzXOeZqNmiunbA46_4QT5KnYbNOi3si_ojNexma-2Nct-I8eSHMV2NqTbdEgAR9e7EknAssBVuA=w1600-h1600-no",
@@ -1418,238 +845,349 @@
       "https://imgur.com/u4CcOMH.mp4",
 ];
 
+        /* --- OPTIMIZED GALLERY LOGIC --- */
 
-    /* Lightbox Logic */
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImg = document.getElementById("lightboxImg");
-    const lightboxVideo = document.getElementById("lightboxVideo");
-    let currentGalleryIndex = 0;
-    let allGalleryItems = [];
+        // 1. RENDER GALLERY WITH OPTIMIZED THUMBNAILS
+        function renderGallery() {
+            const container = document.getElementById('galleryGrid');
+            container.innerHTML = '';
 
-    // Combine for navigation
-    function buildGalleryList() {
-      // Videos first, then images
-      allGalleryItems = [
-        ...galleryVideos.map(url => ({ type: 'video', url })),
-        ...galleryImages.map(url => ({ type: 'image', url }))
-      ];
-    }
-    
-    function openLightbox(index) {
-      if (allGalleryItems.length === 0) buildGalleryList();
-      currentGalleryIndex = index;
-      updateLightboxContent();
-      lightbox.classList.add("active");
-    }
+            const fragment = document.createDocumentFragment();
 
-    function updateLightboxContent() {
-      const item = allGalleryItems[currentGalleryIndex];
-      
-      // Reset current
-      lightboxVideo.pause();
-      lightboxVideo.classList.remove("active");
-      lightboxImg.classList.remove("active");
+            // 1. Videos (The Motions)
+            if (galleryVideos.length > 0) {
+                const vidTitle = document.createElement('div');
+                vidTitle.className = 'gallery-section-title';
+                vidTitle.textContent = 'The Motions';
+                fragment.appendChild(vidTitle);
 
-      if (item.type === 'video') {
-        lightboxVideo.src = item.url;
-        lightboxVideo.muted = false;
-        lightboxVideo.currentTime = 0;
-        lightboxVideo.classList.add("active");
-        lightboxVideo.play().catch(() => {});
-      } else {
-        lightboxImg.src = item.url;
-        lightboxImg.classList.add("active");
-      }
-    }
+                const videoGrid = document.createElement('div');
+                videoGrid.className = 'video-grid';
 
-    function navigateLightbox(dir) {
-      let newIndex = currentGalleryIndex + dir;
-      if (newIndex < 0) newIndex = allGalleryItems.length - 1;
-      if (newIndex >= allGalleryItems.length) newIndex = 0;
-      currentGalleryIndex = newIndex;
-      updateLightboxContent();
-    }
+                galleryVideos.forEach(url => {
+                    const tile = document.createElement('div');
+                    tile.className = 'gallery-video-tile';
+                    
+                    const video = document.createElement('video');
+                    video.className = 'gallery-video-preview';
+                    video.src = url;
+                    video.muted = true;
+                    video.playsInline = true;
+                    video.loop = true;
+                    video.preload = "none"; 
 
-    function closeLightbox() {
-      lightbox.classList.remove("active");
-      lightboxVideo.pause();
-      lightboxVideo.src = "";
-    }
+                    // AUTO-GENERATE THUMBNAIL (POSTER)
+                    if (url.toLowerCase().includes('imgur') && url.toLowerCase().endsWith('.mp4')) {
+                        let poster = url.replace('.mp4', '.jpg');
+                        if (poster.includes('//imgur.com')) {
+                            poster = poster.replace('//imgur.com', '//i.imgur.com');
+                        }
+                        video.poster = poster;
+                    }
 
-    // Keyboard support for navigation
-    document.addEventListener('keydown', (e) => {
-        if (!lightbox.classList.contains('active')) return;
-        if (e.key === 'ArrowLeft') navigateLightbox(-1);
-        if (e.key === 'ArrowRight') navigateLightbox(1);
-        if (e.key === 'Escape') closeLightbox();
-    });
+                    const gradient = document.createElement('div');
+                    gradient.className = 'video-overlay-gradient';
+                    
+                    const playIcon = document.createElement('div');
+                    playIcon.className = 'video-play-icon';
+                    playIcon.innerHTML = '&#9658;';
 
-    /* GALLERY RENDERING – 2 videos per row, 3 photos per row */
-    function renderGallery() {
-      const container = document.getElementById("galleryGrid");
-      container.innerHTML = "";
-      buildGalleryList(); // ensure index alignment
+                    tile.appendChild(video);
+                    tile.appendChild(gradient);
+                    tile.appendChild(playIcon);
+                    
+                    tile.addEventListener('mouseenter', () => video.play().catch(()=>{}));
+                    tile.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
+                    tile.addEventListener('click', () => openVideoInLightbox(url));
+                    
+                    videoGrid.appendChild(tile);
+                });
+                fragment.appendChild(videoGrid);
+            }
 
-      if (galleryVideos.length > 0) {
-        const vidTitle = document.createElement("div");
-        vidTitle.className = "gallery-section-title";
-        vidTitle.textContent = "The Motions";
-        container.appendChild(vidTitle);
+            // 2. Photos (The Stills)
+            if (galleryImages.length > 0) {
+                const imgTitle = document.createElement('div');
+                imgTitle.className = 'gallery-section-title';
+                imgTitle.textContent = 'The Stills';
+                fragment.appendChild(imgTitle);
 
-        const videoGrid = document.createElement("div");
-        videoGrid.className = "video-grid";
-        container.appendChild(videoGrid);
+                const photoGrid = document.createElement('div');
+                photoGrid.className = 'photo-grid';
 
-        galleryVideos.forEach((url, i) => {
-          const globalIndex = i; // Video index starts at 0
+                galleryImages.forEach((fullUrl, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'gallery-img-container';
 
-          const tile = document.createElement("div");
-          tile.className = "gallery-video-tile";
+                    const img = document.createElement('img');
+                    
+                    // PERFORMANCE MAGIC: 
+                    // We convert the High-Res URL to a Thumbnail URL (w500) for the grid.
+                    let thumbUrl = fullUrl;
+                    if (fullUrl.includes('=')) {
+                        thumbUrl = fullUrl.split('=')[0] + '=w500-h500-c-no';
+                    }
 
-          const video = document.createElement("video");
-          video.className = "gallery-video-preview";
-          video.src = url;
-          video.muted = true;
-          video.playsInline = true;
-          video.setAttribute("preload", "metadata");
+                    img.src = thumbUrl; 
+                    img.className = 'gallery-img';
+                    img.loading = 'lazy'; // Native lazy loading
 
-          const gradient = document.createElement("div");
-          gradient.className = "video-overlay-gradient";
+                    div.appendChild(img);
+                    div.addEventListener('click', () => openImageInLightbox(index));
+                    
+                    photoGrid.appendChild(div);
+                });
+                fragment.appendChild(photoGrid);
+            }
 
-          const playIcon = document.createElement("div");
-          playIcon.className = "video-play-icon";
-          playIcon.innerHTML = "&#9658;";
+            container.appendChild(fragment);
+        }
 
-          const badge = document.createElement("div");
-          badge.className = "video-badge";
-          badge.textContent = "video";
+        // --- PASSWORD HASH CHECK (SHA-256) ---
+        async function sha256(message) {
+            const msgBuffer = new TextEncoder().encode(message);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
 
-          tile.appendChild(video);
-          tile.appendChild(gradient);
-          tile.appendChild(playIcon);
-          tile.appendChild(badge);
-          videoGrid.appendChild(tile);
+        const TARGET_HASH = "485bdd6b477b88add683801abb6f734372d17eff18c0643adea95f7d8484ec2f"; // "barbaric"
 
-          // Hover preview
-          tile.addEventListener("mouseenter", () => {
-            video.currentTime = 0;
-            video.play().catch(() => {});
-          });
+        document.getElementById('submitGallery').addEventListener('click', async () => {
+            const passInput = document.getElementById('galleryPass').value;
+            const errorMsg = document.getElementById('passError');
 
-          tile.addEventListener("mouseleave", () => {
-            video.pause();
-            video.currentTime = 0;
-          });
-
-          // Click opens lightbox at correct index
-          tile.addEventListener("click", () => {
-            openLightbox(globalIndex);
-          });
+            if (await sha256(passInput) === TARGET_HASH) {
+                errorMsg.style.opacity = '0';
+                renderGallery(); // Render optimized gallery
+                
+                if(closeGalleryAuthFn) closeGalleryAuthFn();
+                setTimeout(() => {
+                    galleryViewModal.classList.add('active');
+                    document.body.classList.add('modal-open');
+                }, 300);
+            } else {
+                errorMsg.style.opacity = '1';
+            }
         });
-      }
 
-      if (galleryImages.length > 0) {
-        const imgTitle = document.createElement("div");
-        imgTitle.className = "gallery-section-title";
-        imgTitle.textContent = "The Stills";
-        container.appendChild(imgTitle);
+        /* --- TOUCH RESPONSIVE LIGHTBOX ENGINE --- */
 
-        const photoGrid = document.createElement("div");
-        photoGrid.className = "photo-grid";
-        container.appendChild(photoGrid);
+        let currentGalleryIndex = 0;
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxVideo = document.getElementById('lightboxVideo');
+        const lightboxContent = document.getElementById('lightboxContent');
 
-        galleryImages.forEach((url, i) => {
-          const globalIndex = galleryVideos.length + i; // Offset by video count
+        // State for Zoom and Pan
+        let currentScale = 1;
+        let lastScale = 1;
+        let pointX = 0;
+        let pointY = 0;
+        let startX = 0;
+        let startY = 0;
+        let isDragging = false;
+        let isZoomed = false;
 
-          const div = document.createElement("div");
-          div.className = "gallery-img-container";
+        function openImageInLightbox(index) {
+            currentGalleryIndex = index;
+            updateLightboxImage();
+            
+            lightboxVideo.pause();
+            lightboxVideo.classList.remove('active');
+            lightboxImg.classList.add('active');
+            lightbox.classList.add('active');
+            
+            resetZoom();
+        }
 
-          const img = document.createElement("img");
-          img.src = url;
-          img.className = "gallery-img";
-          img.loading = "lazy";
+        function updateLightboxImage() {
+            const url = galleryImages[currentGalleryIndex];
+            // Preload next image
+            if (currentGalleryIndex < galleryImages.length - 1) {
+                const nextImg = new Image();
+                nextImg.src = galleryImages[currentGalleryIndex + 1];
+            }
+            
+            lightboxImg.style.opacity = '0.5';
+            lightboxImg.src = url;
+            setTimeout(() => lightboxImg.style.opacity = '1', 200);
+        }
 
-          div.appendChild(img);
-          photoGrid.appendChild(div);
+        function nextImage() {
+            if (currentGalleryIndex < galleryImages.length - 1) {
+                currentGalleryIndex++;
+                updateLightboxImage();
+                resetZoom();
+            }
+        }
 
-          div.addEventListener("click", () => openLightbox(globalIndex));
+        function prevImage() {
+            if (currentGalleryIndex > 0) {
+                currentGalleryIndex--;
+                updateLightboxImage();
+                resetZoom();
+            }
+        }
+
+        function openVideoInLightbox(url) {
+            lightboxImg.classList.remove('active');
+            lightboxImg.src = '';
+            
+            lightboxVideo.src = url;
+            lightboxVideo.classList.add('active');
+            lightbox.classList.add('active');
+            lightboxVideo.play().catch(()=>{});
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            lightboxImg.classList.remove('active');
+            lightboxVideo.classList.remove('active');
+            lightboxVideo.pause();
+            lightboxImg.src = ''; 
+        }
+
+        /* --- GESTURE HANDLING (Swipe & Zoom) --- */
+
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchDistStart = 0;
+
+        lightboxContent.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+                
+                if (isZoomed) {
+                    isDragging = true;
+                    startX = e.touches[0].clientX - pointX;
+                    startY = e.touches[0].clientY - pointY;
+                }
+            } else if (e.touches.length === 2) {
+                touchDistStart = getDistance(e.touches);
+            }
+        }, { passive: false });
+
+        lightboxContent.addEventListener('touchmove', (e) => {
+            e.preventDefault(); 
+            
+            if (e.touches.length === 1) {
+                if (isZoomed && isDragging) {
+                    pointX = e.touches[0].clientX - startX;
+                    pointY = e.touches[0].clientY - startY;
+                    updateTransform();
+                }
+            } else if (e.touches.length === 2) {
+                const distNow = getDistance(e.touches);
+                const scaleChange = distNow / touchDistStart;
+                currentScale = Math.min(Math.max(1, lastScale * scaleChange), 4);
+                updateTransform();
+            }
+        }, { passive: false });
+
+        lightboxContent.addEventListener('touchend', (e) => {
+            if (e.touches.length === 0) {
+                if (isZoomed) {
+                    isDragging = false;
+                    lastScale = currentScale;
+                    if (currentScale < 1.1) resetZoom(); 
+                } else {
+                    const touchEndX = e.changedTouches[0].clientX;
+                    const diffX = touchEndX - touchStartX;
+                    
+                    if (Math.abs(diffX) > 50) { 
+                        if (diffX > 0) prevImage();
+                        else nextImage();
+                    }
+                }
+            }
         });
-      }
-    }
 
-    /* GALLERY PASSWORD LOGIC */
-    async function sha256(message) {
-      const msgBuffer = new TextEncoder().encode(message);
-      const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
-    }
+        let lastTap = 0;
+        lightboxContent.addEventListener('click', (e) => {
+            const curTime = new Date().getTime();
+            const tapLen = curTime - lastTap;
+            if (tapLen < 300 && tapLen > 0) {
+                if (isZoomed) resetZoom();
+                else {
+                    currentScale = 2.5;
+                    isZoomed = true;
+                    lastScale = 2.5;
+                    updateTransform();
+                }
+            }
+            lastTap = curTime;
+        });
 
-    const TARGET_HASH = "485bdd6b477b88add683801abb6f734372d17eff18c0643adea95f7d8484ec2f"; // your existing hash
+        function getDistance(touches) {
+            return Math.hypot(
+                touches[0].clientX - touches[1].clientX,
+                touches[0].clientY - touches[1].clientY
+            );
+        }
 
-    document.getElementById("submitGallery").addEventListener("click", async () => {
-      const passInput = document.getElementById("galleryPass").value;
-      const errorMsg = document.getElementById("passError");
+        function updateTransform() {
+            lightboxImg.style.transform = `translate(${pointX}px, ${pointY}px) scale(${currentScale})`;
+        }
 
-      if (await sha256(passInput) === TARGET_HASH) {
-        errorMsg.style.opacity = 0;
-        renderGallery();
-        if (closeGalleryAuthFn) closeGalleryAuthFn();
-        setTimeout(() => {
-          galleryViewModal.classList.add("active");
-          document.body.classList.add("modal-open");
-        }, 300);
-      } else {
-        errorMsg.style.opacity = 1;
-      }
-    });
+        function resetZoom() {
+            currentScale = 1;
+            lastScale = 1;
+            pointX = 0;
+            pointY = 0;
+            isZoomed = false;
+            lightboxImg.style.transform = `translate(0px, 0px) scale(1)`;
+        }
 
-    /* RSVP submit */
-    const sendRsvpBtn = document.getElementById("sendRsvp");
-    sendRsvpBtn.addEventListener("click", () => {
-      const name = document.getElementById("guestName").value;
-      const email = document.getElementById("guestEmail").value;
-      const notes = document.getElementById("guestNotes").value;
+        // RSVP SEND LOGIC
+        const sendRsvpBtn = document.getElementById('sendRsvp');
+        sendRsvpBtn.addEventListener('click', () => {
+            const name = document.getElementById('guestName').value;
+            const email = document.getElementById('guestEmail').value;
+            const notes = document.getElementById('guestNotes').value;
 
-      if (!name || !email) {
-        alert("Please fill in your Name and Email.");
-        return;
-      }
+            if (!name || !email) {
+                alert('Please fill in your Name and E-mail.');
+                return;
+            }
 
-      sendRsvpBtn.innerText = "Sending...";
-      sendRsvpBtn.disabled = true;
+            sendRsvpBtn.innerText = 'Sending...';
+            sendRsvpBtn.disabled = true;
 
-      fetch("https://formsubmit.co/ajax/servischeck.zg@gmail.com", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Accept": "application/json" },
-        body: JSON.stringify({
-          name,
-          email,
-          message: notes,
-          subject: "New RSVP: " + name
-        })
-      })
-      .then(r => r.json())
-      .then(() => {
-        sendRsvpBtn.innerText = "Confirmed!";
-        setTimeout(() => {
-          if (closeRsvpFn) closeRsvpFn();
-          setTimeout(() => {
-            sendRsvpBtn.innerText = "See you";
-            sendRsvpBtn.disabled = false;
-            document.getElementById("guestName").value = "";
-            document.getElementById("guestEmail").value = "";
-            document.getElementById("guestNotes").value = "";
-          }, 500);
-        }, 2000);
-      })
-      .catch(() => {
-        alert("Error. Try again.");
-        sendRsvpBtn.innerText = "See you";
-        sendRsvpBtn.disabled = false;
-      });
-    });
-  </script>
+            fetch("https://formsubmit.co/ajax/servis.check.zg@gmail.com", {
+                method: "POST",
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    message: notes,
+                    _subject: `New RSVP: ${name}`
+                })
+            })
+            .then(r => r.json())
+            .then(() => {
+                sendRsvpBtn.innerText = 'Confirmed!';
+                setTimeout(() => {
+                    if(closeRsvpFn) closeRsvpFn();
+                    setTimeout(() => {
+                        sendRsvpBtn.innerText = 'See you';
+                        sendRsvpBtn.disabled = false;
+                        document.getElementById('guestName').value = '';
+                        document.getElementById('guestEmail').value = '';
+                        document.getElementById('guestNotes').value = '';
+                    }, 500);
+                }, 2000);
+            })
+            .catch(() => {
+                alert('Error. Try again.');
+                sendRsvpBtn.innerText = 'See you';
+                sendRsvpBtn.disabled = false;
+            });
+        });
+    </script>
 </body>
 </html>
-
