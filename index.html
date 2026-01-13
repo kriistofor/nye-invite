@@ -1104,59 +1104,68 @@
 
         /* GESTURE HANDLING (Swipe & Zoom) */
 
-        let touchStartX = 0;
-        let touchStartY = 0;
-        let touchDistStart = 0;
+       let touchStartX = 0;
+let touchStartY = 0;
+let touchDistStart = 0;
+let didPinch = false; // NEW: Track if user pinched/zoomed
 
-        lightboxContent.addEventListener('touchstart', (e) => {
-            if (e.touches.length === 1) {
-                touchStartX = e.touches[0].clientX;
-                touchStartY = e.touches[0].clientY;
-                
-                if (isZoomed) {
-                    isDragging = true;
-                    startX = e.touches[0].clientX - pointX;
-                    startY = e.touches[0].clientY - pointY;
-                }
-            } else if (e.touches.length === 2) {
-                touchDistStart = getDistance(e.touches);
-            }
-        }, { passive: false });
+lightboxContent.addEventListener('touchstart', (e) => {
+    didPinch = false; // Reset on new touch
+    
+    if (e.touches.length === 1) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        
+        if (isZoomed) {
+            isDragging = true;
+            startX = e.touches[0].clientX - pointX;
+            startY = e.touches[0].clientY - pointY;
+        }
+    } else if (e.touches.length === 2) {
+        didPinch = true; // User is pinching
+        touchDistStart = getDistance(e.touches);
+    }
+}, { passive: false });
 
-        lightboxContent.addEventListener('touchmove', (e) => {
-            e.preventDefault(); 
+lightboxContent.addEventListener('touchmove', (e) => {
+    e.preventDefault(); 
+    
+    if (e.touches.length === 1) {
+        if (isZoomed && isDragging) {
+            pointX = e.touches[0].clientX - startX;
+            pointY = e.touches[0].clientY - startY;
+            updateTransform();
+        }
+    } else if (e.touches.length === 2) {
+        didPinch = true; // Confirmed pinch gesture
+        const distNow = getDistance(e.touches);
+        const scaleChange = distNow / touchDistStart;
+        currentScale = Math.min(Math.max(1, lastScale * scaleChange), 4);
+        updateTransform();
+    }
+}, { passive: false });
+
+lightboxContent.addEventListener('touchend', (e) => {
+    if (e.touches.length === 0) {
+        if (isZoomed) {
+            isDragging = false;
+            lastScale = currentScale;
+            if (currentScale < 1.1) resetZoom(); 
+        } else if (!didPinch) { // FIXED: Only swipe if user didn't pinch
+            const touchEndX = e.changedTouches[0].clientX;
+            const diffX = touchEndX - touchStartX;
             
-            if (e.touches.length === 1) {
-                if (isZoomed && isDragging) {
-                    pointX = e.touches[0].clientX - startX;
-                    pointY = e.touches[0].clientY - startY;
-                    updateTransform();
-                }
-            } else if (e.touches.length === 2) {
-                const distNow = getDistance(e.touches);
-                const scaleChange = distNow / touchDistStart;
-                currentScale = Math.min(Math.max(1, lastScale * scaleChange), 4);
-                updateTransform();
+            if (Math.abs(diffX) > 50) { 
+                if (diffX > 0) prevSlide();
+                else nextSlide();
             }
-        }, { passive: false });
+        }
+        
+        // Update zoom state
+        isZoomed = currentScale > 1.1;
+    }
+});
 
-        lightboxContent.addEventListener('touchend', (e) => {
-            if (e.touches.length === 0) {
-                if (isZoomed) {
-                    isDragging = false;
-                    lastScale = currentScale;
-                    if (currentScale < 1.1) resetZoom(); 
-                } else {
-                    const touchEndX = e.changedTouches[0].clientX;
-                    const diffX = touchEndX - touchStartX;
-                    
-                    if (Math.abs(diffX) > 50) { 
-                        if (diffX > 0) prevSlide();
-                        else nextSlide();
-                    }
-                }
-            }
-        });
 
         let lastTap = 0;
         lightboxContent.addEventListener('click', (e) => {
@@ -1251,3 +1260,4 @@
     </script>
 </body>
 </html>
+
