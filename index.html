@@ -1,16 +1,15 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Cocktail Night NYE</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-
-    <!-- fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-    <style>
+<meta charset="utf-8"/>
+<title>Cocktail Night NYE</title>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" name="viewport"/>
+<!-- fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&amp;family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=SF+Pro+Display:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<style>
         :root {
             --bg: #030305;
             --glass-surface: rgba(255, 255, 255, 0.03);
@@ -172,7 +171,20 @@
         .modal-overlay.active .glass-popup { transform: scale(1); }
 
         /* GALLERY MODAL (Optimized) */
-        .gallery-popup { max-width: 100vw; width: 100vw; height: 100vh; padding: 0; background: #000000; border: none; border-radius: 0; }
+        
+.gallery-popup { 
+    max-width: 100vw; 
+    width: 100vw; 
+    height: 100vh; 
+    padding: 0; 
+    background: #000000; 
+    border: none; 
+    border-radius: 0; 
+    /* THIS IS THE PERFORMANCE MURDERER FIX: */
+    backdrop-filter: none !important; 
+    -webkit-backdrop-filter: none !important; 
+}
+
         .gallery-header { padding: 24px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.9); }
         .gallery-scroll { height: calc(100vh - 80px); overflow-y: auto; padding: 24px 32px 32px; -ms-overflow-style: none; scrollbar-width: none; }
         .gallery-scroll::-webkit-scrollbar { display: none; }
@@ -228,447 +240,416 @@
     </style>
 </head>
 <body>
-
-    <div class="ambient-canvas">
-        <div class="light-orb orb-1"></div>
-        <div class="light-orb orb-2"></div>
-    </div>
-    <div class="noise"></div>
-
-    <div class="rsvp-fixed">
-        <button id="openRsvp" class="btn-glass">✓ Confirm Attendance</button>
-    </div>
-
-    <!-- RSVP MODAL -->
-    <div class="modal-overlay" id="rsvpModal">
-        <div class="glass-popup">
-            <button class="close-modal" id="closeRsvp">&times;</button>
-            <div class="popup-title">Join the Night</div>
-            <div class="form-group">
-                <label class="form-label">Name</label>
-                <input type="text" id="guestName" class="form-input" placeholder="Your full name" required>
-            </div>
-            <div class="form-group">
-                <label class="form-label">E-mail</label>
-                <input type="email" id="guestEmail" class="form-input" placeholder="For location details" required>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Notes</label>
-                <textarea id="guestNotes" class="form-textarea" placeholder="Vegan? Gluten free? Alcohol free?"></textarea>
-            </div>
-            <button class="submit-btn" id="sendRsvp">See you</button>
-        </div>
-    </div>
-
-    <!-- GALLERY AUTH MODAL -->
-    <div class="modal-overlay" id="galleryAuthModal">
-        <div class="glass-popup" style="max-width: 400px;">
-            <button class="close-modal" id="closeGalleryAuth">&times;</button>
-            <div class="popup-title">Gallery Access</div>
-            <div class="form-group">
-                <label class="form-label">Password</label>
-                <input type="password" id="galleryPass" class="form-input" placeholder="Enter event password" required>
-                <div class="password-error" id="passError">Incorrect password. Try again.</div>
-            </div>
-            <button class="submit-btn" id="submitGallery">Unlock Photos</button>
-        </div>
-    </div>
-
-    <!-- GALLERY MODAL FULL SCREEN -->
-    <div class="modal-overlay" id="galleryViewModal" style="z-index: 1100;">
-        <div class="glass-popup gallery-popup">
-            <button class="close-modal" id="closeGalleryView">&times;</button>
-            <div class="gallery-header">
-                <div class="popup-title" style="margin-bottom:0; font-size: 20px;">Memories</div>
-            </div>
-            <div class="gallery-scroll" id="galleryGrid">
-                <!-- content injected by JS -->
-            </div>
-        </div>
-    </div>
-
-    <!-- LIGHTBOX -->
-    <div class="lightbox" id="lightbox">
-        <div class="lightbox-close" onclick="closeLightbox()">&times;</div>
-        
-        <!-- Navigation Areas -->
-        <div class="lightbox-nav nav-prev" onclick="prevSlide()">&#8249;</div>
-        <div class="lightbox-nav nav-next" onclick="nextSlide()">&#8250;</div>
-    
-        <div class="lightbox-content" id="lightboxContent">
-            <img src="" class="lightbox-img" id="lightboxImg">
-            <video class="lightbox-video" id="lightboxVideo" controls playsinline></video>
-        </div>
-    </div>
-
-    <!-- COCKTAIL MODAL -->
-    <div class="modal-overlay" id="cocktailModal">
-        <div class="glass-popup">
-            <button class="close-modal" id="closeCocktail">&times;</button>
-            <div class="popup-title">The Spirits</div>
-
-            <!-- SIGNATURES -->
-            <div class="cocktail-category">Signature Serves</div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">The Nutcracker <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">
-                    Raspberry Puree, Baileys, Hazelnut Syrup, Cannella. <br>
-                    <span style="font-size:11px; opacity:0.8; font-style:italic;">"Christmas creamy raspberry cake in liquid form."</span>
-                </div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Snow White Mojito <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Coconut Puree, Infused Mint Tea, Rum, Dash of Lime.</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Štef Libre <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">
-                    Rum, Apple Juice, Vanilla Syrup, Lime, Ginger Ale. <br>
-                    <span style="font-size:11px; opacity:0.8; font-style:italic;">Freedom for Štef!</span>
-                </div>
-            </div>
-            
-            <!-- VODKA -->
-            <div class="cocktail-category">Vodka Based</div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Skinny Bitch <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Vodka, Fresh Lime Juice, Soda Water</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Moscow Mule <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Vodka, Spicy Ginger Beer, Lime Juice</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Vodka Collins <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Vodka, Lemon Juice, Simple Syrup, Soda</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Sex on the Beach <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Vodka, Peach Schnapps, Orange Juice, Cranberry Juice</div>
-            </div>
-
-            <!-- WHISKEY -->
-            <div class="cocktail-category">Whiskey</div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Whiskey Sour <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Bourbon, Lemon Juice, Sugar Syrup, Egg White (optional)</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Old Fashioned <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Bourbon or Rye, Bitters, Sugar Cube, Splash of Water</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Boulevardier <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Whiskey, Campari, Sweet Vermouth</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Spiced Pear Bourbon <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Bourbon, Spiced Pear Liqueur, Lemon Juice, Syrup</div>
-            </div>
-
-            <!-- GIN -->
-            <div class="cocktail-category">Gin</div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Gin & Tonic <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Gin, Premium Tonic Water, Botanicals</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Tom Collins OG <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Old Tom Gin, Lemon Juice, Sugar, Soda</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Gimlet <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Gin, Lime Cordial (or fresh Lime & Sugar)</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Angel Face <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Gin, Peach Brandy, Cannella Cinnamon Spirit</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Strawberry Bramble <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Gin, Lemon Juice, Sugar Syrup, Strawberry Liqueur</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Lavender Mist <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Gin, Maraska Cherry, Liqueur de Violette, Lemon</div>
-            </div>
-
-            <!-- TEQUILA -->
-            <div class="cocktail-category">Tequila</div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Tequila Old Fashioned <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Reposado Tequila, Honey, Orange Bitters</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Tequila Sunrise <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Tequila, Orange Juice, Grenadine</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">La Batanga <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Tequila, Lime Juice, Cola, Salted Rim</div>
-            </div>
-
-            <!-- RUM -->
-            <div class="cocktail-category">Rum</div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Kingston <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Rum, Lime, Grenadine</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Daiquiri <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Rum, Lime, Sugar</div>
-            </div>
-
-            <!-- SPRITZES -->
-            <div class="cocktail-category">Spritzes</div>
-            <div style="font-size:11px; color:#98989d; margin-bottom:12px; font-style:italic;">
+<div class="ambient-canvas">
+<div class="light-orb orb-1"></div>
+<div class="light-orb orb-2"></div>
+</div>
+<div class="noise"></div>
+<div class="rsvp-fixed">
+<button class="btn-glass" id="openRsvp">✓ Confirm Attendance</button>
+</div>
+<!-- RSVP MODAL -->
+<div class="modal-overlay" id="rsvpModal">
+<div class="glass-popup">
+<button class="close-modal" id="closeRsvp">×</button>
+<div class="popup-title">Join the Night</div>
+<div class="form-group">
+<label class="form-label">Name</label>
+<input class="form-input" id="guestName" placeholder="Your full name" required="" type="text"/>
+</div>
+<div class="form-group">
+<label class="form-label">E-mail</label>
+<input class="form-input" id="guestEmail" placeholder="For location details" required="" type="email"/>
+</div>
+<div class="form-group">
+<label class="form-label">Notes</label>
+<textarea class="form-textarea" id="guestNotes" placeholder="Vegan? Gluten free? Alcohol free?"></textarea>
+</div>
+<button class="submit-btn" id="sendRsvp">See you</button>
+</div>
+</div>
+<!-- GALLERY AUTH MODAL -->
+<div class="modal-overlay" id="galleryAuthModal">
+<div class="glass-popup" style="max-width: 400px;">
+<button class="close-modal" id="closeGalleryAuth">×</button>
+<div class="popup-title">Gallery Access</div>
+<div class="form-group">
+<label class="form-label">Password</label>
+<input class="form-input" id="galleryPass" placeholder="Enter event password" required="" type="password"/>
+<div class="password-error" id="passError">Incorrect password. Try again.</div>
+</div>
+<button class="submit-btn" id="submitGallery">Unlock Photos</button>
+</div>
+</div>
+<!-- GALLERY MODAL FULL SCREEN -->
+<div class="modal-overlay" id="galleryViewModal" style="z-index: 1100;">
+<div class="glass-popup gallery-popup">
+<button class="close-modal" id="closeGalleryView">×</button>
+<div class="gallery-header">
+<div class="popup-title" style="margin-bottom:0; font-size: 20px;">Memories</div>
+</div>
+<div class="gallery-scroll" id="galleryGrid">
+<!-- content injected by JS -->
+</div>
+</div>
+</div>
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+<div class="lightbox-close" onclick="closeLightbox()">×</div>
+<!-- Navigation Areas -->
+<div class="lightbox-nav nav-prev" onclick="prevSlide()">‹</div>
+<div class="lightbox-nav nav-next" onclick="nextSlide()">›</div>
+<div class="lightbox-content" id="lightboxContent">
+<img class="lightbox-img" id="lightboxImg" src=""/>
+<video class="lightbox-video" controls="" id="lightboxVideo" playsinline=""></video>
+</div>
+</div>
+<!-- COCKTAIL MODAL -->
+<div class="modal-overlay" id="cocktailModal">
+<div class="glass-popup">
+<button class="close-modal" id="closeCocktail">×</button>
+<div class="popup-title">The Spirits</div>
+<!-- SIGNATURES -->
+<div class="cocktail-category">Signature Serves</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">The Nutcracker <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">
+                    Raspberry Puree, Baileys, Hazelnut Syrup, Cannella. <br/>
+<span style="font-size:11px; opacity:0.8; font-style:italic;">"Christmas creamy raspberry cake in liquid form."</span>
+</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Snow White Mojito <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Coconut Puree, Infused Mint Tea, Rum, Dash of Lime.</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Štef Libre <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">
+                    Rum, Apple Juice, Vanilla Syrup, Lime, Ginger Ale. <br/>
+<span style="font-size:11px; opacity:0.8; font-style:italic;">Freedom for Štef!</span>
+</div>
+</div>
+<!-- VODKA -->
+<div class="cocktail-category">Vodka Based</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Skinny Bitch <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Vodka, Fresh Lime Juice, Soda Water</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Moscow Mule <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Vodka, Spicy Ginger Beer, Lime Juice</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Vodka Collins <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Vodka, Lemon Juice, Simple Syrup, Soda</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Sex on the Beach <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Vodka, Peach Schnapps, Orange Juice, Cranberry Juice</div>
+</div>
+<!-- WHISKEY -->
+<div class="cocktail-category">Whiskey</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Whiskey Sour <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Bourbon, Lemon Juice, Sugar Syrup, Egg White (optional)</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Old Fashioned <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Bourbon or Rye, Bitters, Sugar Cube, Splash of Water</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Boulevardier <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Whiskey, Campari, Sweet Vermouth</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Spiced Pear Bourbon <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Bourbon, Spiced Pear Liqueur, Lemon Juice, Syrup</div>
+</div>
+<!-- GIN -->
+<div class="cocktail-category">Gin</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Gin &amp; Tonic <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Gin, Premium Tonic Water, Botanicals</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Tom Collins OG <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Old Tom Gin, Lemon Juice, Sugar, Soda</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Gimlet <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Gin, Lime Cordial (or fresh Lime &amp; Sugar)</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Angel Face <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Gin, Peach Brandy, Cannella Cinnamon Spirit</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Strawberry Bramble <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Gin, Lemon Juice, Sugar Syrup, Strawberry Liqueur</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Lavender Mist <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Gin, Maraska Cherry, Liqueur de Violette, Lemon</div>
+</div>
+<!-- TEQUILA -->
+<div class="cocktail-category">Tequila</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Tequila Old Fashioned <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Reposado Tequila, Honey, Orange Bitters</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Tequila Sunrise <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Tequila, Orange Juice, Grenadine</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">La Batanga <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Tequila, Lime Juice, Cola, Salted Rim</div>
+</div>
+<!-- RUM -->
+<div class="cocktail-category">Rum</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Kingston <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Rum, Lime, Grenadine</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Daiquiri <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Rum, Lime, Sugar</div>
+</div>
+<!-- SPRITZES -->
+<div class="cocktail-category">Spritzes</div>
+<div style="font-size:11px; color:#98989d; margin-bottom:12px; font-style:italic;">
                 Served all nite, but these are the official Midnight Toast (champagne is boring).
             </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Teranino Spritz <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Aura Teranino, Prosecco, Soda Water</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Pelin Spritz <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Antique Pelinkovac, Tonic Water/Soda, Orange</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Lavanda Spritz <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Lavender Syrup, Prosecco, Soda, Lemon</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Limoncello Spritz <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Limoncello, Prosecco, Soda</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Tea Spritzes <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Infused Black/Green/Jasmine Tea, Prosecco</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">French 75 <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Gin, Champagne, Lemon Juice, Sugar</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Campari Spritz <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Campari, Prosecco, Soda Water</div>
-            </div>
-
-            <div style="margin-top:40px; text-align:center; font-size:12px; color:#666;">Drinks are strong. Please pace yourself.</div>
-        </div>
-    </div>
-
-    <!-- FOOD MODAL -->
-    <div class="modal-overlay" id="foodModal">
-        <div class="glass-popup">
-            <button class="close-modal" id="closeFood">&times;</button>
-            <div class="popup-title">The Bites</div>
-
-            <div class="cocktail-category">Savory Boards</div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">The Cured & Spicy <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Coppa Spianata, Smoked Ham, Spicy Sausage, Gouda, Trapist Cheese, Walnuts</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Italian Selection <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Mortadella, Prosciutto, Burrata, Mozzarella, Nuts</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Fresh & Crisp <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">French (Olivier) Salad, Shopska Salad, Carrot Sticks, Cucumber, Paprika, Cherry Tomatoes</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">The Cheese Board <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Livanjski, Gouda, Trapist, Olives, Crackers, Dried Fruit, Fig Chutney, Whipped Butter</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Warm Bites <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Salmon Canapés (Philadelphia, Cucumber, Salmon), Mini Pizzas</div>
-            </div>
-
-            <div class="cocktail-category">Sweets</div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Tiramisu <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Classic Coffee-Soaked Ladyfingers, Mascarpone Cream, Cocoa</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Fruit Tarts <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Crisp Pastry, Pastry Cream, Fresh Seasonal Fruit</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Pavlova Cake <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Meringue, Whipped Cream, Strawberries</div>
-            </div>
-            <div class="cocktail-item" onclick="toggleRecipe(this)">
-                <div class="cocktail-header">Cookie Selection <span class="toggle">+</span></div>
-                <div class="cocktail-ingredients">Assorted Dry Tea Cookies and Biscuits</div>
-            </div>
-        </div>
-    </div>
-
-    <main>
-        <!-- HERO -->
-        <section class="glass-card">
-            <div class="eyebrow">Dec 31 2025 → 2026</div>
-            <div class="hero-grid">
-                <div>
-                    <div class="tagline">Zagreb Private Flat with City View</div>
-                    <h1>Cocktail Night NYE</h1>
-                    <p class="hero-text">
-                        Elegant evening, cocktail dresses & sharp suits. Curated setlists, strong drinks, and quite spectacular fireworks views when the city resets.
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Teranino Spritz <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Aura Teranino, Prosecco, Soda Water</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Pelin Spritz <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Antique Pelinkovac, Tonic Water/Soda, Orange</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Lavanda Spritz <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Lavender Syrup, Prosecco, Soda, Lemon</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Limoncello Spritz <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Limoncello, Prosecco, Soda</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Tea Spritzes <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Infused Black/Green/Jasmine Tea, Prosecco</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">French 75 <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Gin, Champagne, Lemon Juice, Sugar</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Campari Spritz <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Campari, Prosecco, Soda Water</div>
+</div>
+<div style="margin-top:40px; text-align:center; font-size:12px; color:#666;">Drinks are strong. Please pace yourself.</div>
+</div>
+</div>
+<!-- FOOD MODAL -->
+<div class="modal-overlay" id="foodModal">
+<div class="glass-popup">
+<button class="close-modal" id="closeFood">×</button>
+<div class="popup-title">The Bites</div>
+<div class="cocktail-category">Savory Boards</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">The Cured &amp; Spicy <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Coppa Spianata, Smoked Ham, Spicy Sausage, Gouda, Trapist Cheese, Walnuts</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Italian Selection <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Mortadella, Prosciutto, Burrata, Mozzarella, Nuts</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Fresh &amp; Crisp <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">French (Olivier) Salad, Shopska Salad, Carrot Sticks, Cucumber, Paprika, Cherry Tomatoes</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">The Cheese Board <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Livanjski, Gouda, Trapist, Olives, Crackers, Dried Fruit, Fig Chutney, Whipped Butter</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Warm Bites <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Salmon Canapés (Philadelphia, Cucumber, Salmon), Mini Pizzas</div>
+</div>
+<div class="cocktail-category">Sweets</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Tiramisu <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Classic Coffee-Soaked Ladyfingers, Mascarpone Cream, Cocoa</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Fruit Tarts <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Crisp Pastry, Pastry Cream, Fresh Seasonal Fruit</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Pavlova Cake <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Meringue, Whipped Cream, Strawberries</div>
+</div>
+<div class="cocktail-item" onclick="toggleRecipe(this)">
+<div class="cocktail-header">Cookie Selection <span class="toggle">+</span></div>
+<div class="cocktail-ingredients">Assorted Dry Tea Cookies and Biscuits</div>
+</div>
+</div>
+</div>
+<main>
+<!-- HERO -->
+<section class="glass-card">
+<div class="eyebrow">Dec 31 2025 → 2026</div>
+<div class="hero-grid">
+<div>
+<div class="tagline">Zagreb Private Flat with City View</div>
+<h1>Cocktail Night NYE</h1>
+<p class="hero-text">
+                        Elegant evening, cocktail dresses &amp; sharp suits. Curated setlists, strong drinks, and quite spectacular fireworks views when the city resets.
                     </p>
-                    
-                    <div class="chip-container">
-                        <span class="chip">Cocktail Dress</span>
-                        <span class="chip">Suit & Tie</span>
-                        <span class="chip">Invite Only</span>
-                        <span class="chip">Curated Setlist</span>
-                        <span class="chip">Eat & Drink</span>
-                    </div>
-                </div>
-
-                <div class="lunar-container">
-                    <div class="eyebrow" style="margin-bottom:0; text-align:right;">Lunar Forecast</div>
-                    <div class="lunar-graph">
-                        <svg viewBox="0 0 300 120" preserveAspectRatio="none" style="width:100%; height:100%; overflow:visible;">
-                            <defs>
-                                <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" style="stop-color:rgba(255,255,255,0.0)" />
-                                    <stop offset="50%" style="stop-color:rgba(255,255,255,0.6)" />
-                                    <stop offset="100%" style="stop-color:rgba(255,255,255,0.0)" />
-                                </linearGradient>
-                            </defs>
-                            <path d="M0,90 C75,90 75,20 150,20 C225,20 225,90 300,90" fill="none" stroke="url(#lineGrad)" stroke-width="1.5"></path>
-                            <line x1="0" y1="55" x2="300" y2="55" stroke="rgba(255,255,255,0.08)" stroke-dasharray="4" />
-                        </svg>
-                        <div class="graph-point"></div>
-                        <div class="phase-label">WAXING GIBBOUS</div>
-                    </div>
-                    
-                    <div class="weather-row">
-                        <div class="weather-col left">
-                            <div class="w-label">Predicted Weather</div>
-                            <div class="w-sub">December 31st, night</div>
-                        </div>
-                        <div class="weather-col center">
-                            <div class="w-temp">-2°C</div>
-                        </div>
-                        <div class="weather-col right">
-                            <div class="w-desc">Crisp and cloudy</div>
-                            <div class="w-note">Dry cold. Chance of frost.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- DETAILS -->
-        <section class="glass-card">
-            <div class="eyebrow">The Details</div>
-            <div class="details-grid">
-                <div class="detail-block">
-                    <h3>Arrival</h3>
-                    <p class="main">19:30 — 20:30</p>
-                    <p class="sub">Graceful entry. Evening continues until the legs give up.</p>
-                </div>
-                <div class="detail-block">
-                    <h3>Dress Code</h3>
-                    <p class="main">Cocktail Attire</p>
-                    <p class="sub">
+<div class="chip-container">
+<span class="chip">Cocktail Dress</span>
+<span class="chip">Suit &amp; Tie</span>
+<span class="chip">Invite Only</span>
+<span class="chip">Curated Setlist</span>
+<span class="chip">Eat &amp; Drink</span>
+</div>
+</div>
+<div class="lunar-container">
+<div class="eyebrow" style="margin-bottom:0; text-align:right;">Lunar Forecast</div>
+<div class="lunar-graph">
+<svg preserveaspectratio="none" style="width:100%; height:100%; overflow:visible;" viewbox="0 0 300 120">
+<defs>
+<lineargradient id="lineGrad" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" style="stop-color:rgba(255,255,255,0.0)"></stop>
+<stop offset="50%" style="stop-color:rgba(255,255,255,0.6)"></stop>
+<stop offset="100%" style="stop-color:rgba(255,255,255,0.0)"></stop>
+</lineargradient>
+</defs>
+<path d="M0,90 C75,90 75,20 150,20 C225,20 225,90 300,90" fill="none" stroke="url(#lineGrad)" stroke-width="1.5"></path>
+<line stroke="rgba(255,255,255,0.08)" stroke-dasharray="4" x1="0" x2="300" y1="55" y2="55"></line>
+</svg>
+<div class="graph-point"></div>
+<div class="phase-label">WAXING GIBBOUS</div>
+</div>
+<div class="weather-row">
+<div class="weather-col left">
+<div class="w-label">Predicted Weather</div>
+<div class="w-sub">December 31st, night</div>
+</div>
+<div class="weather-col center">
+<div class="w-temp">-2°C</div>
+</div>
+<div class="weather-col right">
+<div class="w-desc">Crisp and cloudy</div>
+<div class="w-note">Dry cold. Chance of frost.</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- DETAILS -->
+<section class="glass-card">
+<div class="eyebrow">The Details</div>
+<div class="details-grid">
+<div class="detail-block">
+<h3>Arrival</h3>
+<p class="main">19:30 — 20:30</p>
+<p class="sub">Graceful entry. Evening continues until the legs give up.</p>
+</div>
+<div class="detail-block">
+<h3>Dress Code</h3>
+<p class="main">Cocktail Attire</p>
+<p class="sub">
                         Cocktail dresses, sharp suits, statement heels. Think black-tie terrace, December luxury.
                     </p>
-                </div>
-                <div class="detail-block">
-                    <h3>Location</h3>
-                    <p class="main">Trešnjevka</p>
-                    <div class="map-container">
-                        <iframe class="map-frame" src="https://www.google.com/maps?q=45.798154,15.945532&z=16&output=embed" allowfullscreen loading="lazy"></iframe>
-                        <div class="map-overlay"></div>
-                    </div>
-                    <div class="map-caption">EVENT ENDED. HOPE ALL WAS WELL.</div>
-                </div>
-                <div class="detail-block">
-                    <h3>Vibe</h3>
-                    <p class="main">Small & Intentional</p>
-                    <p class="sub">
-                        Tight guestlist. Curated playlists. Strong drinks. <br>
-                        <span style="color:#fff; border-bottom:1px solid var(--gold-accent);">ONE SPECIAL GUEST.</span>
-                        <span class="cat-eyes" title="Meow">
-                            <span class="cat-eye eye-l"></span>
-                            <span class="cat-eye eye-r"></span>
-                        </span>
-                        <br>
-                        <span style="font-size:14px; opacity:0.7;">Balcony open for smoking guests</span>
+</div>
+<div class="detail-block">
+<h3>Location</h3>
+<p class="main">Trešnjevka</p>
+<div class="map-container">
+<iframe allowfullscreen="" class="map-frame" loading="lazy" src="https://www.google.com/maps?q=45.798154,15.945532&amp;z=16&amp;output=embed"></iframe>
+<div class="map-overlay"></div>
+</div>
+<div class="map-caption">EVENT ENDED. HOPE ALL WAS WELL.</div>
+</div>
+<div class="detail-block">
+<h3>Vibe</h3>
+<p class="main">Small &amp; Intentional</p>
+<p class="sub">
+                        Tight guestlist. Curated playlists. Strong drinks. <br/>
+<span style="color:#fff; border-bottom:1px solid var(--gold-accent);">ONE SPECIAL GUEST.</span>
+<span class="cat-eyes" title="Meow">
+<span class="cat-eye eye-l"></span>
+<span class="cat-eye eye-r"></span>
+</span>
+<br/>
+<span style="font-size:14px; opacity:0.7;">Balcony open for smoking guests</span>
+</p>
+</div>
+</div>
+</section>
+<!-- HOSPITALITY -->
+<section class="glass-card">
+<div class="eyebrow">Hospitality</div>
+<div class="hospitality-grid">
+<div class="role-block">
+<div class="role-title">Provided by Us</div>
+<p class="sub" style="color:#fff;">
+                        Full bar provided. Bespoke cocktails. Mixers, garnishes, and aperitifs on us.<br/><br/>
+                        We are also handling the food and sweets, so you don't have to worry about a thing. <br/><br/>
+<span style="color:var(--gold-accent); opacity:0.9;">We have the quality covered, but we definitely need your help with the quantity.</span>
+</p>
+</div>
+<div class="role-block">
+<div class="role-title">Your Contribution</div>
+<p class="sub" style="margin-bottom:16px;">
+<strong style="color:var(--gold-accent);">Guys:</strong> Your mission: Spirits. Teranino, Antique, Gin, Vodka, Whiskey. Talk, arrange, make it happen.
                     </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- HOSPITALITY -->
-        <section class="glass-card">
-            <div class="eyebrow">Hospitality</div>
-            <div class="hospitality-grid">
-                <div class="role-block">
-                    <div class="role-title">Provided by Us</div>
-                    <p class="sub" style="color:#fff;">
-                        Full bar provided. Bespoke cocktails. Mixers, garnishes, and aperitifs on us.<br><br>
-                        We are also handling the food and sweets, so you don't have to worry about a thing. <br><br>
-                        <span style="color:var(--gold-accent); opacity:0.9;">We have the quality covered, but we definitely need your help with the quantity.</span>
+<p class="sub" style="margin-bottom:16px;">
+<strong style="color:var(--gold-accent);">Ladies:</strong> Your mission: The outfits. Wine is welcome too, but looking fabulous is priority #1.
                     </p>
-                </div>
-                <div class="role-block">
-                    <div class="role-title">Your Contribution</div>
-                    <p class="sub" style="margin-bottom:16px;">
-                        <strong style="color:var(--gold-accent);">Guys:</strong> Your mission: Spirits. Teranino, Antique, Gin, Vodka, Whiskey. Talk, arrange, make it happen.
-                    </p>
-                    <p class="sub" style="margin-bottom:16px;">
-                        <strong style="color:var(--gold-accent);">Ladies:</strong> Your mission: The outfits. Wine is welcome too, but looking fabulous is priority #1.
-                    </p>
-                    <p class="sub" style="font-size:13px; opacity:0.6; font-style:italic;">
+<p class="sub" style="font-size:13px; opacity:0.6; font-style:italic;">
                         If you're the type of friend who stress-bakes or has Christmas leftovers—we won't stop you. We have food covered, but cookies are never turned away.
                     </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- MENU & GALLERY BUTTONS -->
-        <section class="menu-grid">
-            <div class="menu-btn-card" id="openCocktail">
-                <div class="menu-icon">🍸</div>
-                <div class="menu-label">Cocktail Menu <span>→</span></div>
-                <div class="menu-sub">The Spirits</div>
-            </div>
-            <div class="menu-btn-card" id="openFood">
-                <div class="menu-icon">🍴</div>
-                <div class="menu-label">Food Menu <span>→</span></div>
-                <div class="menu-sub">The Bites</div>
-            </div>
-            <div class="menu-btn-card gallery-btn-card" id="openGallery">
-                <div class="menu-label">GALLERY</div>
-            </div>
-        </section>
-
-        <!-- COUNTDOWN -->
-        <section class="glass-card countdown-card">
-            <div class="countdown-label">TIME REMAINING</div>
-            <div class="liquid-clock" id="countdown">
-                <div class="liquid-digit" id="d00"></div>
-                <div class="liquid-digit">:</div>
-                <div class="liquid-digit" id="h00"></div>
-                <div class="liquid-digit">:</div>
-                <div class="liquid-digit" id="m00"></div>
-                <div class="liquid-digit">:</div>
-                <div class="liquid-digit" id="s00"></div>
-            </div>
-
-            <div class="expired-message" id="expiredMsg">
-                <div class="expired-text">NO TIME LEFT</div>
-                <div class="expired-sub">GOOD LUCK IN NEW YEAR</div>
-            </div>
-        </section>
-
-    </main>
-
-    <script>
+</div>
+</div>
+</section>
+<!-- MENU & GALLERY BUTTONS -->
+<section class="menu-grid">
+<div class="menu-btn-card" id="openCocktail">
+<div class="menu-icon">🍸</div>
+<div class="menu-label">Cocktail Menu <span>→</span></div>
+<div class="menu-sub">The Spirits</div>
+</div>
+<div class="menu-btn-card" id="openFood">
+<div class="menu-icon">🍴</div>
+<div class="menu-label">Food Menu <span>→</span></div>
+<div class="menu-sub">The Bites</div>
+</div>
+<div class="menu-btn-card gallery-btn-card" id="openGallery">
+<div class="menu-label">GALLERY</div>
+</div>
+</section>
+<!-- COUNTDOWN -->
+<section class="glass-card countdown-card">
+<div class="countdown-label">TIME REMAINING</div>
+<div class="liquid-clock" id="countdown">
+<div class="liquid-digit" id="d00"></div>
+<div class="liquid-digit">:</div>
+<div class="liquid-digit" id="h00"></div>
+<div class="liquid-digit">:</div>
+<div class="liquid-digit" id="m00"></div>
+<div class="liquid-digit">:</div>
+<div class="liquid-digit" id="s00"></div>
+</div>
+<div class="expired-message" id="expiredMsg">
+<div class="expired-text">NO TIME LEFT</div>
+<div class="expired-sub">GOOD LUCK IN NEW YEAR</div>
+</div>
+</section>
+</main>
+<script>
         // COUNTDOWN
         const target = new Date("December 31, 2025 19:30:00").getTime();
         function updateClock() {
@@ -699,13 +680,41 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // mouse spotlight
+        
+        // OPTIMIZED MOUSE SPOTLIGHT
         let ticking = false;
+
+        // Cache the elements and use IntersectionObserver to only update visible ones
+        const visibleCards = new Set();
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    visibleCards.add(entry.target);
+                } else {
+                    visibleCards.delete(entry.target);
+                }
+            });
+        }, { rootMargin: '200px' });
+
+        // Use MutationObserver to automatically detect when gallery items are added
+        const mo = new MutationObserver((mutations) => {
+            mutations.forEach(m => {
+                m.addedNodes.forEach(node => {
+                    if (node.nodeType === 1 && (node.classList.contains('gallery-img-container') || node.classList.contains('gallery-video-tile'))) {
+                        observer.observe(node);
+                    }
+                });
+            });
+        });
+        mo.observe(document.body, { childList: true, subtree: true });
+
+        // Observe initial cards
+        document.querySelectorAll('.glass-card, .menu-btn-card').forEach(c => observer.observe(c));
+
         document.addEventListener('mousemove', (e) => {
             if (!ticking) {
                 window.requestAnimationFrame(() => {
-                    const cards = document.querySelectorAll('.glass-card, .menu-btn-card, .gallery-img-container, .gallery-video-tile');
-                    cards.forEach(card => {
+                    visibleCards.forEach(card => {
                         const rect = card.getBoundingClientRect();
                         const x = e.clientX - rect.left;
                         const y = e.clientY - rect.top;
@@ -716,7 +725,8 @@
                 });
                 ticking = true;
             }
-        });
+        }, { passive: true });
+
 
         // generic modal wiring
         function setupModal(modalId, openBtnId, closeBtnId) {
@@ -970,6 +980,7 @@
                     img.src = thumbUrl; 
                     img.className = 'gallery-img';
                     img.loading = 'lazy';
+                    img.decoding = 'async';
 
                     div.appendChild(img);
                     div.addEventListener('click', () => openImageInLightbox(index));
@@ -1104,68 +1115,59 @@
 
         /* GESTURE HANDLING (Swipe & Zoom) */
 
-       let touchStartX = 0;
-let touchStartY = 0;
-let touchDistStart = 0;
-let didPinch = false; // NEW: Track if user pinched/zoomed
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchDistStart = 0;
 
-lightboxContent.addEventListener('touchstart', (e) => {
-    didPinch = false; // Reset on new touch
-    
-    if (e.touches.length === 1) {
-        touchStartX = e.touches[0].clientX;
-        touchStartY = e.touches[0].clientY;
-        
-        if (isZoomed) {
-            isDragging = true;
-            startX = e.touches[0].clientX - pointX;
-            startY = e.touches[0].clientY - pointY;
-        }
-    } else if (e.touches.length === 2) {
-        didPinch = true; // User is pinching
-        touchDistStart = getDistance(e.touches);
-    }
-}, { passive: false });
-
-lightboxContent.addEventListener('touchmove', (e) => {
-    e.preventDefault(); 
-    
-    if (e.touches.length === 1) {
-        if (isZoomed && isDragging) {
-            pointX = e.touches[0].clientX - startX;
-            pointY = e.touches[0].clientY - startY;
-            updateTransform();
-        }
-    } else if (e.touches.length === 2) {
-        didPinch = true; // Confirmed pinch gesture
-        const distNow = getDistance(e.touches);
-        const scaleChange = distNow / touchDistStart;
-        currentScale = Math.min(Math.max(1, lastScale * scaleChange), 4);
-        updateTransform();
-    }
-}, { passive: false });
-
-lightboxContent.addEventListener('touchend', (e) => {
-    if (e.touches.length === 0) {
-        if (isZoomed) {
-            isDragging = false;
-            lastScale = currentScale;
-            if (currentScale < 1.1) resetZoom(); 
-        } else if (!didPinch) { // FIXED: Only swipe if user didn't pinch
-            const touchEndX = e.changedTouches[0].clientX;
-            const diffX = touchEndX - touchStartX;
-            
-            if (Math.abs(diffX) > 50) { 
-                if (diffX > 0) prevSlide();
-                else nextSlide();
+        lightboxContent.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+                
+                if (isZoomed) {
+                    isDragging = true;
+                    startX = e.touches[0].clientX - pointX;
+                    startY = e.touches[0].clientY - pointY;
+                }
+            } else if (e.touches.length === 2) {
+                touchDistStart = getDistance(e.touches);
             }
-        }
-        
-        // Update zoom state
-        isZoomed = currentScale > 1.1;
-    }
-});
+        }, { passive: false });
 
+        lightboxContent.addEventListener('touchmove', (e) => {
+            e.preventDefault(); 
+            
+            if (e.touches.length === 1) {
+                if (isZoomed && isDragging) {
+                    pointX = e.touches[0].clientX - startX;
+                    pointY = e.touches[0].clientY - startY;
+                    updateTransform();
+                }
+            } else if (e.touches.length === 2) {
+                const distNow = getDistance(e.touches);
+                const scaleChange = distNow / touchDistStart;
+                currentScale = Math.min(Math.max(1, lastScale * scaleChange), 4);
+                updateTransform();
+            }
+        }, { passive: false });
+
+        lightboxContent.addEventListener('touchend', (e) => {
+            if (e.touches.length === 0) {
+                if (isZoomed) {
+                    isDragging = false;
+                    lastScale = currentScale;
+                    if (currentScale < 1.1) resetZoom(); 
+                } else {
+                    const touchEndX = e.changedTouches[0].clientX;
+                    const diffX = touchEndX - touchStartX;
+                    
+                    if (Math.abs(diffX) > 50) { 
+                        if (diffX > 0) prevSlide();
+                        else nextSlide();
+                    }
+                }
+            }
+        });
 
         let lastTap = 0;
         lightboxContent.addEventListener('click', (e) => {
@@ -1260,4 +1262,3 @@ lightboxContent.addEventListener('touchend', (e) => {
     </script>
 </body>
 </html>
-
